@@ -1,0 +1,159 @@
+/* Importing Google font - Poppins */
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap");
+
+/* Resetting default margin and padding, setting box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: "Poppins", sans-serif;
+}
+
+/* Body styles */
+body {
+    height: 100vh;
+    width: 100%;
+    background-image: url("static/logo_bg.png");
+    background-position: center;
+    background-size: cover;
+    background-color: #fff; /* Fallback background color */
+}
+
+/* Container styles */
+.container {
+    display: flex;
+    justify-content: space-around; /* Adjust spacing between boxes */
+    margin-top: 20px; /* Add margin from the top */
+}
+
+/* Box styles */
+.box {
+    width: 200px; /* Set width for each box */
+    height: 200px; /* Set height for each box */
+    background-color: #f0f0f0; /* Set background color */
+    display: inline-table;
+    border: 1px solid #ccc; /* Set border */
+    border-radius: 5px; /* Set border radius for rounded corners */
+    padding: 20px; /* Set padding */
+    box-sizing: border-box; /* Include padding and border in the box's total width and height */
+    margin: 20px; /* Adjust margin between boxes */
+}
+
+/* Header and Footer styles */
+.header,
+.footer {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px;
+    text-align: center;
+}
+
+/* Button styles */
+
+/* Table styles */
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+}
+
+th {
+    text-align: left;
+    background-color: #f2f2f2;
+}
+
+/* Center-aligned headings */
+h1, h2 {
+    text-align: center;
+}
+
+/* Sidebar styles */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    background: black; /* Changed background color to black */
+    color: white; /* Set text color to white */
+}
+
+.sidebar .logo {
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    padding: 25px 10px 15px;
+}
+
+.logo img {
+    width: 43px;
+    border-radius: 50%;
+}
+
+.logo h2 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    margin-left: 15px;
+    display: none;
+}
+
+
+.sidebar .links {
+    list-style: none;
+    margin-top: 20px;
+    overflow-y: auto;
+    scrollbar-width: none;
+    height: calc(100% - 140px);
+}
+
+.sidebar .links::-webkit-scrollbar {
+    display: none;
+}
+
+.links li {
+    display: flex;
+    border-radius: 4px;
+    align-items: center;
+}
+
+.links h4 {
+    color: #f8f8f8;
+    font-weight: 500;
+    display: none;
+    margin-bottom: 10px;
+}
+
+
+
+.links hr {
+    margin: 10px 8px;
+    border: 1px solid #ffffff;
+}
+
+.sidebar:hover .links hr {
+    border-color: transparent;
+}
+
+.links li span,
+.links li a {
+    padding: 12px 10px;
+    color: #ffffff;
+    font-weight: 500;
+    white-space: nowrap;
+    text-decoration: none;
+}
+
+.sidebar:hover .links li a {
+    display: block;
+}
+
+.links .logout-link {
+    margin-top: 20px;
+}
