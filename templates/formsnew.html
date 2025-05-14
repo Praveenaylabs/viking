@@ -1,0 +1,527 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VIKING MARINE INC</title>
+    
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dasboard.css') }}">
+    
+    <style>
+@import url('https://fonts.cdnfonts.com/css/cooper-black'); 
+
+h1 {
+    font-family: 'Cooper Black', sans-serif;       
+     font-size: 48px; 
+    text-align: center; 
+     -webkit-text-fill-color: #da3936;
+     padding-left: 130px /* Adjust this value as needed */
+
+
+}
+        
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        /* Main container for sidebar and content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* Sidebar styles */
+        aside.sidebar {
+            width: 200px;
+            background-color: rgb(23, 23, 23);
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(222, 189, 189, 0.1);
+            height: 100%;
+        }
+
+        aside .links li {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #030303;
+            box-shadow: 0 2px 4px rgba(255, 250, 250, 0.29);
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        aside .links a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        aside .logout-link a {
+            color: red;
+        }
+
+        /* Header styling */
+        .header-content {
+            background-color: #f8f9fa;
+            text-align: center;
+            padding: 20px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        /* Dashboard content styles */
+        .container-fluid {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+        }
+
+        .row {
+            display: flex;
+            flex-wrap: wrap;
+        }
+
+        .col-md-3 {
+            flex: 0 0 25%;
+            padding: 10px;
+        }
+
+        .panel {
+            margin-bottom: 20px;
+        }
+
+        .panel-body {
+            color: #fff;
+            padding: 20px;
+            border-radius: 4px;
+        }
+
+        .bk-primary {
+            background-color: #007bff;
+        }
+
+        .bk-success {
+            background-color: #28a745;
+        }
+
+        .bk-info {
+            background-color: #17a2b8;
+        }
+
+        .bk-warning {
+            background-color: #ffc107;
+        }
+
+        .panel-footer {
+            background-color: #f8f9fa;
+            text-align: center;
+            color: #007bff;
+            padding: 10px;
+        }
+
+        .panel-footer:hover {
+            text-decoration: none;
+            color: #0056b3;
+        }
+
+        /* Responsive adjustments */
+
+        @media (max-width: 768px) {
+    .h1 {
+        font-size: 36px; /* Smaller font size for tablets */
+        padding-left: 20px; /* Reduced padding for smaller screens */
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 24px; /* Even smaller font size for mobile phones */
+        padding-left: 10px; /* Minimal padding for very small screens */
+    }
+}
+
+        @media (max-width: 768px) {
+            aside.sidebar {
+                display: none;
+            }
+            .container-fluid {
+                margin-left: 0;
+            }
+            .col-md-3 {
+                flex: 0 0 50%;
+            }
+        }
+
+        .textbox {
+            width: 110px;
+            height: 32px;
+            padding: 10px -10px 10px 10px;
+            border: 5px solid black;
+            margin: 0;
+        }
+
+    #flash-message {
+    width: 80%; 
+    max-width: 600px;
+    padding: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: #10f85d; /* Your preferred color */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    position: fixed; /* Ensure it stays in place */
+    top: 50%; /* Position vertically at the center */
+    left: 50%; /* Position horizontally at the center */
+    transform: translate(-50%, -50%); /* Offset it by 50% of its own size */
+    z-index: 9999; /* Ensure it stays on top of other elements */
+}
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            border-top: 1px solid #e7e7e7;
+            margin-top: auto;
+        }
+
+ /* Navigation Bar */
+ .nav-bar {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgb(105, 105, 105);
+    position: sticky;
+    top: 0;
+    z-index: 1000; /* Explicitly define */
+        }
+
+        .nav-bar h1 {
+    color: rgba(253, 0, 0, 255);
+    margin: 0;
+    font-size: 24px;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: rgb(1, 1, 1);
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+
+    h2 {
+        text-align: center;
+    }
+
+
+    .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: rgb(0, 0, 0);
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: auto;
+            z-index: 2001 !important; /* Keep button above menu */
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100%;
+            background-color: #282525;
+            transition: right 0.3s ease;
+            padding: 60px 20px 20px;
+            z-index: 2000 !important; /* Must be higher than nav-bar's z-index */
+    -webkit-transition: right 0.3s ease-in-out; /* Add browser prefix */
+    transition: right 0.3s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu li {
+            margin: 15px 0;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+        }
+
+        .mobile-menu a:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+    /* Remove column layout for nav-bar */
+    .nav-bar {
+        flex-direction: row !important;
+        position: relative;
+        padding: 10px 60px 10px 80px; /* Add space for logo and hamburger */
+    }
+
+    /* Hide regular nav links */
+    .nav-links {
+        display: none;
+    }
+
+    /* Show hamburger */
+    .hamburger {
+        display: block;
+        margin-right: -30px;
+    }
+
+    .nav-bar img {
+        margin-left: -100px;
+    }
+
+
+    .nav-bar h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%; /* Ensure proper centering */
+        padding-left: 0;
+        font-size: 20px;
+        text-align: center;
+        margin: 0;
+    }
+
+}
+
+@media (max-width: 425px) {
+    .nav-bar {
+        padding: 10px 50px 10px 70px; /* Adjust padding for smaller screens */
+    }
+
+    /* Logo positioning */
+    .nav-bar img {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 50px; /* Adjust logo size */
+    }
+
+    /* Center h1 */
+    .nav-bar h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%; /* Ensure proper centering */
+        padding-left: 0;
+        font-size: 34px;
+        text-align: center;
+        margin: 0;
+    }
+
+    /* Hamburger positioning */
+    .hamburger {
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        position: absolute;
+        margin-right: -50px;
+    }
+
+    .nav-bar img {
+        margin-left: -30px;
+    }
+}
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px; /* Smaller font size for tablets */
+                padding-left: 20px; /* Reduced padding for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px; /* Even smaller font size for mobile phones */
+                padding-left: 10px; /* Minimal padding for very small screens */
+            }
+        }
+ /* Dashboard content styles */
+ .container-fluid {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-3 {
+    flex: 0 0 25%;
+    padding: 10px;
+}
+
+        </style>
+</head>
+
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-message" class="fixed top-5 left-1/2 transform -translate-x-1/2 max-w-4xl w-full text-white text-center p-8 rounded-lg shadow-lg">
+            {% for category, message in messages %}
+                <div class="bg-{{ 'green-500' if category == 'success' else 'red-500' }} p-6 rounded-lg text-2xl font-semibold">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    
+    <!-- Navigation Bar -->
+<div class="nav-bar">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt=" Logo" style=height:100px; display:inline-block; margin-right:55px;>
+    <h1 class="text-2xl font-bold" style="color: rgba(253, 0, 0, 1);">VIKING MARINE INC.</h1>
+    <nav class="nav-links">
+        <ul>
+            <li><a href="{{ url_for('admindash') }}">Home</a></li>
+            <li><a href="{{ url_for('forms') }}">Forms</a></li>
+            <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+             <!-- Hamburger Menu Button -->
+             <button class="hamburger" id="hamburger">
+                <i class="fa fa-bars"></i>
+            </button>
+</div>
+
+<!-- "Back to previous page" link -->
+<h2>
+    <a href="{{ url_for('forms') }}">Back to previous page</a>
+</h2>
+
+<!-- Add backdrop element -->
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-primary text-light">
+                        <div class="stat-panel text-center">
+                        <div class="stat-panel-title">EMPTY CONTAINER </div>
+                        </div>
+                    </div>
+                    <a href="{{url_for('container') }}" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-success text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-title">MEASUREMENT</div>
+                        </div>
+                    </div>
+                    <a href="{{url_for('certificate') }}" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="panel panel-default">
+                    <div class="panel-body bk-info text-light">
+                        <div class="stat-panel text-center">
+                            <div class="stat-panel-title">GP STUFFING</div>
+                        </div>
+                    </div>
+                    <a href="{{url_for('emp') }}" class="block-anchor panel-footer">Full Detail <i class="fa fa-arrow-right"></i></a>
+                </div>
+            </div>
+        </div>
+            <!-- Footer -->
+
+</div>
+<footer class="footer">
+    &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+</footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+      <script>
+        setTimeout(() => {
+            document.getElementById('flash-message').style.display = 'none';
+        }, 5000);   
+
+           // Hamburger Menu Toggle
+           document.getElementById('hamburger').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close menu on window resize (optional)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+
+
+        </script>
+      </body>
+      </html>
+

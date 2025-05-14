@@ -1,0 +1,938 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Management</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <style>
+ /* @import url('https://fonts.cdnfonts.com/css/cooper-black');
+.nav-bar h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 34px; 
+            text-align: center;
+    -webkit-text-fill-color: #da3936;
+        }  */
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="date"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            height: 80px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            display: block;
+            background-color: #007bff;
+            color: #fff;
+            text-align: center;
+            padding: 10px 20px;
+            border-radius: 5px;
+            border: none;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            width: 100%;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+
+        .password-toggle {
+            position: absolute;
+            right: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            cursor: pointer;
+            color: #777;
+        }
+
+        .action-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .action-buttons .btn {
+            width: 30%;
+        }
+
+        .search-bar {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 20px;
+        }
+
+        .search-bar input {
+            width: 70%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        .search-bar .btn {
+            width: 25%;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-footer .btn {
+            width: auto;
+            margin-left: 10px;
+        }
+
+        .employee-list-container {
+            max-height: 300px;
+            overflow-y: auto;
+            margin: 15px 0;
+        }
+
+        .employee-item {
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .employee-item:last-child {
+            border-bottom: none;
+        }
+
+        .employee-item label {
+            margin-left: 10px;
+            flex-grow: 1;
+        }
+
+        .select-all {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            margin-bottom: 10px;
+        }
+
+        .btn-danger {
+            background-color: #dc3545;
+        }
+
+        .btn-danger:hover {
+            background-color: #c82333;
+        }
+
+        .employee-table {
+            width: 100%;
+            min-width: 700px;
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .employee-table th,
+        .employee-table td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+
+        .employee-table th {
+            background-color: #f4f4f4;
+        }
+
+        .checkbox-cell {
+            width: 20px;
+        }
+
+        #cancelEditBtn {
+            background-color: #dc3545;
+            margin-right: 8px;
+            padding: 8px 16px;
+            font-size: 14px;
+            border: 1px solid #dc3545;
+            border-radius: 5px;
+            transition: background-color 0.3s, transform 0.2s;
+        }
+
+        #cancelEditBtn:hover {
+            background-color: #c82333;
+            transform: scale(1.05);
+            border-color: #c82333;
+        }
+
+        .delete-controls {
+            display: none;
+            justify-content: flex-end;
+            gap: 10px;
+            margin-top: 20px;
+        }
+
+        .btn-secondary {
+            background-color: #6c757d;
+        }
+
+        .btn-secondary:hover {
+            background-color: #5a6268;
+        }
+
+ /* Navigation Bar */
+ .nav-bar {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgb(105, 105, 105);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    width: 100%;
+        }
+
+        .nav-bar h1 {
+    color: rgba(253, 0, 0, 255);
+    margin: 0;
+    font-size: 24px;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: rgb(1, 1, 1);
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: rgb(0, 0, 0);
+            font-size: 24px;
+            cursor: pointer;
+            margin-left: auto;
+            z-index: 1000;
+        }
+
+        .mobile-menu {
+            position: fixed;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100%;
+            background-color: #282525;
+            transition: right 0.3s ease;
+            padding: 60px 20px 20px;
+            z-index: 2000 !important; /* Must be higher than nav-bar's z-index */
+            -webkit-transition: right 0.3s ease-in-out; /* Add browser prefix */
+            transition: right 0.3s ease-in-out;
+        }
+
+        .mobile-menu.active {
+            right: 0;
+        }
+
+        .mobile-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .mobile-menu li {
+            margin: 15px 0;
+        }
+
+        .mobile-menu a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+            display: block;
+            padding: 10px;
+        }
+
+        .mobile-menu a:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .nav-bar {
+                flex-wrap: wrap;
+            }
+
+            .modal-content {
+                width: 95%;
+                max-height: 90vh;
+            }
+        }
+
+        .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            border-top: 1px solid #e7e7e7;
+            margin-top: auto;
+            width: 100%;
+        }
+
+        /* Table Scrollable */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .table-wrapper table {
+            min-width: 100%;
+            width: auto;
+        }
+
+        .table-wrapper th,
+        .table-wrapper td {
+            white-space: nowrap;
+        }
+
+        @media (max-width: 425px) {
+    .nav-links {
+        display: none; /* Hide navigation links */
+    }
+
+    .hamburger {
+        display: block; /* Show hamburger menu */
+        margin-right: -30px;
+    }
+
+    .nav-bar {
+        width: 100%;
+        padding: 10px 15px;
+    }
+
+    /* Sidebar hidden on mobile */
+    aside.sidebar {
+        display: none;
+    }
+
+    .container-fluid {
+        margin-left: 0;
+    }
+
+    /* Logo stays on the left */
+    .nav-bar img {
+        height: 70px; /* Adjust logo size */
+        position: absolute;
+        align-items: center;
+    }
+
+    /* Centered H1 */
+    .nav-bar h1 {
+    font-size: 18px;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    white-space: nowrap;
+    margin-left: -10px; /* Move slightly left */
+}
+
+/* Hamburger Menu on the right */
+    .hamburger {
+        position: absolute;
+        right: 10px;
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 768px) {
+    /* Remove column layout for nav-bar */
+    .nav-bar {
+        flex-direction: row !important;
+        position: relative;
+        padding: 10px 60px 10px 80px; /* Add space for logo and hamburger */
+    }
+
+    /* Hide regular nav links */
+    .nav-links {
+        display: none;
+    }
+
+    /* Show hamburger */
+    .hamburger {
+        display: block;
+        margin-right: -30px;
+    }
+
+    .nav-bar img {
+        margin-left: -90px;
+    }
+
+
+    .nav-bar h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%; /* Ensure proper centering */
+        padding-left: 0;
+        font-size: 20px;
+        text-align: center;
+        margin: 0;
+    }
+
+}
+
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 36px; /* Smaller font size for tablets */
+                padding-left: 20px; /* Reduced padding for smaller screens */
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 24px; /* Even smaller font size for mobile phones */
+                padding-left: 10px; /* Minimal padding for very small screens */
+            }
+        }
+ /* Dashboard content styles */
+ .container-fluid {
+    flex: 1;
+    padding: 20px;
+    overflow-y: auto;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-3 {
+    flex: 0 0 25%;
+    padding: 10px;
+}
+
+.h1 {
+    font-family: 'Cooper Black', sans-serif;
+    font-size: 34px;
+    text-align: center;
+    -webkit-text-fill-color: #da3936;
+    padding-left: 130px; /* Adjust this value as needed */
+    justify-content: center;
+}
+
+    </style>
+</head>
+<body>
+<!-- Navigation Bar -->
+<div class="nav-bar">
+    <img src="{{ url_for('static', filename='logo.png') }}" alt=" Logo" style=height:100px; display:inline-block; margin-right:55px;>
+    <h1 style="font-family: 'Cooper Black', sans-serif; color: #da3936;">VIKING MARINE INC.</h1>
+    <nav class="nav-links">
+        <ul>
+            <li><a href="{{ url_for('admindash') }}">Home</a></li>
+            <li><a href="{{ url_for('forms') }}">Forms</a></li>
+            <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </nav>
+             <!-- Hamburger Menu Button -->
+             <button class="hamburger" id="hamburger">
+                <i class="fa fa-bars"></i>
+            </button>
+</div>
+
+<!-- "Back to previous page" link -->
+<h2>
+    <a href="{{ url_for('admindash') }}">Back to previous page</a>
+</h2>
+
+<!-- Add backdrop element -->
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+<!-- Mobile Menu -->
+<div class="mobile-menu" id="mobileMenu">
+    <ul>
+        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+    </ul>
+</div>
+
+    <div class="form-container">
+        <div class="form-header">
+            <h2>EMPLOYEE MANAGEMENT</h2>
+            <p>Fill in the details to create an account</p>
+        </div>
+
+        <div class="action-buttons">
+            <button class="btn" id="addEmployeeBtn">Add Employee</button>
+            <button class="btn" id="deleteEmployeeBtn">Delete Employee</button>
+        </div>
+
+        <div class="search-bar">
+            <input type="text" placeholder="Search employees...">
+            <button class="btn">Search</button>
+        </div>
+
+        <div class="table-wrapper">
+            <table class="employee-table">
+                <thead>
+                    <tr>
+                        <th>Employee ID</th>
+                        <th>Role</th>
+                        <th>Name</th>
+                        <th>Phone</th>
+                        <th>Address</th>
+                        <th>Username</th>
+                        <th>Password</th>
+                    </tr>
+                </thead>
+                <tbody id="employeeTableBody">
+                    <!-- Employee rows will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+
+        <div class="delete-controls" id="deleteControls">
+            <button class="btn btn-danger" id="confirmDeleteBtn">Confirm Delete</button>
+            <button class="btn btn-secondary" id="cancelDeleteBtn">Cancel</button>
+        </div>
+
+        <button class="btn" id="saveChangesBtn" style="display: none;">Save Changes</button>
+        <button class="btn" id="cancelEditBtn" style="display: none;">Cancel</button>
+    </div>
+
+    <!-- Add Employee Modal -->
+    <div class="modal" id="addEmployeeModal">
+        <div class="modal-content">
+            <div class="modal-header">Add Employee</div>
+            <form method="POST" action="/add_employee" id="employeeForm" enctype="application/x-www-form-urlencoded">
+                <div class="form-group">
+                    <label for="empId">Employee ID</label>
+                    <input type="text" id="empId" name="empId" required>
+                </div>
+                <div class="form-group">
+                    <label>Role</label>
+                    <div class="form-group">
+                        <input type="radio" id="adminRole" name="role" value="Admin" required>
+                        <label for="adminRole">Admin</label>
+                        <input type="radio" id="employeeRole" name="role" value="Employee" required>
+                        <label for="employeeRole">Employee</label>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone Number</label>
+                    <input type="tel" id="phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                    <label for="address">Address</label>
+                    <textarea id="address" name="address" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn" onclick="closeModal('addEmployeeModal')">Cancel</button>
+                    <button type="submit" class="btn">Save</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <footer class="footer">
+        &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+    </footer>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+    <script>
+        let employees = [];
+        let originalData = [];
+
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        document.getElementById('addEmployeeBtn').addEventListener('click', () => openModal('addEmployeeModal'));
+
+
+
+
+
+        document.getElementById('saveChangesBtn').addEventListener('click', () => {
+            const rows = document.querySelectorAll('#employeeTableBody tr');
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('td');
+                cells.forEach(cell => {
+                    cell.contentEditable = false;
+                });
+            });
+
+            document.getElementById('saveChangesBtn').style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            alert('Changes saved successfully!');
+        });
+
+        document.getElementById('cancelEditBtn').addEventListener('click', () => {
+            const rows = document.querySelectorAll('#employeeTableBody tr');
+            rows.forEach((row, rowIndex) => {
+                const cells = row.querySelectorAll('td');
+                cells.forEach((cell, cellIndex) => {
+                    cell.textContent = originalData[rowIndex][cellIndex];
+                    cell.contentEditable = false;
+                });
+            });
+
+            document.getElementById('saveChangesBtn').style.display = 'none';
+            document.getElementById('cancelEditBtn').style.display = 'none';
+            alert('Edit cancelled. No changes were saved.');
+        });
+
+        document.getElementById("deleteEmployeeBtn").addEventListener("click", () => {
+        const thead = document.querySelector(".employee-table thead tr");
+        const rows = document.querySelectorAll("#employeeTableBody tr");
+
+        if (!document.querySelector(".employee-table thead th.checkbox-cell")) {
+            const newCheckboxHeader = document.createElement("th");
+            newCheckboxHeader.className = "checkbox-cell";
+            newCheckboxHeader.textContent = "Select";
+            thead.prepend(newCheckboxHeader);
+
+            rows.forEach((row) => {
+                const checkboxCell = document.createElement("td");
+                checkboxCell.className = "checkbox-cell";
+                checkboxCell.innerHTML = `<input type="checkbox" class="employee-checkbox">`;
+                row.prepend(checkboxCell);
+            });
+        }
+
+        document.getElementById("deleteControls").style.display = "flex";
+    });
+
+    document.getElementById("cancelDeleteBtn").addEventListener("click", () => {
+        document.querySelectorAll(".employee-table thead th.checkbox-cell, .employee-table td.checkbox-cell").forEach(cell => cell.remove());
+        document.getElementById("deleteControls").style.display = "none";
+    });
+
+    document.getElementById("confirmDeleteBtn").addEventListener("click", async () => {
+        const selectedCheckboxes = document.querySelectorAll(".employee-checkbox:checked");
+        if (selectedCheckboxes.length === 0) {
+            alert("Please select at least one employee to delete.");
+            return;
+        }
+
+        const employeeIds = Array.from(selectedCheckboxes).map(checkbox => {
+            return checkbox.closest("tr").querySelector("td:nth-child(2)").textContent.trim(); // Ensure correct column
+        });
+
+        console.log("Selected Employee IDs:", employeeIds);
+
+        if (employeeIds.length === 0 || employeeIds.some(id => id === "")) {
+            alert("Error: Unable to retrieve employee IDs.");
+            return;
+        }
+
+        if (confirm(`Are you sure you want to delete ${employeeIds.length} employee(s)?`)) {
+            try {
+                const response = await fetch("/delete_employees", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ ids: employeeIds }),
+                });
+
+                const result = await response.json();
+                if (!response.ok) {
+                    throw new Error(result.error || "Failed to delete employees");
+                }
+
+                selectedCheckboxes.forEach(checkbox => checkbox.closest("tr").remove());
+
+                document.getElementById("cancelDeleteBtn").click();
+                alert("Selected employees have been deleted.");
+            } catch (error) {
+                console.error("Error deleting employees:", error);
+                alert("Error: " + error.message);
+            }
+        }
+    });
+
+
+        function generatePassword(username) {
+            const firstThreeLetters = username.substring(0, 3).toUpperCase();
+            const randomNumbers = Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+            return `${firstThreeLetters}VKM${randomNumbers}`;
+        }
+
+        document.getElementById('name').addEventListener('input', function () {
+    const name = this.value.trim();
+    const username = name.substring(0, 3).toUpperCase() + 'VKM' + Math.floor(Math.random() * 1000).toString().padStart(3, '0');
+    document.getElementById('username').value = username;
+    document.getElementById('password').value = username; // Set password field
+});
+
+        document.getElementById('togglePassword').addEventListener('click', function () {
+            const passwordField = document.getElementById('password');
+            passwordField.type = passwordField.type === 'password' ? 'text' : 'password';
+            this.classList.toggle('fa-eye-slash');
+        });
+
+        window.addEventListener('click', (event) => {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
+            }
+        });
+
+        document.getElementById('employeeForm').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const formData = {
+                empId: document.getElementById('empId').value,
+                role: document.getElementById('role').value,
+                name: document.getElementById('name').value,
+                phone: document.getElementById('phone').value,
+                address: document.getElementById('address').value,
+                username: document.getElementById('username').value,
+                password: document.getElementById('password').value,
+                
+            };
+
+            try {
+                const response = await fetch('/add_employee', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(formData),
+                });
+
+                if (!response.ok) {
+                    throw new Error('Failed to add employee');
+                }
+
+                closeModal('addEmployeeModal');
+                fetchEmployees(); // Refresh the employee list
+            } catch (error) {
+                console.error('Error adding employee:', error);
+            }
+        });
+
+        window.onload = fetchEmployees;
+
+        async function fetchEmployees() {
+            try {
+                const response = await fetch('/employees');
+                const employees = await response.json();
+                console.log("Received Employees:", employees); // Debugging
+
+                const tableBody = document.getElementById('employeeTableBody');
+                tableBody.innerHTML = ''; // Clear existing rows
+
+                employees.forEach(emp => {
+                    const row = document.createElement("tr");
+                   row.innerHTML = `
+                                     <td contenteditable="false">${emp.empId}</td>
+                                     <td contenteditable="false">${emp.role}</td>
+                                     <td contenteditable="false">${emp.name}</td>
+                                     <td contenteditable="false">${emp.phone}</td>
+                                     <td contenteditable="false">${emp.address}</td>
+                                     <td contenteditable="false">${emp.username}</td>
+                                     <td contenteditable="false">${emp.username}</td>
+                                    `;
+                    tableBody.appendChild(row);
+                });
+            } catch (error) {
+                console.error("Error fetching employees:", error);
+            }
+        }
+        
+        document.getElementById('employeeForm').addEventListener('submit', function (e) {
+    e.preventDefault();
+
+    const formData = new FormData(this);
+
+    fetch('/add_employee', {
+        method: 'POST',
+        body: formData,
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.error) {
+            alert('Error: ' + data.error);
+        } else {
+            alert(data.message);
+            closeModal('addEmployeeModal');
+            fetchEmployees(); // Refresh the employee list
+        }
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
+});
+
+
+        // Hamburger Menu Toggle
+        document.getElementById('hamburger').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close menu on window resize (optional)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+    </script>
+</body>
+</html>

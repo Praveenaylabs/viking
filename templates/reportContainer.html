@@ -1,0 +1,945 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CONTAINER SURVEY REPORT</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+/* 
+h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 48px; 
+            text-align: center; 
+        } */
+                h1 {
+            -webkit-text-fill-color: #da3936;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h1 {
+            margin: 0;
+            font-size: 1.8em;
+            color: #333;
+        }
+
+        .form-header p {
+            margin: 5px 0;
+            font-size: 0.9em;
+            color: #777;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 20px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+        }
+
+        .custom-table {
+            width: 100%;
+            min-width: 800px;
+            border-collapse: collapse;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .custom-table th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .custom-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            background-color: #7d2ae8;
+            color: #fff;
+            padding: 6px 12px;
+            border-radius: 4px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #5c1bb7;
+        }
+
+        .form-header img {
+            height: 60px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            margin-top: 20px;
+            border-radius: 4px;
+        }
+
+        .nav-bar {
+            background-color: #282525;
+            padding: 12px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            border-radius: 4px;
+        }
+
+        .nav-bar h1 {
+            color: white;
+            margin: 0;
+            font-size: 1.3rem;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 0.9rem;
+            transition: color 0.3s ease;
+            padding: 5px;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .nav-links ul {
+                flex-wrap: wrap;
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            .custom-table {
+                font-size: 0.9em;
+            }
+
+            .custom-table td {
+                padding: 8px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .form-header h1 {
+                font-size: 1.4em;
+            }
+
+            .form-header p {
+                font-size: 0.8em;
+            }
+
+            .btn {
+                padding: 5px 8px;
+                font-size: 0.8em;
+            }
+        }
+
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100%;
+            background-color: #282525;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 20px 0;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-menu.active {
+            right: 0;
+        }
+
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px 20px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links ul {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-bar {
+                position: relative;
+                padding-right: 60px;
+            }
+        }
+
+        .nav-bar > a.btn {
+                position: static; /* Reset any positioning */
+                margin-right: auto; /* Push to left side */
+            }
+        
+            .search-container {
+        margin: 20px 0;
+        position: relative;
+    }
+
+    #globalSearch {
+        width: 90%;
+        padding: 10px 15px;
+        border: 2px solid #ddd;
+        border-radius: 25px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+    }
+
+    #globalSearch:focus {
+        outline: none;
+        border-color: #7d2ae8;
+        box-shadow: 0 0 8px rgba(125, 42, 232, 0.3);
+    }
+
+    .pagination-controls {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 15px;
+        margin-top: 20px;
+        padding: 10px 0;
+    }
+
+    .entries-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9em;
+    }
+
+    #entriesPerPage {
+        padding: 5px 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+        background: white;
+    }
+
+    .page-info {
+        font-size: 0.9em;
+        color: #666;
+    }
+
+    .pagination-buttons {
+        display: flex;
+        gap: 10px;
+    }
+
+    .page-btn {
+        padding: 6px 12px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background: #f4f4f4;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9em;
+    }
+
+    .page-btn:hover:not(:disabled) {
+        background: #7d2ae8;
+        color: white;
+        border-color: #7d2ae8;
+    }
+
+    .page-btn:disabled {
+        background: #ddd;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+    
+    .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 150px;
+}
+
+/* ✅ Status Colors */
+.status-draft { background-color: orange; color: white; }
+.status-open { background-color: rgb(0, 203, 0); color: white; }
+.status-in-progress { background-color: yellow; color: black; }
+.status-completed { background-color: red; color: white; }
+.status-unknown { background-color: gray; color: white; }
+
+/* ✅ Small Status Circle */
+.status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: currentColor;
+}
+
+/*Sort function style */
+.status-filters {
+    margin: 10px 0;
+    display: flex;
+    gap: 15px;
+}
+
+.status-filters label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.status-filters input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+
+.selection-column {
+        width: 30px;
+        text-align: center;
+    }
+    .delete-header {
+        display: flex;
+        justify-content: flex-end;
+        margin-bottom: 15px;
+    }
+    .bulk-actions {
+        display: none;
+        gap: 10px;
+        align-items: center;
+    }
+    .bulk-actions.active {
+        display: flex;
+    }
+    .checkbox-column {
+        width: 30px;
+        text-align: center;
+    }
+
+     /*Date filter*/
+     .filter-controls {
+        display: flex;
+        gap: 15px;
+        margin: 15px 0;
+        align-items: center;
+    }
+
+    .date-filter {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .date-filter input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    @media (max-width: 768px) {
+        .filter-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .date-filter {
+            flex-direction: column;
+            align-items: stretch;
+        }
+    }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <div class="nav-bar">
+                <!-- Hamburger Button -->
+                <button class="hamburger">☰</button>
+                
+                <!-- Existing Back link -->
+                <a href="{{ url_for('certificatert') }}" class="btn">
+                    Back
+                </a>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- Original Navigation Links -->
+                <nav class="nav-links">
+                    <ul>
+                        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+            <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:#da3936 ;">VIKING MARINE INC.</h1>           
+
+            <p>#143, Dinnur Village, Kadugodi Colony, Opp. India Satcom, Whitefield, Bangalore-560 067</p>
+            <p>Ph: +91-80-6561240 | Email: info@vikingmarine.com</p>
+            <h1>CONTAINER SURVEY FORM</h1>
+        </div>
+
+        <!-- search bar -->
+<div class="search-container">
+    <input type="text" id="globalSearch" placeholder="Search...">
+</div>
+
+
+ <!-- Global Delete -->
+ <div class="delete-header">
+    <div class="bulk-actions" id="bulkActions">
+        <span id="selectedCount">0 selected</span>
+        <button class="btn btn-danger" id="deleteSelected">Delete Selected</button>
+        <button class="btn" id="cancelSelection">Cancel</button>
+    </div>
+    <button class="btn btn-danger" id="enableSelection">
+        <i class="fas fa-trash"></i> Delete Certificates
+    </button>
+</div>
+<!-- Add confirmation modal -->
+<div id="confirmationModal" style="display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%); background: white; padding: 20px; border-radius: 8px; box-shadow: 0 0 15px rgba(0,0,0,0.2); z-index: 1000;">
+    <p>Are you sure you want to delete the selected certificates?</p>
+    <div style="display: flex; gap: 10px; margin-top: 15px;">
+        <button class="btn btn-danger" id="confirmDelete">Delete</button>
+        <button class="btn" id="modalCancel">Cancel</button>
+    </div>
+</div>
+<div id="modalBackdrop" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 999;"></div>
+
+
+<!--Date Filter-->
+<div class="filter-controls">
+    <div class="date-filter">
+        <label>Filter by Date:</label>
+        <input type="date" id="startDate">
+        <span>to</span>
+        <input type="date" id="endDate">
+    </div>
+</div>
+
+        <!-- Add no results message here -->
+        <div id="noResults" style="display: none; text-align: center; padding: 20px; color: #666; font-style: italic;">
+            No records found matching the criteria
+        </div>
+
+
+ <!--Sort Checkboxes-->
+ <div class="status-filters">
+    <label><input type="checkbox" class="status-checkbox" value="Draft"> Draft</label>
+    <label><input type="checkbox" class="status-checkbox" value="Open"> Open</label>
+    <label><input type="checkbox" class="status-checkbox" value="In Progress"> In Progress</label>
+    <label><input type="checkbox" class="status-checkbox" value="Completed"> Completed</label>
+</div>
+
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th class="checkbox-column">
+                            <input type="checkbox" id="selectAll" style="display: none;">
+                        </th>
+                        <th>View Details</th>
+                        <th>Status</th>
+                        <th>Certificate Number</th>
+                        <th>Date</th>
+                        <th>Applicant</th>
+                        <th>Date of Inspection</th>
+                        <th>Container No</th>
+                        <th>Actions</th>
+                        
+                    </tr> 
+                </thead>
+                <tbody>
+                    {% for container in container_data %}
+                    <tr>
+                        <td class="checkbox-column">
+                            <input type="checkbox" class="row-checkbox" style="display: none;" 
+                                   data-id="{{ container.CertificateNumber }}">
+                        </td>
+                        <td><a href="{{ url_for('reportContainer1', CertificateNumber=container.CertificateNumber) }}" class="btn">View</a></td>
+                        </td>
+                        <td>
+                            <span class="status-indicator 
+                            {% if container.status == 'Draft' %} status-draft
+                            {% elif container.status == 'Open' %} status-open
+                            {% elif container.status == 'In Progress' %} status-in-progress
+                            {% elif container.status == 'Completed' %} status-completed
+                            {% else %} status-unknown
+                            {% endif %}">
+                            <span class="status-circle"></span>
+                            {{ container.status }}
+                        </span>                        </td>
+                        <td>{{ container.CertificateNumber }}</td>
+                        <td>{{ container.date }}</td>
+                        <td>{{ container.applicant_for_survey }}</td>
+                        <td>{{ container.date_of_inspection }}</td>
+                        <td>{{ container.container_no }}</td>
+                        <td>
+                            <button class="btn btn-danger delete-btn" data-id="{{ container.CertificateNumber }}">Delete</button>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!--Pagiantion controls-->
+        <div class="pagination-controls">
+            <div class="entries-control">
+                <span>Show:</span>
+                <select id="entriesPerPage">
+                    <option value="5">5</option>
+                    <option value="10">10</option>
+                    <option value="15">15</option>
+                    <option value="20">20</option>
+                </select>
+                <span>entries</span>
+            </div>
+            
+            <div class="page-info" id="pageInfo"></div>
+            
+            <div class="pagination-buttons">
+                <button class="page-btn" id="prevPage">Previous</button>
+                <button class="page-btn" id="nextPage">Next</button>
+            </div>
+        </div>
+
+
+        <footer class="footer">
+            &copy; 2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+        </footer>
+    </div>
+    <script>
+        // Hamburger 
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const dropdown = document.querySelector('.dropdown-menu');
+
+            // Toggle dropdown menu
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('active');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target) && !hamburger.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+
+            // Close dropdown when clicking a link
+            dropdown.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+
+
+         // Pagination and Search functionality
+    let currentPage = 1;
+    let entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+    let allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+    let filteredRows = [...allRows];
+
+    function updateTable() {
+        const start = (currentPage - 1) * entriesPerPage;
+        const end = start + entriesPerPage;
+        
+        // Hide all rows first
+        allRows.forEach(row => row.style.display = 'none');
+        
+        // Show filtered/sorted rows
+        filteredRows.forEach((row, index) => {
+            row.style.display = (index >= start && index < end) ? '' : 'none';
+        });
+
+        // Update page info
+        const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+        document.getElementById('pageInfo').textContent = 
+            `Page ${currentPage} of ${totalPages}`;
+
+        // Toggle no results message
+        document.getElementById('noResults').style.display = 
+            filteredRows.length === 0 ? 'block' : 'none';
+
+        // Disable/enable buttons
+        document.getElementById('prevPage').disabled = currentPage === 1;
+        document.getElementById('nextPage').disabled = currentPage === totalPages;
+    }
+
+
+    //prev page
+document.getElementById('prevPage').addEventListener('click', () => {
+    currentPage--;
+    updateTable();
+});
+
+//nextpage
+document.getElementById('nextPage').addEventListener('click', () => {
+    const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+    
+    if (currentPage < totalPages) {
+        currentPage++; // Increment by 1 only
+        updateTable();
+    }
+});
+
+    // Search functionality
+    document.getElementById('globalSearch').addEventListener('input', function(e) {
+    applyFilters(); // This will handle the search through the applyFilters function
+    });
+
+      //Sorting status functionality
+    // Initialize variables
+ currentPage = 1;
+entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+filteredRows = [];
+
+// Initial sorting by certificate number
+function initialSort() {
+    allRows.sort((a, b) => {
+        const certA = a.cells[2].textContent;
+        const certB = b.cells[2].textContent;
+        return certA.localeCompare(certB);
+    });
+    filteredRows = [...allRows];
+}
+
+
+// Status filter functionality
+const statusCheckboxes = document.querySelectorAll('.status-checkbox');
+
+function applyFilters() {
+    const searchTerm = document.getElementById('globalSearch').value.toLowerCase().trim();
+    const selectedStatuses = Array.from(document.querySelectorAll('.status-checkbox:checked'))
+        .map(checkbox => checkbox.value.toLowerCase());
+    
+    // Get date filter values
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    filteredRows = allRows.filter(row => {
+        // Global search across all relevant columns
+        const rowText = Array.from(row.cells)
+            .slice(1, 9) // Include columns: Status(2), CertNum(3), Date(4), Applicant(5), Shipper(6), Consignee(7)
+            .map(cell => cell.textContent.toLowerCase())
+            .join(' ');
+        const matchesSearch = rowText.includes(searchTerm);
+
+        // Status filter
+        const statusElement = row.querySelector('.status-indicator');
+        const status = statusElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim().toLowerCase();
+        const matchesStatus = selectedStatuses.length === 0 ? true : 
+                            selectedStatuses.some(s => status.includes(s));
+
+        // Date filter
+        let dateInRange = true;
+        if (startDate || endDate) {
+            const rowDateStr = row.cells[4].textContent; // Date is in 5th column (index 4)
+            const rowDate = new Date(rowDateStr);
+            
+            const start = startDate ? new Date(startDate) : new Date(-8640000000000000);
+            const end = endDate ? new Date(endDate) : new Date(8640000000000000);
+            
+            // Set time components for accurate comparison
+            start.setHours(0, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            
+            dateInRange = rowDate >= start && rowDate <= end;
+        }
+
+        return matchesSearch && matchesStatus && dateInRange;
+    });
+
+    document.getElementById('noResults').style.display = 
+        filteredRows.length === 0 ? 'block' : 'none';
+    
+    currentPage = 1;
+    updateTable();
+}
+
+// Add event listeners for date inputs
+document.getElementById('startDate').addEventListener('change', applyFilters);
+document.getElementById('endDate').addEventListener('change', applyFilters);
+
+
+// Table update function
+function updateTable() {
+    const totalPages = Math.ceil(filteredRows.length / entriesPerPage) || 1;
+    
+    // Ensure current page stays within valid bounds
+    currentPage = Math.max(1, Math.min(currentPage, totalPages));
+    
+    const startIndex = (currentPage - 1) * entriesPerPage;
+    const endIndex = startIndex + entriesPerPage;
+
+    // Hide all rows
+    allRows.forEach(row => row.style.display = 'none');
+    
+    // Show only rows for current page
+    filteredRows.forEach((row, index) => {
+        row.style.display = (index >= startIndex && index < endIndex) ? '' : 'none';
+    });
+
+    // Update page info
+    document.getElementById('pageInfo').textContent = 
+        `Page ${currentPage} of ${totalPages}`;
+
+    // Control button states
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages;
+}
+
+// Event listeners
+document.getElementById('globalSearch').addEventListener('input', applyFilters);
+document.getElementById('entriesPerPage').addEventListener('change', function(e) {
+    entriesPerPage = parseInt(e.target.value);
+    currentPage = 1;
+    updateTable();
+});
+
+
+
+
+statusCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
+});
+
+// Initial setup
+document.addEventListener('DOMContentLoaded', function() {
+    initialSort();
+    applyFilters();
+    updateTable();
+});
+
+
+//Ajax Deletion
+document.addEventListener('DOMContentLoaded', function() {
+    document.querySelectorAll('.delete-btn').forEach(button => {
+        button.addEventListener('click', function() {
+            const certificateNumber = this.getAttribute('data-id');
+            if (confirm("Are you sure you want to delete this certificate?")) {
+                fetch(`/delete_container/${certificateNumber}`, {
+                    method: 'POST',
+                })
+                .then(response => {
+                    if (response.ok) {
+                        this.closest('tr').remove();  // Remove row from table
+                    } else {
+                        alert('Error deleting certificate.');
+                    }
+                });
+            }
+        });
+    });
+});
+
+
+
+// global Delete functionality
+let selectedCertificates = new Set();
+
+function updateSelectionDisplay() {
+    document.getElementById('selectedCount').textContent = `${selectedCertificates.size} selected`;
+    document.getElementById('deleteSelected').disabled = selectedCertificates.size === 0;
+}
+
+function toggleSelectionMode(enable) {
+    document.getElementById('enableSelection').style.display = enable ? 'none' : 'block';
+    document.getElementById('bulkActions').classList.toggle('active', enable);
+    document.querySelectorAll('.row-checkbox, #selectAll').forEach(checkbox => {
+        checkbox.style.display = enable ? 'block' : 'none';
+    });
+    if (!enable) {
+        selectedCertificates.clear();
+        document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        updateSelectionDisplay();
+    }
+}
+
+// Event listeners
+document.getElementById('enableSelection').addEventListener('click', () => {
+    toggleSelectionMode(true);
+});
+
+document.getElementById('cancelSelection').addEventListener('click', () => {
+    toggleSelectionMode(false);
+});
+
+document.getElementById('selectAll').addEventListener('change', (e) => {
+    const checkboxes = document.querySelectorAll('.row-checkbox');
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = e.target.checked;
+        const certId = checkbox.dataset.id;
+        e.target.checked ? selectedCertificates.add(certId) : selectedCertificates.delete(certId);
+    });
+    updateSelectionDisplay();
+});
+
+document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+    checkbox.addEventListener('change', (e) => {
+        const certId = e.target.dataset.id;
+        e.target.checked ? selectedCertificates.add(certId) : selectedCertificates.delete(certId);
+        updateSelectionDisplay();
+    });
+});
+
+// Delete confirmation
+function showConfirmationModal(show) {
+    document.getElementById('confirmationModal').style.display = show ? 'block' : 'none';
+    document.getElementById('modalBackdrop').style.display = show ? 'block' : 'none';
+}
+
+document.getElementById('deleteSelected').addEventListener('click', () => {
+    if (selectedCertificates.size > 0) {
+        showConfirmationModal(true);
+    }
+});
+
+document.getElementById('modalCancel').addEventListener('click', () => {
+    showConfirmationModal(false);
+});
+
+document.getElementById('confirmDelete').addEventListener('click', () => {
+    if (selectedCertificates.size === 0) return;
+
+    fetch('/delete-certificate', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ ids: Array.from(selectedCertificates) })
+    })
+    .then(response => {
+        if (response.ok) {
+            // Remove deleted rows from table
+            document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+                if (checkbox.checked) {
+                    checkbox.closest('tr').remove();
+                }
+            });
+            // Update pagination and filters
+            allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+            applyFilters();
+        }
+        showConfirmationModal(false);
+        toggleSelectionMode(false);
+    })
+    .catch(error => {
+        console.error('Error:', error);
+        alert('Error deleting certificates');
+        showConfirmationModal(false);
+    });
+});
+
+// Close modal when clicking backdrop
+document.getElementById('modalBackdrop').addEventListener('click', () => {
+    showConfirmationModal(false);
+});
+
+
+
+    </script>
+</body>
+</html>

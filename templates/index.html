@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AYlabs</title>
+    <style>
+        /* General Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Full-page Background */
+        body {
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: rgb(0, 0, 0);
+            color: white;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+            position: relative;
+            perspective: 1500px;
+        }
+
+        /* Navigation Bar (Initially Hidden) */
+        .navbar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 40px;
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(5px);
+            z-index: 100;
+            display: none;  /* Initially hidden */
+            opacity: 0;     /* Invisible */
+            transition: opacity 1s ease-in-out;
+        }
+
+        /* AYlabs Logo */
+        .navbar .logo {
+            font-size: 1.8em;
+            font-weight: bold;
+            color: #4CAF50;
+        }
+
+        /* Navigation Links */
+        .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav-links li {
+            display: inline;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 1.1em;
+            font-weight: bold;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        /* Hamburger Menu */
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+
+        .bar {
+            height: 3px;
+            width: 25px;
+            background-color: white;
+            margin: 3px 0;
+            transition: 0.4s;
+        }
+
+        /* Welcome Message */
+        .welcome-message {
+            text-align: center;
+            font-size: 2.5em;
+            opacity: 1;
+            transition: opacity 1s ease-in-out;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* Main Content (Initially Hidden) */
+        #main-content {
+            text-align: center;
+            margin-top: 20px;
+            color: #ffffff;
+            display: none;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+            z-index: 2;
+        }
+
+        /* Typing Effect */
+        #AYlabs {
+            color: #4CAF50;
+            font-weight: bold;
+        }
+
+        /* Projects Section */
+        .projects {
+            margin-top: 40px;
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .project-box {
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #000000, #FFD700, #3d2b1f, #000000);
+            background-size: 300% 300%;
+            color: #1b1a16; /* A rich golden-yellow that blends well */
+            text-align: center;
+            padding: 15px;
+            font-size: 1.2em;
+            border-radius: 10px;
+            transition: transform 0.6s ease, box-shadow 0.6s ease;
+            box-shadow: 0 4px 10px rgba(255, 215, 0, 0.5);
+            animation: shimmer 4.2s infinite linear;
+        }
+
+        /* Subtle animated shimmer effect */
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .project-box:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 10px rgba(255, 223, 0, 0.7), 0 0 12px rgba(61, 43, 31, 0.8);
+        }
+
+        /* Visit Button */
+        .visit-button {
+            display: inline-block;
+            margin-top: 10px;
+            padding: 12px 24px;
+            background: linear-gradient(45deg, #1e3c72, #2a5298, #6dd5ed, #2193b0, #1e3c72);
+            background-size: 400% 400%;
+            color: white;
+            text-decoration: none;
+            font-size: 1em;
+            font-weight: bold;
+            border-radius: 25px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            animation: vibrantShimmer 3s infinite linear;
+        }
+
+        /* Vibrant Shimmer Animation */
+        @keyframes vibrantShimmer {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Hover Effect */
+        .visit-button:hover {
+            transform: scale(1.12);
+            box-shadow: 0 6px 16px rgba(255, 255, 255, 0.4), 0 0 12px rgba(109, 213, 237, 0.8);
+            filter: brightness(1.1);
+        }
+
+        /* 3D Background */
+        .background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 50%;
+            height: 50%;
+            background-image: url('{{ url_for("static", filename="dodecahedron.jpg") }}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: moveBackground 10s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .background-duplicate {
+            position: absolute;
+            bottom: 0;
+            right: 0;
+            width: 50%;
+            height: 50%;
+            background-image: url('{{ url_for("static", filename="dodecahedron.jpg") }}');
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            animation: moveBackground 10s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        /* Move the background in 3D space */
+        @keyframes moveBackground {
+            0% {
+                transform: rotateX(10deg) rotateY(10deg) translate3d(0, 0, 0);
+            }
+            50% {
+                transform: rotateX(10deg) rotateY(10deg) translate3d(50px, 50px, 0);
+            }
+            100% {
+                transform: rotateX(0deg) rotateY(0deg) translate3d(0, 0, 0);
+            }
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none; /* Hide links by default */
+                flex-direction: column;
+                position: absolute;
+                top: 60px; /* Position below the navbar */
+                right: 0;
+                background: rgba(0, 0, 0, 0.8);
+                width: 100%;
+                padding: 10px;
+                z-index: 100;
+            }
+
+            .nav-links.show {
+                display: flex; /* Show links when toggled */
+            }
+
+            .hamburger {
+                display: flex; /* Show hamburger icon */
+                z-index: 101; /* Above other elements */
+            }
+
+            .navbar {
+                justify-content: space-between;
+                padding: 10px;
+            }
+
+            .projects {
+                grid-template-columns: 1fr;
+            }
+
+            .welcome-message {
+                font-size: 1.5em;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Navigation Bar (Initially Hidden) -->
+    <nav class="navbar" id="navbar">
+        <div class="logo">AYlabs</div>
+        <div class="hamburger" id="hamburger">
+            <div class="bar"></div>
+            <div class="bar"></div>
+            <div class="bar"></div>
+        </div>
+        <ul class="nav-links" id="nav-links">
+        </ul>
+    </nav>
+
+    <!-- 3D Background -->
+    <div class="background"></div>
+    <div class="background-duplicate"></div>
+
+    <!-- Welcome Message -->
+    <div id="welcome" class="welcome-message">
+        <h1 id="typed-text">Welcome to <span id="AYlabs">AYlabs</span></h1>
+    </div>
+
+    <!-- Main Content (Initially Hidden) -->
+    <div id="main-content">
+        <h2>PROJECTS</h2>
+        <div class="projects">
+            <div class="project-box">
+                VIKING MARINE
+                <div class="project-description">
+                    <a href="{{ url_for('login') }}" target="_blank" class="visit-button">Unlock Experience 🚀✨</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const typedText = document.getElementById('typed-text');
+        const mainContent = document.getElementById('main-content');
+        const welcomeMessage = document.getElementById('welcome');
+        const navbar = document.getElementById('navbar');
+        const navLinks = document.getElementById('nav-links');
+        const hamburger = document.getElementById('hamburger');
+
+        let text = " Crafting Innovators";
+        let i = 0;
+        let typingSpeed = 100;
+
+        function typeText() {
+            if (i < text.length) {
+                typedText.innerHTML += text.charAt(i);
+                i++;
+                setTimeout(typeText, typingSpeed);
+            } else {
+                setTimeout(() => {
+                    welcomeMessage.style.opacity = 0;
+                    setTimeout(() => {
+                        welcomeMessage.style.display = 'none';
+
+                        navbar.style.display = 'flex'; // Show navbar
+                        setTimeout(() => {
+                            navbar.style.opacity = 1;
+                        }, 100);
+
+                        mainContent.style.display = 'block';
+                        setTimeout(() => {
+                            mainContent.style.opacity = 1 }, 100);
+                    }, 1000);
+                }, 1000);
+            }
+        }
+
+        hamburger.addEventListener('click', () => {
+            navLinks.classList.toggle('show'); // Toggle the visibility of the nav links
+        });
+
+        typeText();
+    </script>
+</body>
+</html>

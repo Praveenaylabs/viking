@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>FCL Survey Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+    <style>
+
+h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 48px; 
+            text-align: center; 
+            -webkit-text-fill-color: #da3936;
+        }
+
+        
+        .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            border-top: 1px solid #e7e7e7;
+            margin-top: auto;
+        }
+         /* Navigation Bar */
+         .nav-bar {
+            background-color: #282525;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+
+        .table-wrapper {
+        width: 100%;
+        overflow: hidden;
+    }
+    table {
+        table-layout: fixed;
+        width: 100%;
+        border-collapse: collapse;
+        word-wrap: break-word;
+    }
+    th, td {
+        white-space: normal;
+        word-break: break-word;
+    }
+
+
+
+        /* Hamburger Menu Styles */
+.hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .sidebar {
+        position: fixed;
+        right: -50%;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background-color: #282525;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        padding-top: 20px;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #444;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    @media (max-width: 1200px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hamburger {
+            display: block;
+        }
+    }
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: 50px;  /* ✅ Rounded */
+      font-weight: bold;
+      text-align: center;
+      min-width: 150px;
+  }
+  
+  /* ✅ Status Colors */
+  .status-open { background-color: rgb(0, 203, 0); color: white; }
+  .status-in-progress { background-color: yellow; color: black; }
+  .status-completed { background-color: red; color: white; }
+  .status-unknown { background-color: gray; color: white; }
+  
+  /* ✅ Small Status Circle */
+  .status-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      background-color: currentColor;
+  }
+  @media print {
+            body {
+                margin: 0;
+                padding: 0;
+            }
+            .page-break {
+                page-break-before: always;
+            }
+            table {
+                width: 100%;
+                border-collapse: collapse;
+                page-break-inside: avoid;
+            }
+            th, td {
+                border: 1px solid black;
+                padding: 8px;
+                text-align: left;
+            }
+            .no-print {
+        display: none !important;
+    }
+        }
+        .print-container {
+            padding: 20px;
+            background: #fff;
+        }
+        .certificate-title {
+    text-align: center;
+    background-color: #b91c1c;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+
+    <div class="max-w-5xl mx-auto bg-white p-6 border border-gray-300">
+        <!-- Header Section -->
+        <div class="text-center mb-4">
+            <div class="nav-bar">
+                <a href="{{ url_for('reportFCL') }}" 
+                style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: 0.3s;"
+                onmouseover="this.style.backgroundColor='#0056b3'"
+                onmouseout="this.style.backgroundColor='#007bff'">
+                Back
+             </a>
+              <!-- Hamburger Button -->
+        <button class="hamburger">
+            <i class="fa fa-bars"></i>
+        </button>
+                <nav class="nav-links">
+                    <ul>
+                        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+             <!-- Sidebar -->
+       <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{{ url_for('admindash') }}">Home</a></li>
+            <li><a href="#">Profile</a></li>
+            <li><a href="{{ url_for('forms') }}">Forms</a></li>
+            <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+    </div>
+
+
+    <!-- Backdrop -->
+    <div class="sidebar-backdrop"></div>
+    <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 42px; color:rgba(253,0,0,255) ;">VIKING MARINE INC.</h1>           
+
+            <p class="text-sm font-semibold">SURVEYORS AND CONSULTING ENGINEERS</p>
+            <p class="text-sm"># 143, Dinnur Village, Opp. India SATCOM, Kadugodi Post Bangalore - 560067.</p>
+            <p class="text-sm">Phone: +91-9035015240, +91-9036015249 & +91-9243185125.</p>
+        </div>
+        {% if form %}
+        <p><strong>Certificate Number:</strong> {{ form.CertificateNumber }}</p>
+        <p><strong>Status:</strong> 
+            <span class="status-indicator 
+                {% if form.status == 'Open' %} status-open
+                {% elif form.status == 'In Progress' %} status-in-progress
+                {% elif form.status == 'Completed' %} status-completed
+                {% else %} status-unknown
+                {% endif %}">
+                <span class="status-circle"></span> <!-- Small round indicator -->
+                {{ form.status }}
+            </span>
+        </p>
+    {% else %}
+        <p>No FCL report data available.</p>
+    {% endif %}
+    
+        <!-- Report Title -->
+        <div class="border-t border-b border-gray-300 py-2 mb-4"  >
+            <h2 class="text-lg font-semibold text-center">FCL STUFFING SURVEY REPORT</h2>
+        </div>
+
+        <!-- Report Data Table -->
+    <div class="table-wrapper " >
+        <table class="w-full border border-gray-300 mb-4">
+            <thead>
+                <tr>
+                    <th class="border border-gray-300 p-2 text-left">Field</th>
+                    <th class="border border-gray-300 p-2 text-left">Details</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Certificate Number</td>
+                    <td class="border border-gray-300 p-2">{{ form['CertificateNumber'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Date</td>
+                    <td class="border border-gray-300 p-2">{{ form['date'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Applicant Name</td>
+                    <td class="border border-gray-300 p-2">{{ form['applicant_name'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Container Number</td>
+                    <td class="border border-gray-300 p-2">{{ form['container_number'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Size/Type</td>
+                    <td class="border border-gray-300 p-2">{{ form['size_type'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Tare Weight</td>
+                    <td class="border border-gray-300 p-2">{{ form['tare_weight'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Payload Capacity</td>
+                    <td class="border border-gray-300 p-2">{{ form['payload_capacity'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Declared Total Weight</td>
+                    <td class="border border-gray-300 p-2">{{ form['declared_total_weight'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Stuffing Commencement Date & Time</td>
+                    <td class="border border-gray-300 p-2">{{ form['stuffing_comm_date_time'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Stuffing Completion Date & Time</td>
+                    <td class="border border-gray-300 p-2">{{ form['stuffing_comp_date_time'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Seal Number</td>
+                    <td class="border border-gray-300 p-2">{{ form['seal_number'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Port of Discharge</td>
+                    <td class="border border-gray-300 p-2">{{ form['port_of_discharge'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Place of Stuffing</td>
+                    <td class="border border-gray-300 p-2">{{ form['place_of_stuffing'] | default('N/A') }}</td>
+                </tr>
+
+            </tbody>
+        </table>
+</div>
+
+        <!-- Consignment Details -->
+        <h3 class="text-lg font-semibold mb-2">Consignment Details</h3>
+        <div class="table-wrapper">
+        <table class="w-full border border-gray-300 mb-4">
+            <thead>
+                <tr>
+                    <th class="border border-gray-300 p-2 text-left">Consignor</th>
+                    <th class="border border-gray-300 p-2 text-left">Consignee</th>
+                    <th class="border border-gray-300 p-2 text-left">Description of Cargo</th>
+                    <th class="border border-gray-300 p-2 text-left">Marks & Nos.</th>
+                    <th class="border border-gray-300 p-2 text-left">No. of Packages</th>
+                    <th class="border border-gray-300 p-2 text-left">Gross Weight (Kgs)</th>
+                    <th class="border border-gray-300 p-2 text-left">Volume</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in form['consignment_details'] | default([], true) %}
+                <tr>
+                    <td class="border border-gray-300 p-2">{{ item['consignor'] | default('N/A') }}</td>
+                    <td class="border border-gray-300 p-2">{{ item['consignee'] | default('N/A') }}</td>
+                    <td class="border border-gray-300 p-2">{{ item['description'] | default('N/A') }}</td>
+                    <td class="border border-gray-300 p-2">{{ item['marksNos'] | default('N/A') }}</td>
+                    <td class="border border-gray-300 p-2">{{ item['packages'] | default('N/A') }}</td>
+                    <td class="border border-gray-300 p-2">{{ item['gross_weight'] | default('N/A') }}</td>
+                    <td class="border border-gray-300 p-2">{{ item['volume'] | default('N/A') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+</div>
+           <!-- SI Unit Box for CBM, Total Packages, and Gross Weight -->
+           <div class="bg-gray-200 p-4 rounded-lg border border-gray-300 mb-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-2">
+                <div class="text-center p-2 bg-white rounded-md shadow-sm">
+                    <h3 class="text-base md:text-lg font-semibold mb-1">CBM</h3>
+                    <p class="text-lg md:text-xl font-bold text-gray-700">
+                        {{ form['cbm'] | default('N/A') }} CBM
+                    </p>
+                </div>
+                <div class="text-center p-2 bg-white rounded-md shadow-sm">
+                    <h3 class="text-base md:text-lg font-semibold mb-1">Total No. of Packages</h3>
+                    <p class="text-lg md:text-xl font-bold text-gray-700">
+                        {{ form['totalPackages'] | default('N/A') }} Pkgs
+                    </p>
+                </div>
+                <div class="text-center p-2 bg-white rounded-md shadow-sm">
+                    <h3 class="text-base md:text-lg font-semibold mb-1">Total Gross Weight</h3>
+                    <p class="text-lg md:text-xl font-bold text-gray-700">
+                        {{ form['total_gross_weight'] | default('N/A') }} Kgs
+                    </p>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Remarks Section -->
+        <h3 class="text-lg font-semibold mb-2">Remarks</h3>
+        <div class="table-wrapper">
+        <table class="w-full border border-gray-300 mb-4">
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Loading Condition</td>
+                    <td class="border border-gray-300 p-2">{{ form['loading_condition'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Lashing</td>
+                    <td class="border border-gray-300 p-2">{{ form['lashing'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Others</td>
+                    <td class="border border-gray-300 p-2">{{ form['others'] | default('N/A') }}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+
+        <!-- Weather Condition -->
+        <h3 class="text-lg font-semibold mb-2">Weather Condition</h3>
+        <p class="border border-gray-300 p-2">{{ form['weather_condition'] | default('N/A') }}</p>
+
+        <!-- Surveyor Details -->
+        <h3 class="text-lg font-semibold mb-2">Surveyor Details</h3>
+        <div class="table-wrapper">
+        <table class="w-full border border-gray-300 mb-4">
+            <tbody>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Name of Surveyor</td>
+                    <td class="border border-gray-300 p-2">{{ form['surveyor_name'] | default('N/A') }}</td>
+                </tr>
+                <tr>
+                    <td class="border border-gray-300 p-2 font-semibold">Signature</td>
+                    <td class="border border-gray-300 p-2">{{ form['signature'] | default('N/A') }}</td>
+                </tr>
+            </tbody>
+        </table>
+        </div>
+        <button onclick="generatePDF()" class="fixed bottom-8 right-8 bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-800 z-50">
+            <i class="fas fa-print mr-2"></i>Print PDF
+        </button>
+
+
+        <!-- Footer -->
+        <footer class="footer">
+            &copy; 2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+        </footer>
+    </div>
+
+
+    <script>
+        const element = document.querySelector('.max-w-5xl');
+        console.log('Element found:', element);
+
+        // Hamburger Menu Toggle
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.toggle('active');
+            document.querySelector('.sidebar-backdrop').classList.toggle('active');
+        });
+
+        // Close sidebar when clicking backdrop
+        document.querySelector('.sidebar-backdrop').addEventListener('click', function() {
+            document.getElementById('sidebar').classList.remove('active');
+            this.classList.remove('active');
+        });
+
+        // Close sidebar when clicking a link
+        document.querySelectorAll('.sidebar a').forEach(link => {
+            link.addEventListener('click', () => {
+                document.getElementById('sidebar').classList.remove('active');
+                document.querySelector('.sidebar-backdrop').classList.remove('active');
+            });
+        });
+        async function generatePDF() {
+    try {
+        // Hide unnecessary elements
+        const elementsToHide = document.querySelectorAll('.nav-bar, .sidebar, .sidebar-backdrop, button, .status, .status-badge, .footer , .status-indicator , .status-indicator');
+        const originalStyles = [];
+        elementsToHide.forEach(el => {
+            originalStyles.push(el.style.display);
+            el.style.display = 'none';
+        });
+
+        // Capture the main content
+        const element = document.querySelector('.max-w-5xl');
+        if (!element) throw new Error("Main content not found!");
+
+        const canvas = await html2canvas(element, {
+            scale: 2,  // Good balance between quality and performance
+            useCORS: true,
+            logging: true,
+            backgroundColor: '#ffffff'
+        });
+
+        const { jsPDF } = window.jspdf || window;
+        const doc = new jsPDF('p', 'mm', 'a4');
+        const pageHeight = doc.internal.pageSize.getHeight();
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const imgWidth = pageWidth - 20; // 10mm margins on both sides
+        const imgHeight = (canvas.height * imgWidth) / canvas.width;
+        
+        // Slice the canvas into pages
+        let yPosition = 0;
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = Math.floor((pageHeight * canvas.width) / imgWidth);
+        const pageCtx = pageCanvas.getContext('2d');
+
+        while (yPosition < canvas.height) {
+            pageCtx.clearRect(0, 0, pageCanvas.width, pageCanvas.height);
+            pageCtx.drawImage(canvas, 0, yPosition, canvas.width, pageCanvas.height, 0, 0, canvas.width, pageCanvas.height);
+
+            const imgData = pageCanvas.toDataURL('image/png');
+            doc.addImage(imgData, 'PNG', 10, 10, imgWidth, pageHeight - 20);
+
+            yPosition += pageCanvas.height;
+            if (yPosition < canvas.height) doc.addPage();
+        }
+
+        // AYlabs Footer (optional)
+        doc.setFontSize(10);
+        doc.setFont('helvetica', 'italic');
+        doc.setTextColor(128);
+
+        // Restore hidden elements
+        elementsToHide.forEach((el, index) => {
+            el.style.display = originalStyles[index];
+        });
+
+        // Get certificate number dynamically
+        const certNo = document.getElementById('certificateNumber')?.textContent.trim() || 'N/A';
+        doc.save(`Certificate_${certNo}.pdf`);
+    } catch (error) {
+        console.error("PDF generation failed:", error);
+        alert("Failed to generate PDF. Check the console for details.");
+    }
+}
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,1497 @@
+ <!DOCTYPE html>
+      <html lang="en">
+      <head>
+          <meta charset="utf-8"/>
+          <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+          <title>Empty Container Condition Survey Report</title>
+          <script src="https://cdn.tailwindcss.com"></script>
+          <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet">
+          
+          <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/three/examples/js/loaders/GLTFLoader.js"></script>
+          <script src="https://cdn.jsdelivr.net/npm/three/examples/js/controls/OrbitControls.js"></script>
+      
+      </head>
+      <style>    
+      @import url('https://fonts.cdnfonts.com/css/cooper-black'); 
+      h1 {
+                  font-family: 'Copper Black', serif;
+                  font-size: 48px; 
+                  text-align: center;
+                  -webkit-text-fill-color: #da3936;
+              }
+          .footer {
+              text-align: center;
+              padding: 10px;
+              color: white;
+              background-color: rgb(49, 45, 45);
+              border-top: 1px solid #e7e7e7;
+              margin-top: auto;
+          }
+          .btn {
+              display: inline-block;
+              background-color: #7d2ae8;
+              color: #fff;
+              text-decoration: none;
+              text-align: center;
+              padding: 10px 20px;
+              border-radius: 5px;
+              border: none;
+              font-size: 16px;
+              cursor: pointer;
+              transition: background-color 0.3s;
+          }
+                  /* Navigation Bar */
+                      .nav-bar {
+                  background-color: #282525;
+                  padding: 10px 20px;
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+              }
+      
+              .nav-bar h1 {
+                  color: white;
+                  margin: 0;
+                  font-size: 24px;
+              }
+      
+              .nav-links ul {
+                  list-style-type: none;
+                  margin: 0;
+                  padding: 0;
+                  display: flex;
+                  gap: 2rem;
+              }
+      
+              .nav-links a {
+                  text-decoration: none;
+                  color: white;
+                  font-size: 16px;
+                  transition: color 0.3s ease;
+              }
+      
+              .nav-links a:hover {
+                  color: #007bff;
+              }
+      
+              /* Main container for sidebar and content */
+              .main-content {
+                  display: flex;
+                  flex: 1;
+                  overflow: hidden;
+              }
+              .btn {
+              display: inline-block;
+              background-color: #7d2ae8;
+              color: #fff;
+              text-decoration: none;
+              text-align: center;
+              padding: 10px 20px;
+              border-radius: 5px;
+              border: none;
+              font-size: 16px;
+              cursor: pointer;
+              transition: background-color 0.3s;
+          }
+          .btn:hover {
+              background-color: #5c1bb7;
+          }
+          .light-border {
+          width: 100%;
+          border-collapse: collapse;
+      }
+      
+      .light-border td, .light-border th {
+          border: 1px solid #ccc; /* Light border color */
+          padding: 8px;
+      }
+      
+      .font-semibold {
+          font-weight: bold;
+      }
+      
+      .radio-column label {
+          margin-right: 10px;
+      }
+      
+      /* Add to your existing styles */
+      @keyframes slideIn {
+          from { transform: translateX(100%); }
+          to { transform: translateX(0); }
+      }
+      
+      @keyframes fadeOut {
+          from { opacity: 1; }
+          to { opacity: 0; }
+      }
+      
+      .flash-message {
+          animation: slideIn 0.3s ease-out, fadeOut 0.5s ease-out 2.5s;
+      }
+      
+      /* Hamburger Menu Styles */
+      .hamburger {
+              display: none;
+              background: none;
+              border: none;
+              color: white;
+              font-size: 24px;
+              cursor: pointer;
+              padding: 10px;
+          }
+      
+          .sidebar {
+            position: fixed;
+              right: -50%;
+              top: 0;
+              height: 100%;
+              width: 50%;
+              background-color: #282525;
+              transition: right 0.3s ease;
+              z-index: 1000;
+              padding-top: 20px;
+      
+          }
+      
+          .sidebar.active {
+              right: 0;
+          }
+      
+          .sidebar ul {
+              list-style: none;
+              padding: 0;
+              margin: 0;
+          }
+      
+          .sidebar li {
+              padding: 15px 20px;
+              border-bottom: 1px solid #444;
+          }
+      
+          .sidebar a {
+              color: white;
+              text-decoration: none;
+              font-size: 18px;
+          }
+      
+          .sidebar-backdrop {
+            position: fixed;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              background-color: rgba(0,0,0,0.5);
+              z-index: 999;
+              display: none;
+          }
+      
+          .sidebar-backdrop.active {
+              display: block;
+          }
+      
+          @media (max-width: 1200px) {
+              .nav-links {
+                  display: none;
+              }
+              
+              .hamburger {
+                  display: block;
+              }
+          }
+      
+      
+      
+          .table-container {
+        max-width: 100%;
+        margin: 1rem 0;
+      }
+      
+      @media (max-width: 768px) {
+        table {
+          display: block;
+          width: 100%;
+          overflow-x: auto;
+          -webkit-overflow-scrolling: touch;
+        }
+      
+        tr {
+          display: flex;
+          flex-direction: column;
+          border-bottom: 1px solid #ddd;
+          padding: 12px 0;
+        }
+      
+        td {
+          display: block;
+          width: 100% !important;
+          border: none;
+          padding: 8px 4px;
+        }
+      
+        .font-semibold {
+          font-size: 16px;
+          color: #333;
+          padding-bottom: 4px;
+        }
+      
+        .question-cell {
+          width: 100%;
+          white-space: normal;
+          font-size: 14px;
+          color: #666;
+        }
+      
+        .radio-column {
+          padding-top: 8px;
+        }
+      
+        .radio-group {
+          display: flex;
+          gap: 1rem;
+          flex-wrap: wrap;
+        }
+      
+        .radio-group label {
+          white-space: nowrap;
+          padding: 6px 12px;
+          background: #f5f5f5;
+          border-radius: 4px;
+        }
+      }
+      
+      @media (min-width: 769px) {
+        .radio-column {
+          white-space: nowrap;
+        }
+        
+        td {
+          min-width: 120px;
+          padding: 12px;
+        }
+      }
+      .status-indicator {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 8px 15px;
+          border-radius: 50px;  /* ✅ Rounded */
+          font-weight: bold;
+          text-align: center;
+          min-width: 150px;
+      }
+      
+      /* ✅ Status Colors */
+      .status-open { background-color: rgb(0, 203, 0); color: white; }
+      .status-in-progress { background-color: yellow; color: black; }
+      .status-completed { background-color: red; color: white; }
+      .status-unknown { background-color: gray; color: white; }
+      
+      /* ✅ Small Status Circle */
+      .status-circle {
+          width: 10px;
+          height: 10px;
+          border-radius: 50%;
+          display: inline-block;
+          background-color: currentColor;
+      }
+      #flash-message {
+          width: 60%; 
+          max-width: 300px;
+          padding: 12px;
+          font-size: 1rem;
+          text-align: center;
+          background-color: #10f85d; /* Your preferred color */
+          color: white;
+          border-radius: 6px;
+          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+          
+          position: fixed;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          z-index: 9999;
+      }
+      
+      .dropdown {
+          position: relative;
+          display: inline-block;
+        }
+        .dropdown-btn {
+          background-color: #f0f0f0;
+          border: 1px solid #ccc;
+          padding: 5px;
+          cursor: pointer;
+        }
+        .dropdown-content {
+          display: none;
+          position: absolute;
+          background-color: white;
+          border: 1px solid #ccc;
+          min-width: 250px;
+          max-height: 200px;
+          overflow-y: auto;
+          box-shadow: 2px 2px 5px rgba(0,0,0,0.2);
+          padding: 5px;
+          z-index: 100;
+        }
+        .dropdown-content label {
+          display: block;
+          padding: 3px;
+        }
+        .dropdown.show {
+          display: block;
+        }
+        .checkbox-group::before {
+          content: attr(data-section);
+          font-weight: bold;
+          display: block;
+          margin-bottom: 5px;
+      }
+      
+      
+      
+      
+      
+      </style>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+      <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+      </head>
+      <body class="bg-gray-100 p-4">
+        <div class="max-w-4xl mx-auto bg-white p-6 shadow-md">
+            <div class="text-center">
+                        <!-- Navigation Bar -->
+            <div class="nav-bar">
+                <a href="{{ url_for('empforms') }}" 
+                style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: 0.3s;"
+                onmouseover="this.style.backgroundColor='#0056b3'"
+                onmouseout="this.style.backgroundColor='#007bff'">
+                Back
+             </a>
+              <!-- Hamburger Button -->
+              <button class="hamburger">
+                <i class="fa fa-bars"></i>
+            </button>
+                <nav class="nav-links">
+                    <ul>
+                        <li><a href="{{ url_for('empdash') }}">Home</a></li>
+                        <li><a href="{{ url_for('empforms') }}">Forms</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </nav>
+      
+                      
+      <div id="flash-container" class="fixed top-4 right-4 z-50" style="display: none;">
+        <div class="bg-green-500 text-white px-4 py-2 rounded-md shadow-md">
+            <span id="flash-message"></span>
+        </div>
+      </div>
+      
+       <!-- Sidebar -->
+       <div class="sidebar" id="sidebar">
+        <ul>
+            <li><a href="{{ url_for('empdash') }}">Home</a></li>
+            <li><a href="{{ url_for('empforms') }}">Forms</a></li>
+            <li><a href="{{ url_for('logout') }}">Logout</a></li>
+        </ul>
+      </div>
+      
+      
+      <!-- Backdrop -->
+      <div class="sidebar-backdrop"></div>
+            </div>
+      
+      
+      
+      
+            <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:#da3936 ;">VIKING MARINE INC.</h1>           
+      
+                <p class="text-sm font-semibold">SURVEYORS AND CONSULTING ENGINEERS</p>
+                <p class="text-sm">C/O. CONTAINER CORPORATION OF INDIA</p>
+                <p class="text-sm">Whitefield, Bangalore - 560 066.</p>
+                <p class="text-sm">Ph.: 9243185125, 9035015240 &amp; 9036015247</p>
+                <p class="text-sm">E-mail : ops@vikingmarine.in, Website : www.vikingmarine.in</p>
+            </div>
+            {% if container_data and container_data.CertificateNumber != "N/A" %}
+            <p><strong>Certificate Number:</strong> {{ container_data.CertificateNumber }}</p>
+            <p><strong>Status:</strong>
+            <span class="status-indicator 
+            {% if container_data.status == 'Open' %} status-open
+            {% elif container_data.status == 'In Progress' %} status-in-progress
+            {% elif container_data.status == 'Completed' %} status-completed
+            {% else %} status-unknown
+            {% endif %}">
+            <span class="status-circle"></span>
+              {{ container_data.status }}
+            </span>
+            </p> <!-- Small round indicator -->
+        {% else %}
+            <p style="color: red;"><strong>No container data available.</strong></p>
+        {% endif %}
+        
+          <hr class="my-4"/>
+          <h2 class="text-lg font-semibold text-center">EMPTY CONTAINER CONDITION SURVEY REPORT</h2>    
+          
+      
+          <form method="POST" action="{{ url_for('add_surveyem') }}"  class="p-4 border border-gray-300" enctype="multipart/form-data" >     
+             <div class="border-t border-b border-gray-300 py-2 mb-4">
+              <div class="flex justify-between">
+                <div>
+                  <label class="block text-sm font-semibold">Report No.: </label>
+                  <input type="text" id="CertificateNumber" name="CertificateNumber" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;" />
+      
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Date:</label>
+                  <input type="date" name="date" id="date" required class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+                </div>
+              </div>
+            </div>
+      
+            <div class="text-center bg-red-600 text-white py-2 mb-4">
+              <h2 class="text-lg font-semibold">EMPTY CONTAINER CONDITION SURVEY REPORT</h2>
+            </div>
+      
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div>
+                <label class="block text-sm font-semibold">Applicant for Survey:</label>
+                <div class="flex gap-2">
+                    <select id="applicantTitle" class="border border-gray-300 p-1"  style="background-color: gold; color: black;">
+                        <option value="Mr">Mr.</option>
+                        <option value="Mrs">M/s</option>
+                    </select>
+                    <input type="text" id="applicantNameInput" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+                </div>
+                <!-- Hidden input field to store the full name -->
+                <input type="hidden" name="applicant_for_survey" id="applicant_for_survey" />
+            </div>
+      
+          
+          <div>
+              <label class="block text-sm font-semibold">Date of Inspection:</label>
+              <input type="date" name="date_of_inspection" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+          </div>
+      
+              <div>
+                <label class="block text-sm font-semibold">Container No.:</label>
+                <input type="text" name="container_no" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold">Tare Weight:</label>
+                <input type="number" name="tare_weight" id="tare_weight" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+            </div>
+           
+              <div>
+                <label class="block text-sm font-semibold">Type:</label>
+                <input type="text" name="type" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+              </div>
+              <div>
+                <label class="block text-sm font-semibold">Size:</label>
+                <input type="text" name="size" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+              </div>
+      
+              <div>
+                <label class="block text-sm font-semibold">Place of Inspection:</label>
+                <input type="text" name="place_of_inspection" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+              </div>
+      
+            <div>
+                <label class="block text-sm font-semibold">Payload Capacity:</label>
+                <input type="number" name="payload_capacity" id="payload_capacity" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+            </div>
+            <div>
+              <label class="block text-sm font-semibold">CSC No.:</label>
+              <input type="text" name="csc_no" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+            </div>
+            <div>
+                <label class="block text-sm font-semibold">Max. Gross Weight:</label>
+                <input type="number" name="max_gross_weight" id="max_gross_weight" class="border border-gray-300 p-1 w-full" readonly  style="background-color: gold; color: black;"/>
+            </div>
+      
+              <div>
+                <label class="block text-sm font-semibold">Year of Manufacture:</label>
+                <input type="text" name="year_of_manufacture" class="border border-gray-300 p-1 w-full"  style="background-color: gold; color: black;"/>
+              </div>
+      
+            </div>
+            <div class="container">
+              <img src="{{ url_for('static', filename='cont.png') }}" alt="Container Image">
+          </div>
+      <br><br>
+       
+            <div class="table-container overflow-x-auto">
+              <table class="w-full mb-4 light-border">
+                <tbody>
+                  <!-- Inspection Items -->
+                  <tr>
+                    <td class="font-semibold">Rear End</td>
+                    <td>
+                      <div class="relative">
+                        <button id="dropdownBtnRearEnd" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center"  style="background-color: gold; color: black;">
+                          <span id="selectedOptionsRearEnd">Select Rear End Issues</span>
+                          <span>▼</span>
+                        </button>
+                    
+                        <div id="dropdownMenuRearEnd" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10"  style="background-color: gold; color: black;">
+                          <div class="p-2 space-y-2 checkbox-group" data-section="Rear End">
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                              1.Container inspected externally / internally found in satisfactory condition.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                              2.Container Internal panels found with rust marks at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                              3.Container External panels found with IMDG Stickers. To be removed.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                              4.Container internal panels found with Black stain at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                              5.Floor board found with chipped off at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                              6.Floor board found middle running gap 4 feet.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td >Are any holes found?</td>
+                    <td class="radio-column"  style="background-color: gold; color: black;">
+                      <label><input type="radio" name="rear_end" value="Yes" > Yes</label>
+                      <label><input type="radio" name="rear_end" value="No"> No</label>
+                    </td>
+                  </tr>
+              
+                  <tr>
+                    <td class="font-semibold"  >Right Panel</td>
+                    <td>
+                      <div class="relative">
+                        <button id="dropdownBtnRightPanel" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center"  style="background-color: gold; color: black;">
+                          <span id="selectedOptionsRightPanel">Select Right Panel Issues</span>
+                          <span>▼</span>
+                        </button>
+                    
+                        <div id="dropdownMenuRightPanel" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10"  style="background-color: gold; color: black;">
+                          <div class="p-2 space-y-2 checkbox-group" data-section="Right Panel">
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                              1.Container inspected externally / internally found in satisfactory condition.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                              2.Container Internal panels found with rust marks at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                              3.Container External panels found with IMDG Stickers. To be removed.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                              4.Container internal panels found with Black stain at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                              5.Floor board found with chipped off at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                              6.Floor board found middle running gap 4 feet.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td >Are doors closing properly?</td>
+                    <td class="radio-column"  style="background-color: gold; color: black;">
+                      <label><input type="radio" name="right_panel" value="Yes"> Yes</label>
+                      <label><input type="radio" name="right_panel" value="No"> No</label>
+                    </td>
+                  </tr>
+              
+                  <tr>
+                    <td class="font-semibold">Left Panel</td>
+                    <td>
+                      <div class="relative">
+                        <button id="dropdownBtnLeftPanel" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center"  style="background-color: gold; color: black;">
+                          <span id="selectedOptionsLeftPanel">Select Left Panel Issues</span>
+                          <span>▼</span>
+                        </button>
+                    
+                        <div id="dropdownMenuLeftPanel" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10"  style="background-color: gold; color: black;">
+                          <div class="p-2 space-y-2 checkbox-group" data-section="Left Panel">
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                              1.Container inspected externally / internally found in satisfactory condition.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                              2.Container Internal panels found with rust marks at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                              3.Container External panels found with IMDG Stickers. To be removed.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                              4.Container internal panels found with Black stain at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                              5.Floor board found with chipped off at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                              6.Floor board found middle running gap 4 feet.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td  >Are there any patches in the container?</td>
+                    <td class="radio-column"  style="background-color: gold; color: black;">
+                      <label><input type="radio" name="left_panel" value="Yes"> Yes</label>
+                      <label><input type="radio" name="left_panel" value="No"> No</label>
+                    </td>
+                  </tr>
+      
+                  <tr>
+                    <td class="font-semibold">Front Panel</td>
+                    <td>
+                      <div class="relative">
+                        <button id="dropdownBtnFrontPanel" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center"  style="background-color: gold; color: black;">
+                          <span id="selectedOptionsFrontPanel">Select Front Panel Issues</span>
+                          <span>▼</span>
+                        </button>
+                    
+                        <div id="dropdownMenuFrontPanel" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10"  style="background-color: gold; color: black;">
+                          <div class="p-2 space-y-2 checkbox-group" data-section="Front Panel">
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                              1.Container inspected externally / internally found in satisfactory condition.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                              2.Container Internal panels found with rust marks at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                              3.Container External panels found with IMDG Stickers. To be removed.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                              4.Container internal panels found with Black stain at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                              5.Floor board found with chipped off at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                              6.Floor board found middle running gap 4 feet.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td >Are any stickers or marks found in the container?</td>
+      
+                      <td class="radio-column" style="background-color: gold; color: black;">
+                      <label><input type="radio" name="front_panel" value="Yes"> Yes</label>
+                      <label><input type="radio" name="front_panel" value="No"> No</label>
+                    </td>
+                  </tr>
+                
+                  <tr>
+                    <td class="font-semibold">Roof Panel</td>
+                    <td>
+                    <div class="relative">
+                      <button id="dropdownBtnRoofPanel" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center"style="background-color: gold; color: black;" >
+                        <span id="selectedOptionsRoofPanel">Select Roof Panel Issues</span>
+                        <span>▼</span>
+                      </button>
+                  
+                      <div id="dropdownMenuRoofPanel" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10" style="background-color: gold; color: black;">
+                        <div class="p-2 space-y-2 checkbox-group" data-section="Roof Panel">
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                            1.Container inspected externally / internally found in satisfactory condition.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                            2.Container Internal panels found with rust marks at places.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                            3.Container External panels found with IMDG Stickers. To be removed.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                            4.Container internal panels found with Black stain at places.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                            5.Floor board found with chipped off at places.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                            6.Floor board found middle running gap 4 feet.
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                    <td>Is the floor clean and free from damages?	</td>
+                    <td class="radio-column" style="background-color: gold; color: black;">
+                      <label><input type="radio" name="roof_panel" value="Yes"> Yes</label>
+                      <label><input type="radio" name="roof_panel" value="No"> No</label>
+                    </td>
+                  </tr> 
+      
+                  <tr>
+                    <td class="font-semibold">Floor Board</td>
+                    <td>
+                    <div class="relative">
+                      <button id="dropdownBtnFloorBoard" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center" style="background-color: gold; color: black;">
+                        <span id="selectedOptionsFloorBoard">Select Floor Board Issues</span>
+                        <span>▼</span>
+                      </button>
+                
+                      <div id="dropdownMenuFloorBoard" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10" style="background-color: gold; color: black;">
+                        <div class="p-2 space-y-2 checkbox-group" data-section="Floor Board">
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                            1.Container inspected externally / internally found in satisfactory condition.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                            2.Container Internal panels found with rust marks at places.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                            3.Container External panels found with IMDG Stickers. To be removed.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                            4.Container internal panels found with Black stain at places.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                            5.Floor board found with chipped off at places.
+                          </label>
+                          <label class="flex items-center gap-2">
+                            <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                            6.Floor board found middle running gap 4 feet.
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </td>
+                    <td>Any objectionable odor persist?</td>
+                    <td class="radio-column" style="background-color: gold; color: black;">
+                      <label><input type="radio" name="floor_board" value="Yes"> Yes</label>
+                      <label><input type="radio" name="floor_board" value="No"> No</label>
+                    </td>
+                  </tr> 
+      
+                  <tr>
+                    <td class="font-semibold">Understructure</td>
+                    
+                      <td>
+                        <div class="relative">
+                          <button id="dropdownBtnUnderstructure" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center" style="background-color: gold; color: black;">
+                            <span id="selectedOptionsUnderstructure">Select Understructure Issues</span>
+                            <span>▼</span>
+                          </button>
+                      
+                          <div id="dropdownMenuUnderstructure" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10" style="background-color: gold; color: black;">
+                            <div class="p-2 space-y-2 checkbox-group" data-section="Understructure">
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                                1.Container inspected externally / internally found in satisfactory condition.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                                2.Container Internal panels found with rust marks at places.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                                3.Container External panels found with IMDG Stickers. To be removed.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                                4.Container internal panels found with Black stain at places.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                                5.Floor board found with chipped off at places.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                                6.Floor board found middle running gap 4 feet.
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    
+                    <td>Any evidence of contamination or infestation found?	</td>
+                    <td class="radio-column" style="background-color: gold; color: black;">
+                      <label><input type="radio" name="understructure" value="Yes"> Yes</label>
+                      <label><input type="radio" name="understructure" value="No"> No</label>
+                    </td>
+                  </tr> 
+      
+                  <tr>
+                      <td class="font-semibold">Interior</td>
+                      <td>
+                        <div class="relative">
+                          <button id="dropdownBtnInterior" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center" style="background-color: gold; color: black;">
+                            <span id="selectedOptionsInterior">Select Interior Issues</span>
+                            <span>▼</span>
+                          </button>
+                      
+                          <div id="dropdownMenuInterior" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10" style="background-color: gold; color: black;">
+                            <div class="p-2 space-y-2 checkbox-group" data-section="Interior">
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition, except for normal permissible wear and tear.">
+                                1.Container inspected externally / internally found in satisfactory condition.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                                2.Container Internal panels found with rust marks at places.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                                3.Container External panels found with IMDG Stickers. To be removed.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                                4.Container internal panels found with Black stain at places.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                                5.Floor board found with chipped off at places.
+                              </label>
+                              <label class="flex items-center gap-2">
+                                <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                                6.Floor board found middle running gap 4 feet.
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      </td>
+                    <td>Any toxic chemical residues found?	</td>
+                    <td class="radio-column" style="background-color: gold; color: black;">
+                      <label><input type="radio" name="interior" value="Yes"> Yes</label>
+                      <label><input type="radio" name="interior" value="No"> No</label>
+                    </td>
+                  </tr> 
+                  
+                  <tr>
+                    <td class="font-semibold">Exterior</td>
+                    <td>
+                      <div class="relative">
+                        <button id="dropdownBtnExterior" type="button" class="border rounded p-2 w-full text-left flex justify-between items-center" style="background-color: gold; color: black;">
+                          <span id="selectedOptionsExterior">Select Exterior Issues</span>
+                          <span>▼</span>
+                        </button>
+                    
+                        <div id="dropdownMenuExterior" class="absolute left-0 mt-2 w-full bg-white border rounded shadow-md hidden z-10" style="background-color: gold; color: black;">
+                          <div class="p-2 space-y-2 checkbox-group" data-section="Exterior">
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="1. Container inspected externally / internally found in satisfactory condition.">
+                              1.Container inspected externally / internally found in satisfactory condition
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="2. Container Internal panels found with rust marks at places.">
+                              2.Container Internal panels found with rust marks at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="3. Container External panels found with IMDG Stickers. To be removed.">
+                              3.Container External panels found with IMDG Stickers. To be removed.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="4. Container internal panels found with Black stain at places.">
+                              4.Container internal panels found with Black stain at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="5. Floor board found with chipped off at places.">
+                              5.Floor board found with chipped off at places.
+                            </label>
+                            <label class="flex items-center gap-2">
+                              <input type="checkbox" class="checkbox-option" data-comment="6. Floor board found middle running gap 4 feet.">
+                              6.Floor board found middle running gap 4 feet.
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </td>
+                    <td>Is there any presence of high rust formation inside the container?</td>
+                    <td class="radio-column" style="background-color: gold; color: black;">
+                      <label><input type="radio" name="exterior" value="Yes"> Yes</label>
+                      <label><input type="radio" name="exterior" value="No"> No</label>
+                    </td>
+                  </tr> 
+                </tbody>
+              </table>
+      
+              <!--- Photos --->
+              <div class="grid grid-cols-2 gap-4 mb-4">
+                <div>
+                  <label class="block text-sm font-semibold">Photo 1:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_1" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Photo 2:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_2" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Photo 3:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_3" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Photo 4:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_4" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Photo 5:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_5" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Photo 6:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_6" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+                <div>
+                  <label class="block text-sm font-semibold">Photo 7:</label>
+                  <input type="file" accept="image/*" capture="camera" name="photo_7" class="border border-gray-300 p-1 w-full" style="background-color: gold; color: black;"/>
+                </div>
+              </div>
+        
+      
+      
+              
+      </div>
+      
+            <!-- Remarks -->
+            <div class="mb-4">
+              <label class="block text-sm font-semibold">Remarks:</label>
+              <textarea class="border border-gray-300 p-2 w-full h-24" name="remarks" id="finalRemarks" style="background-color: gold; color: black;"></textarea>
+            </div>
+      
+            <div class="flex justify-between items-center">
+              <div>
+                <p  class="text-sm font-bold">For Viking Marine Inc.</p>
+                <p  class="text-sm italic text-left ">"Issued Without Prejudice"</p>
+                <div class="mt-8">
+                  <label class="block text-sm font-semibold">Surveyor</label>
+                  <input class="border border-gray-300 p-1 w-full" type="text" name="surveyor" style="background-color: gold; color: black;"/>
+                </div>
+      
+      
+      
+      
+              </div>
+            </div>
+      
+              <div class="text-center mt-4">
+                <button type="submit" name="action" value="Save as Draft" class="btn btn-secondary">Save as Draft</button>
+            
+                <button type="submit" name="action" value="Submit" class="bg-blue-500 text-white px-4 py-2 rounded">Submit</button>
+            
+                <button type="submit" id="submitNew" class="bg-green-500 text-white px-4 py-2 rounded">Submit and New</button>
+               
+                <button type="button" onclick="submitAndPrint()" class="btn btn-secondary">Print</button>
+      
+            </div>
+      
+      
+      
+      
+                  <footer class="footer">
+            &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+        </footer>
+          </form>
+      
+        </div>  
+      
+      
+        <script>
+      document.querySelector("button[onclick='submitAndPrint()']").addEventListener("click", function (event) {
+          event.preventDefault(); // Prevent immediate form submission
+      
+          // First, generate and print the certificate
+          generatePDF().then(() => {
+              // After printing, submit the form
+              document.querySelector("form").submit();
+          }).catch(error => {
+              console.error("Print failed:", error);
+              alert("Error while printing. Please try again.");
+          });
+      });
+      
+      async function generatePDF() {
+          // Hide elements that shouldn't be in the PDF
+          const elementsToHide = document.querySelectorAll('.nav-bar, .sidebar, .hamburger, .status-indicator, button, .footer');
+          const originalStyles = [];
+          elementsToHide.forEach(el => {
+              originalStyles.push(el.style.display);
+              el.style.display = 'none';
+          });
+      
+          // Collect form data
+          const container = {
+              CertificateNumber: document.getElementById('CertificateNumber').value,
+              date: document.getElementById('date').value,
+              applicant_for_survey: document.getElementById('applicant_for_survey').value,
+              date_of_inspection: document.querySelector('input[name="date_of_inspection"]').value,
+              container_no: document.querySelector('input[name="container_no"]').value,
+              place_of_inspection: document.querySelector('input[name="place_of_inspection"]').value,
+              type: document.querySelector('input[name="type"]').value,
+              size: document.querySelector('input[name="size"]').value,
+              tare_weight: document.getElementById('tare_weight').value,
+              csc_no: document.querySelector('input[name="csc_no"]').value,
+              payload_capacity: document.getElementById('payload_capacity').value,
+              year_of_manufacture: document.querySelector('input[name="year_of_manufacture"]').value,
+              max_gross_weight: document.getElementById('max_gross_weight').value,
+              remarks: document.getElementById('finalRemarks').value,
+              surveyor: document.querySelector('input[name="surveyor"]').value,
+          };
+      
+          // Collect and convert photos to data URLs
+          const photoPromises = [];
+          for (let i = 1; i <= 7; i++) {
+              const input = document.querySelector(`input[name="photo_${i}"]`);
+              if (input && input.files[0]) {
+                  const promise = new Promise((resolve) => {
+                      const reader = new FileReader();
+                      reader.onload = (e) => {
+                          container[`photo_${i}`] = e.target.result;
+                          resolve();
+                      };
+                      reader.readAsDataURL(input.files[0]);
+                  });
+                  photoPromises.push(promise);
+              }
+          }
+          await Promise.all(photoPromises);
+      
+          // Create temporary container
+          const tempDiv = document.createElement('div');
+          tempDiv.style.position = 'absolute';
+          tempDiv.style.left = '-9999px';
+          tempDiv.style.width = '210mm';
+          tempDiv.style.backgroundColor = '#ffffff';
+          document.body.appendChild(tempDiv);
+      
+          tempDiv.innerHTML = `
+              <!-- Page 1: Header & Table -->
+<div style="page-break-after: always;">
+    <div class="max-w-4xl mx-auto bg-white p-6 text-center">
+        <h1 style="font-family: 'Cooper Black', sans-serif; font-size: 42px; color:#da3936;">VIKING MARINE INC.</h1>
+          <div class="text-center">
+              <p class="text-sm font-semibold">SURVEYORS AND CONSULTING ENGINEERS</p>
+              <p class="text-sm">C/O. CONTAINER CORPORATION OF INDIA</p>
+              <p class="text-sm">Whitefield, Bangalore - 560 066.</p>
+              <p class="text-sm">Ph.: 9243185125, 9035015240 &amp; 9036015247</p>
+              <p class="text-sm">E-mail : ops@vikingmarine.in, Website : www.vikingmarine.in</p>
+          </div>
+    </div>
+</div>
+      
+                      <div class="border-t border-b border-gray-300 py-2 mb-4">
+                          <h2 class="text-lg font-semibold text-center">EMPTY CONTAINER CONDITION SURVEY REPORT</h2>
+                      </div>
+      
+                  <table class="w-full border border-gray-300 mb-4">
+                      <thead>
+                          <tr>
+                              <th class="border border-gray-300 p-2 text-left">Field</th>
+                              <th class="border border-gray-300 p-2 text-left">Details</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          ${Object.entries({
+                              'Report No.': container.CertificateNumber,
+                              'Date': container.date,
+                              'Applicant for Survey': container.applicant_for_survey,
+                              'Date of Inspection': container.date_of_inspection,
+                              'Container No.': container.container_no,
+                              'Place of Inspection': container.place_of_inspection,
+                              'Type': container.type,
+                              'Size': container.size,
+                              'Tare Weight': container.tare_weight,
+                              'CSC No.': container.csc_no,
+                              'Payload Capacity': container.payload_capacity,
+                              'Year of Manufacture': container.year_of_manufacture,
+                              'Max. Gross Weight': container.max_gross_weight
+                          }).map(([key, value]) => `
+                              <tr>
+                                  <td class="border border-gray-300 p-2 font-semibold">${key}</td>
+                                  <td class="border border-gray-300 p-2">${value || 'N/A'}</td>
+                              </tr>
+                          `).join('')}
+                      </tbody>
+                  </table>
+      
+              <!-- Page 2: Photos -->
+              <div style="page-break-before: always; page-break-after: always;">
+                  <div class="max-w-4xl mx-auto bg-white p-6">
+                      <h3 class="text-lg font-semibold mb-4">Photos</h3>
+                      <div class="photo-grid" style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 55px;">
+                          ${Array.from({length: 7}, (_, i) => `
+                              <div style="page-break-inside: avoid; border: 1px solid #ddd; padding: 10px; height: 200px;">
+                                  ${container[`photo_${i+1}`] ? 
+                                      `<img src="${container[`photo_${i+1}`]}" style="width: 100%; height: 100%; object-fit: contain;">` : 
+                                      `<div style="display: flex; height: 100%; align-items: center; justify-content: center; color: #666;">
+                                          No Photo ${i+1}
+                                      </div>`
+                                  }
+                              </div>
+                          `).join('')}
+                      </div>
+                  </div>
+              </div>
+      
+              <!-- Page 3: Remarks & Surveyor -->
+              <div style="page-break-before: always;">
+                  <div class="max-w-4xl mx-auto bg-white p-6">
+                      <div class="mb-8">
+                          <h3 class="text-lg font-semibold mb-4">Remarks</h3>
+                          <div class="border border-gray-300 p-4 min-h-[150px]">
+                              ${container.remarks}
+                          </div>
+                      </div>
+      
+                 <div class="mt-8 w-full">
+                  <div class="text-left">
+                    <p class="font-semibold">For Viking Marine Inc.</p>
+                    <p class="italic">"Issued Without Prejudice"</p>
+                    <p class="mt-4">Surveyor: ${container.surveyor}</p>
+                </div>
+            </div>
+        </div>
+          `;
+      
+      
+          // Wait for images to load
+          await new Promise(resolve => {
+              const images = tempDiv.querySelectorAll('img');
+              if (images.length === 0) return resolve();
+      
+              let loaded = 0;
+              const onLoad = () => {
+                  if (++loaded === images.length) resolve();
+              };
+      
+              images.forEach(img => {
+                  img.addEventListener('load', onLoad);
+                  if (img.complete) onLoad();
+              });
+          });
+      
+          // Generate PDF with page splitting
+          const { jsPDF } = window.jspdf;
+          const doc = new jsPDF('p', 'mm', 'a4');
+          const pageWidth = doc.internal.pageSize.getWidth();
+          const margin = 10;
+          const contentWidth = pageWidth - margin * 2;
+      
+          // Convert to canvas
+          const canvas = await html2canvas(tempDiv, {
+              scale: 2,
+              useCORS: true,
+              logging: false,
+              backgroundColor: '#ffffff'
+          });
+      
+          // Calculate dimensions
+          const contentHeight = (canvas.height * contentWidth) / canvas.width;
+          const pageHeight = doc.internal.pageSize.getHeight();
+          let currentPosition = 0;
+      
+          while (currentPosition < contentHeight) {
+              if (currentPosition > 0) doc.addPage();
+              
+              const sectionHeight = Math.min(contentHeight - currentPosition, pageHeight - margin * 2);
+              const sectionCanvas = document.createElement('canvas');
+              sectionCanvas.width = canvas.width;
+              sectionCanvas.height = (sectionHeight / contentHeight) * canvas.height;
+      
+              const ctx = sectionCanvas.getContext('2d');
+              ctx.drawImage(
+                  canvas,
+                  0, (currentPosition / contentHeight) * canvas.height,
+                  canvas.width, sectionCanvas.height,
+                  0, 0,
+                  canvas.width, sectionCanvas.height
+              );
+      
+              doc.addImage(
+                  sectionCanvas,
+                  'PNG',
+                  margin,
+                  margin,
+                  contentWidth,
+                  sectionHeight
+              );
+      
+              currentPosition += sectionHeight;
+          }
+      
+          // Cleanup
+          tempDiv.remove();
+          elementsToHide.forEach((el, index) => {
+              el.style.display = originalStyles[index];
+          });
+      
+          // Save PDF
+          doc.save(`${container.CertificateNumber || 'Container_Report'}.pdf`);
+      }
+      
+        document.addEventListener("DOMContentLoaded", () => {
+          updateRemarks();
+      
+          // Setup dropdown for Interior section
+          function setupDropdown(buttonId, menuId, selectedId) {
+            const button = document.getElementById(buttonId);
+            const menu = document.getElementById(menuId);
+            const selectedText = document.getElementById(selectedId);
+      
+            button.addEventListener("click", function (event) {
+              event.stopPropagation();
+              menu.classList.toggle("hidden");
+            });
+      
+            menu.querySelectorAll(".checkbox-option").forEach((checkbox) => {
+              checkbox.addEventListener("change", function (event) {
+                event.stopPropagation();
+                updateSelectedOptions(selectedId, menu);
+                updateRemarks();
+              });
+            });
+      
+            document.addEventListener("click", function (event) {
+              if (!menu.contains(event.target) && !button.contains(event.target)) {
+                menu.classList.add("hidden");
+              }
+            });
+          }
+      
+          // Initialize dropdown for Interior section
+          setupDropdown("dropdownBtnInterior", "dropdownMenuInterior", "selectedOptionsInterior");
+          setupDropdown("dropdownBtnUnderstructure", "dropdownMenuUnderstructure", "selectedOptionsUnderstructure");
+          setupDropdown("dropdownBtnFloorBoard", "dropdownMenuFloorBoard", "selectedOptionsFloorBoard");
+        setupDropdown("dropdownBtnExterior", "dropdownMenuExterior", "selectedOptionsExterior");
+        setupDropdown("dropdownBtnRoofPanel", "dropdownMenuRoofPanel", "selectedOptionsRoofPanel");
+        setupDropdown("dropdownBtnFrontPanel", "dropdownMenuFrontPanel", "selectedOptionsFrontPanel");
+        setupDropdown("dropdownBtnRightPanel", "dropdownMenuRightPanel", "selectedOptionsRightPanel");
+        setupDropdown("dropdownBtnLeftPanel", "dropdownMenuLeftPanel", "selectedOptionsLeftPanel");
+        setupDropdown("dropdownBtnRearEnd", "dropdownMenuRearEnd", "selectedOptionsRearEnd");
+      
+      
+      
+      
+      
+      });
+        // Function to update selected text in button
+        function updateSelectedOptions(selectedId, menu) {
+          const selected = Array.from(menu.querySelectorAll(".checkbox-option:checked"))
+            .map((cb) => cb.parentElement.textContent.trim())
+            .join(", ");
+      
+          document.getElementById(selectedId).textContent = selected || "Select Issues";
+        }
+      
+        // Function to update remarks dynamically
+        function updateRemarks() {
+          const sections = {};
+          document.querySelectorAll('.checkbox-option:checked').forEach(checkbox => {
+            const section = checkbox.closest('.checkbox-group')?.dataset.section || "Other";
+            const comment = checkbox.dataset.comment;
+      
+            if (!sections[section]) {
+              sections[section] = [];
+            }
+            if (!sections[section].includes(comment)) {
+              sections[section].push(comment);
+            }
+          });
+      
+          let remarksContent = '';
+      
+          // General comments
+          const generalComments = [
+            "This container is suitable for General Cargo.",
+            "Understructure of the container was not made available for our inspection."
+          ];
+          remarksContent += generalComments.join("\n");
+      
+          // Add section-specific comments
+          for (const [section, comments] of Object.entries(sections)) {
+          remarksContent += `\n\n**${section}**:\n- ${comments.join("\n- ")}`;
+          }
+      
+          document.getElementById("finalRemarks").value = remarksContent.trim();
+        }
+      
+                  document.addEventListener("DOMContentLoaded", function() {
+              function updateApplicantName() {
+                  const title = document.getElementById("applicantTitle").value;
+                  const name = document.getElementById("applicantNameInput").value.trim();
+                  document.getElementById("applicant_for_survey").value = title + " " + name;
+              }
+      
+              // Update hidden field on change
+              document.getElementById("applicantTitle").addEventListener("change", updateApplicantName);
+              document.getElementById("applicantNameInput").addEventListener("input", updateApplicantName);
+          });
+      
+          document.getElementById("submitNew").addEventListener("click", function(event) {
+              event.preventDefault(); // Prevent default form submission
+              let form = document.querySelector("form");
+              let input = document.createElement("input");
+              input.type = "hidden";
+              input.name = "action";
+              input.value = "Submit and New";
+              form.appendChild(input);
+              form.submit();
+              
+              // Redirect after form submission
+              form.addEventListener("submit", function() {
+                  window.location.href = "{{ url_for('container') }}";
+              });
+          });
+      
+          document.addEventListener("DOMContentLoaded", function () {
+          fetch("/get_latest_certificate122", { headers: { "X-Requested-With": "XMLHttpRequest" } })  
+              .then(response => response.json())  
+              .then(data => {
+                  document.getElementById("CertificateNumber").value = data.CertificateNumber;
+              })
+              .catch(error => console.error("Error fetching certificate number:", error));
+      });
+      
+      
+      
+      document.addEventListener("DOMContentLoaded", function () {
+      
+          // Set current date in the date input field
+          const today = new Date();
+          const year = today.getFullYear();
+          const month = ('0' + (today.getMonth() + 1)).slice(-2);
+          const day = ('0' + today.getDate()).slice(-2);
+          const formattedDate = `${year}-${month}-${day}`;
+          document.getElementById('date').value = formattedDate;
+      
+          // Disable submit button after first click
+          const form = document.querySelector("form");
+          const submitButton = document.getElementById("submit-btn");
+      
+          form.addEventListener("submit", function (e) {
+              if (submitButton.disabled) {
+                  e.preventDefault(); // Prevent second submission
+                  return;
+              }
+              submitButton.disabled = true; // Disable the button after the first click
+              submitButton.innerText = "Submitting..."; // Optional: Change button text
+          });
+      });
+      document.addEventListener("DOMContentLoaded", function () {
+          const tareWeightInput = document.getElementById("tare_weight");
+          const payloadCapacityInput = document.getElementById("payload_capacity");
+          const maxGrossWeightInput = document.getElementById("max_gross_weight");
+          const remarksTextArea = document.querySelector("textarea[name='remarks']");
+          
+          function updateMaxGrossWeight() {
+              const tareWeight = parseFloat(tareWeightInput.value) || 0;
+              const payloadCapacity = parseFloat(payloadCapacityInput.value) || 0;
+              maxGrossWeightInput.value = tareWeight + payloadCapacity;
+          }
+      
+          tareWeightInput.addEventListener("input", updateMaxGrossWeight);
+          payloadCapacityInput.addEventListener("input", updateMaxGrossWeight);
+      
+      
+      });
+      
+      
+      // Flash Message Handling
+      function showFlashMessage(message, type = 'success') {
+          const container = document.getElementById('flash-container');
+          const messageElement = document.getElementById('flash-message');
+          
+          // Reset styles and content
+          container.className = `fixed top-4 right-4 z-50 flash-message`;
+          messageElement.textContent = message;
+          
+          // Add type-specific styling
+          if(type === 'success') {
+              container.classList.add('bg-green-500', 'text-white');
+          } else {
+              container.classList.add('bg-red-500', 'text-white');
+          }
+          
+          // Show container
+          container.style.display = 'flex';
+          
+          // Auto-hide after 3 seconds
+          setTimeout(() => {
+              container.style.opacity = '1';
+              container.style.animation = 'fadeOut 0.5s ease-out forwards';
+              setTimeout(() => {
+                  container.style.display = 'none';
+                  container.style.opacity = '';
+                  container.style.animation = '';
+              }, 500);
+          }, 3000);
+      }
+      
+      
+      
+      // Hamburger Menu Toggle
+      document.querySelector('.hamburger').addEventListener('click', function(e) {
+              e.stopPropagation();
+              document.getElementById('sidebar').classList.toggle('active');
+              document.querySelector('.sidebar-backdrop').classList.toggle('active');
+          });
+      
+          // Close sidebar when clicking anywhere
+          document.addEventListener('click', function(e) {
+              if (!document.getElementById('sidebar').contains(e.target) && 
+                  !document.querySelector('.hamburger').contains(e.target)) {
+                  document.getElementById('sidebar').classList.remove('active');
+                  document.querySelector('.sidebar-backdrop').classList.remove('active');
+              }
+          });
+      
+          // Close when clicking backdrop
+          document.querySelector('.sidebar-backdrop').addEventListener('click', function() {
+              document.getElementById('sidebar').classList.remove('active');
+              this.classList.remove('active');
+          });
+      
+          // Close when clicking a link
+          document.querySelectorAll('.sidebar a').forEach(link => {
+              link.addEventListener('click', () => {
+                  document.getElementById('sidebar').classList.remove('active');
+                  document.querySelector('.sidebar-backdrop').classList.remove('active');
+              });
+          });
+          setTimeout(() => {
+                  document.getElementById('flash-message').style.display = 'none';
+              }, 2000); 
+      </script>
+      
+      </body>
+      </html>
+      

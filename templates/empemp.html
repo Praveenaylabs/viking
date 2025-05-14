@@ -1,0 +1,1589 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCL Stuffing Survey Report Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+
+    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<style> 
+/* @import url('https://fonts.cdnfonts.com/css/cooper-black'); 
+h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 48px; 
+            color: rgba (253,0,0,255) ;
+            text-align: center; /
+        } */
+        h1 {
+            -webkit-text-fill-color: #da3936;
+        }
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f9f9f9;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+#add-container-modal .custom-table th,
+#add-container-modal .custom-table td {
+border: 1px solid black; /* Add border to each column */
+padding: 8px; /* Add padding for better spacing */
+}
+
+/* Add borders to the "Add Consignment" table columns */
+#modal .custom-table th,
+#modal .custom-table td {
+border: 1px solid black; /* Add border to each column */
+padding: 8px; /* Add padding for better spacing */
+}
+h1{
+    -webkit-text-fill-color:rgba(253,0,0,255) ;
+}
+.form-container {
+    background: #fff;
+    padding: 30px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    width: 100%;
+    max-width: 1200px;
+    overflow-y: auto;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.form-header h1 {
+    margin: 0;
+    font-size: 1.8em;
+    color: #333;
+}
+
+.form-header p {
+    margin: 5px 0;
+    font-size: 0.9em;
+    color: #777;
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.form-group label {
+    width: 20%; /* Reduce label width */
+    text-align: left;
+    font-size: 14px;
+    margin-right: 10px; /* Reduce gap between label and input */
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 80%; /* Increase input width */
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.custom-table th,
+.custom-table td {
+    padding: 6px; /* Reduce padding */
+    text-align: left;
+}
+
+@media (max-width: 768px) {
+    .form-group {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .form-group label {
+        width: 100%;
+        margin-bottom: 5px;
+    }
+
+    .form-group input,
+    .form-group select,
+    .form-group textarea {
+        width: 100%;
+    }
+}
+.custom-table {
+    width: 100%;
+
+    margin-bottom: 20px;
+}
+
+/* Reduce label space */
+.custom-table td:first-child {
+    width: 30%; /* Adjust based on your needs */
+    padding: 8px 10px;
+    white-space: nowrap; /* Prevent label wrapping */
+}
+
+/* Increase input space */
+.custom-table td:last-child {
+    width: 70%; /* Remaining space for inputs */
+}
+
+.custom-table input {
+    width: 100%; /* Make inputs fill their container */
+    padding: 10px 12px; /* Increase input field padding */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Optional: Style labels for better alignment */
+.custom-table label {
+    display: block;
+    padding-right: 15px;
+    font-weight: 500;
+    text-align: right; /* Align labels to the right */
+}
+.custom-table th {
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+.btn {
+    display: inline-block;
+    background-color: #7d2ae8;
+    color: #fff;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+.btn:hover {
+    background-color: #5c1bb7;
+}
+
+@media (max-width: 768px) {
+    .form-container {
+        padding: 20px;
+    }
+}
+.modal {
+display: none;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+background: rgba(0, 0, 0, 0.5);
+justify-content: center;
+align-items: center;
+z-index: 10;
+}
+
+.modal-content {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 90%;
+    overflow-y: auto;
+}
+
+.popup-overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 999;
+}
+
+.popup-container {
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+    z-index: 1000;
+}
+.footer {
+text-align: center;
+padding: 10px;
+color: white;
+background-color: rgb(49, 45, 45);
+border-top: 1px solid #e7e7e7;
+margin-top: auto;
+}
+.custom-table1 {
+width: 100%;
+border-collapse: collapse; /* Ensures borders are merged */
+margin-bottom: 20px;
+border: 1px solid black; /* Add border to the entire table */
+}
+
+.custom-table1 th,
+.custom-table1 td {
+border: 1px solid black; /* Add border to each cell */
+padding: 8px; /* Add padding for better spacing */
+text-align: left; /* Align text to the left */
+}
+
+.custom-table1 th {
+background-color: #f4f4f4; /* Add background color to headers */
+color: #333; /* Set text color for headers */
+}
+.custom-table-container {
+max-height: 300px; /* Adjust the height as needed */
+overflow-y: auto;
+border: 1px solid #ccc;
+}
+
+.modal-content {
+max-height: 500px; /* Adjust modal height as needed */
+overflow-y: auto;
+}
+
+.input-container {
+    display: flex;
+    align-items: center;
+    font-weight: bold; /* Makes all text inside bold */
+}
+
+.small-box {
+    width: 80px; /* Adjust as needed */
+    height: 35px; /* Adjust to match the design */
+    font-size: 18px; /* Increase font size for readability */
+    text-align: center;
+    border: 2px solid black;
+    border-radius: 5px;
+    font-weight: bold; /* Ensures input text is bold */
+    margin-right: 5px;
+}
+
+.unit {
+    font-weight: bold;
+    font-size: 18px;
+}
+
+
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #282525;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: clamp(0.8rem, 1.2vw, 1rem);
+            transition: color 0.3s ease;
+            padding: 5px 10px;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+
+/* Hamburger Menu Styles */
+.hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+        position: absolute;
+        right: 20px;
+        top: 15px;
+    }
+
+    .sidebar {
+        position: fixed;
+        right: -50%;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background-color: #282525;
+        transition: right 0.3s ease;
+        z-index: 1000;
+        padding-top: 20px;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #444;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    @media (max-width: 768px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hamburger {
+            display: block;
+        }
+    }
+
+
+     /* Table Scorallable */
+     .table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .table-wrapper table {
+            min-width: 100%;
+            width: auto;
+        }
+
+        .table-wrapper th,
+        .table-wrapper td {
+            white-space: nowrap;
+        }
+        .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 50px;  /* ✅ Rounded */
+    font-weight: bold;
+    text-align: center;
+    min-width: 150px;
+}
+
+/* ✅ Status Colors */
+.status-open { background-color: rgb(0, 203, 0); color: white; }
+.status-in-progress { background-color: yellow; color: black; }
+.status-completed { background-color: red; color: white; }
+.status-unknown { background-color: gray; color: white; }
+
+/* ✅ Small Status Circle */
+.status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: currentColor;
+}
+#applicantTitle {
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+#flash-message {
+            width: 80%; 
+            max-width: 600px;
+            padding: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            background-color: #10f85d; /* Your preferred color */
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Ensure it stays in place */
+            top: 50%; /* Position vertically at the center */
+            left: 50%; /* Position horizontally at the center */
+            transform: translate(-50%, -50%); /* Offset it by 50% of its own size */
+            z-index: 9999; /* Ensure it stays on top of other elements */
+    }
+
+
+/*Search bar for container and consignee*/
+/* Search Bar Styles */
+.search-container {
+  margin: 20px 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.search-input {
+  padding: 8px 12px;
+  border: 2px solid #ddd;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  transition: border-color 0.3s ease;
+}
+
+.search-input:focus {
+  border-color: #646cff;
+  outline: none;
+}
+input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+        background-color: gold;
+        color: black;
+        border: 1px solid black;
+        padding: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Adjust the search inputs and small inputs if necessary */
+    .search-input,
+    .small-box {
+        background-color: gold;
+        color: black;
+        border: 1px solid black;
+        padding: 5px;
+    }
+
+    /* Style buttons for consistency */
+    .btn {
+        background-color: black;
+        color: gold;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .btn:hover {
+        background-color: gold;
+        color: black;
+        border: 1px solid black;
+    }
+</style>
+
+    
+
+</head>
+<body>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div id="flash-message" class="fixed top-5 left-1/2 transform -translate-x-1/2 max-w-4xl w-full text-white text-center p-8 rounded-lg shadow-lg">
+            {% for category, message in messages %}
+                <div class="bg-{{ 'green-500' if category == 'success' else 'red-500' }} p-6 rounded-lg text-2xl font-semibold">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        </div>
+    {% endif %}
+    {% endwith %}
+    <div class="form-container">
+        <div class="form-header">
+             <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <a href="{{ url_for('forms') }}" 
+            style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: 0.3s;"
+            onmouseover="this.style.backgroundColor='#0056b3'"
+            onmouseout="this.style.backgroundColor='#007bff'">
+            Back
+         </a>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                    <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                    <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+            <button class="hamburger">
+                <i class="fa fa-bars"></i>
+            </button>
+            
+            <div class="sidebar" id="sidebar">
+                <ul>
+                    <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                    <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                    <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-backdrop"></div>
+            
+        </div>
+        
+       <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:#da3936 ;">VIKING MARINE INC.</h1>           
+               <p> #143, Dinnur Village, Kadugodi Colony, Opp. India Satcom, Whitefield, Bangalore-560 067</p>
+            <p>Ph: +91-80-6561240 | Email: info@vikingmarine.com</p>
+        </div>
+        {% if form %}
+        <p><strong>Report Number:</strong> {{ form.CertificateNumber }}</p>
+        <p><strong>Status:</strong> 
+            <span class="status-indicator 
+                {% if form.status == 'Open' %}status-open
+                {% elif form.status == 'In Progress' %}status-in-progress
+                {% elif form.status == 'Completed' %}status-completed
+                {% else %}status-unknown{% endif %}">
+                <span class="status-circle"></span> 
+                {{ form.status }}
+            </span>
+        </p>
+    {% else %}
+        <p>No record found.</p>
+    {% endif %}
+    
+
+        <div class="text-center bg-red-600 text-white py-2 mb-4">
+            <h2 class="text-lg font-semibold">FCL STUFFING SURVEY REPORT FORM</h2>
+        </div>
+        <form method="POST" action="{{ url_for('submitem') }}">
+            <table class="custom-table">
+                <tr>
+                    <th>Report Number</th>
+                    <td><input type="text" id="CertificateNumber" name="CertificateNumber" ></td>
+                </tr>
+                <tr>
+                    <th>Date</th>
+                    <td><input type="date" id="date" name="date" ></td>
+                </tr>
+            </table>
+
+            <h1 class="text-xl font-bold text-black">Applicant Details</h1>
+
+            <button id="add-container-btn" class="btn" >Add Container</button>
+            <div id="add-container-modal" class="modal">
+                <div class="modal-content">
+                    <div class="custom-table-container">
+                        <div class="search-container">
+                            <input type="text" class="search-input"  id="containerSearch" placeholder="Search all columns...">
+                          </div>
+                    <h4>Select Container Details</h4>
+                    <div class="table-wrapper">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                                <th>Select</th>
+                                <th>Container Number</th>
+                                <th>Applicant Name</th>
+                                <th>Size/Type</th>
+                                <th>Tare Weight (in Kgs)</th>
+                                <th>Payload Capacity (in Kgs)</th>
+                                <th>Declared Total Weight of the Container (in Kgs)</th>
+                                <th>status</th>
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+                    <button id="add-container-to-main" class="btn">Add Selected</button>
+                    <button id="close-container-modal" class="btn">Close</button>
+                </div>
+                </div>
+            </div>
+            
+            <!-- Add Consignment Modal -->
+            <div id="modal" class="modal">
+                <div class="modal-content">
+
+                <div class="custom-table-container">
+                    <div class="search-container">
+                        <input type="text" class="search-input"  id="consignmentSearch" placeholder="Search all columns...">
+                      </div>
+                    <h4>Select Consignment Details</h4>
+                    <div class="table-wrapper">
+                    <table class="custom-table">
+                        <thead>
+                            <tr>
+                            <!-- Modal Table -->
+                            <thead>
+                                <tr>
+                                    <th>Select</th>
+                                    <th>ID</th>              <!-- ✅ Matches JavaScript -->
+                                    <th>Shipper</th>         <!-- ✅ Matches JavaScript -->
+                                    <th>Consignee</th>
+                                    <th>Description of Cargo</th>
+                                    <th>Marks & Nos.</th>
+                                    <th>No. of Packages</th>
+                                    <th>Gross Weight (Kgs)</th>
+                                    <th>Volume (CBM)</th>
+                                    <th>Status</th>          <!-- ✅ Status included -->
+                            </tr>
+                        </thead>
+                        <tbody></tbody>
+                    </table>
+                    </div>
+                    <button id="fill-table" class="btn">Add Selected</button>
+                    <button id="close-modal" class="btn">Close</button>
+                </div>
+            </div>
+            </div>
+        
+            <div class="table-wrapper">
+            <table class="custom-table">
+                <tr>
+                    <th>Applicant Name</th>
+                    <td>
+                        <select id="applicantTitle" class="border border-gray-300 p-1" style="width: 60px;">
+                            <option value="Mr">Mr</option>
+                            <option value="M/s">M/s</option>
+                        </select>
+                        <input type="text" id="applicantNameInput">
+                        <input type="hidden" name="applicantName" id="applicantName" />
+                    </td>
+                    
+                   
+
+                </tr>
+                <tr>
+                    <th>Container Number</th>
+                    <td><input type="text" id="containerNumber" name="containerNumber" ></td>
+                </tr>
+                <tr>
+                    <th>Size/Type</th>
+                    <td><input type="text" id="sizeType" name="sizeType"></td>
+                </tr>
+                <tr>
+                    <th>Tare Weight (in Kgs)</th>
+                    <td><input type="number" id="tareWeight" name="tareWeight"></td>
+                </tr>
+                <tr>
+                    <th>Payload Capacity (in Kgs)</th>
+                    <td><input type="number" id="payloadCapacity" name="payloadCapacity"></td>
+                </tr>
+                <tr>
+                    <th>Declared Total Weight of the Container (in Kgs)</th>
+                    <td><input type="number" id="declaredTotalWeight" name="declaredTotalWeight"></td>
+                </tr>
+            </table>
+            </div>
+            
+            <h1 class="text-xl font-bold text-black">Stuffing Details</h1>
+            <div class="table-wrapper">
+            <table id="added-containers-table" class="custom-table">
+                <tr>
+                    <th>Stuffing Commencement Date & Time</th>
+                    <td>
+                        <input type="datetime-local" id="stuffingCommDateTime" name="stuffingCommDateTime" step="1">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Stuffing Completion Date & Time</th>
+                    <td>
+                        <input type="datetime-local" id="stuffingCompDateTime" name="stuffingCompDateTime" step="1">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Seal Number(s)</th>
+                    <td><input type="text" id="sealNumber" name="sealNumber"></td>
+                </tr>
+                <tr>
+                    <th>Seal Date & Time</th>
+                    <td>
+                        <input type="datetime-local" id="sealDateTime" name="sealDateTime" step="1">
+                    </td>
+                </tr>
+                <tr>
+                    <th>Port of Discharge</th>
+                    <td><input type="text" id="portOfDischarge" name="portOfDischarge"></td>
+                </tr>
+                <tr>
+                    <th>Place of Stuffing</th>
+                    <td><input type="text" id="placeOfStuffing" name="placeOfStuffing"></td>
+                </tr>
+                <tr>
+                    <th>Total Packages</th>
+                    <td class="input-container">
+                        <input type="text" id="totalPackages" name="totalPackages" readonly class="small-box"> 
+                        <span class="unit">Pk.gs</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Volume</th>
+                    <td class="input-container">
+                        <input type="text" id="volume" name="volume" readonly class="small-box"> 
+                        <span class="unit">CBM</span>
+                    </td>
+                </tr>
+                <tr>
+                    <th>Gross Weight</th>
+                    <td class="input-container">
+                        <input type="text" id="grossWeight" name="grossWeight" readonly class="small-box">
+                        <span class="unit">Kgs</span>
+                    </td>
+                </tr>
+                <th>Total Wt. Of the Container</th>
+                <td class="input-container">
+                    <input type="text" id="TotalContainerWeight" name="TotalContainerWeight" readonly class="small-box">
+                    <span class="unit">Kgs</span>
+                </td>
+            </tr>
+<!-- Remove CBM and add Total Packages and Volume fields -->
+
+
+
+    
+</table>
+</div>
+
+            <h1 class="text-xl font-bold text-black">Consignment Details</h1>
+            <div class="table-container">
+                <div class="table-wrapper">
+                <table class="custom-table1" id="main-table">
+                    <thead>
+                        <tr>
+<!-- Main Table -->
+                        <thead>
+                            <tr>
+                                <th>ID</th>              <!-- ✅ Matches JavaScript -->
+                                <th>Shipper</th>
+                                <th>Consignee</th>
+                                <th>Description of Cargo</th>
+                                <th>Marks & Nos.</th>
+                                <th>No. of Packages</th>
+                                <th>Gross Weight (Kgs)</th>
+                                <th>Volume (CBM)</th>
+                            </tr>
+                        </thead>
+                    <tbody>
+                        <!-- Add consignment details here -->
+                    </tbody>
+                </table>
+                </div>
+                <button id="open-modal" class="btn">Add Consignment Details</button>
+            </div>
+        
+
+            <h3>Remarks</h3>
+            <div class="table-wrapper">
+            <table class="custom-table">
+                <tr>
+                    <th>Loading Condition</th>
+                    <td><input type="text" id="loadingCondition" name="loadingCondition"></td>
+                </tr>
+                <tr>
+                    <th>Lashing</th>
+                    <td><input type="text" id="lashing" name="lashing"></td>
+                </tr>
+                <tr>
+                    <th>Others</th>
+                    <td><textarea id="others" name="others"></textarea></td>
+                </tr>
+            </table>
+            </div>
+            <h1 class="text-xl font-bold text-black">Weather Condition</h1>
+            <div class="form-group">
+                <select name="weatherCondition" >
+                    <option value="Sunny">Sunny</option>
+                    <option value="Rainy">Rainy</option>
+                    <option value="Normal">Normal</option>
+                </select>
+            </div>
+
+            <h1 class="text-xl font-bold text-black">Surveyor Details</h1>
+            <div class="table-wrapper">
+            <table class="custom-table">
+                <tr>
+                    <th>Name of Surveyor</th>
+                    <td><input type="text" id="surveyorName" name="surveyorName" required></td>
+                </tr>
+                <tr>
+                    <th>Signature</th>
+                    <td><input type="text" id="signature" name="signature"></td>
+                </tr>
+            </table>
+            </div>
+            <input type="hidden" id="consignmentDetails" name="consignmentDetails">
+            <button type="submit" name="action" value="Save as Draft" class="btn btn-secondary">Save as Draft</button>
+
+            <button type="submit" class="btn">Submit</button>
+
+            <button type="submit" id="submitNew" class="btn">Submit and New</button>
+
+
+        </form>
+        <button onclick="generateFCLReportPDF()" class="fixed bottom-8 right-8 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-700 z-50 flex items-center space-x-2">
+            <i class="fas fa-print"></i>
+            <span>Print PDF</span>
+        </button>
+            <!-- Footer -->
+    <footer class="footer">
+        &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+    </footer>
+    </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <script>
+
+function generateFCLReportPDF() {
+    try {
+        // Create hidden containers for PDF content (two pages)
+        const pdfContainer1 = document.createElement('div');
+        pdfContainer1.style.position = 'fixed';
+        pdfContainer1.style.left = '-9999px';
+        pdfContainer1.style.width = '794px'; // A4 width
+        pdfContainer1.style.padding = '20px';
+        document.body.appendChild(pdfContainer1);
+
+        const pdfContainer2 = document.createElement('div');
+        pdfContainer2.style.position = 'fixed';
+        pdfContainer2.style.left = '-9999px';
+        pdfContainer2.style.width = '794px';
+        pdfContainer2.style.padding = '20px';
+        document.body.appendChild(pdfContainer2);
+
+        // Safe value getter with fallback
+        const getValue = (id) => {
+            const element = document.getElementById(id);
+            return element && element.value ? element.value.trim() : 'N/A';
+        };
+
+        // Get applicant name components safely
+        const applicantTitle = document.getElementById('applicantTitle')?.value || '';
+        const applicantNameInput = document.getElementById('applicantNameInput')?.value || '';
+        const applicantName = `${applicantTitle} ${applicantNameInput}`.trim();
+
+        // Build consignment details table rows
+        let consignmentRows = '';
+        const mainTableRows = document.querySelectorAll('#main-table tbody tr');
+        mainTableRows.forEach(row => {
+            const cells = row.querySelectorAll('td');
+            if (cells.length >= 8) {
+                consignmentRows += `
+                    <tr>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[1]?.textContent || 'N/A'}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[2]?.textContent || 'N/A'}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[3]?.textContent || 'N/A'}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[4]?.textContent || 'N/A'}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[5]?.textContent || 'N/A'}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[6]?.textContent || 'N/A'}</td>
+                        <td style="border: 1px solid #000; padding: 8px;">${cells[7]?.textContent || 'N/A'}</td>
+                    </tr>
+                `;
+            }
+        });
+
+        // Build summary boxes HTML dont remove this
+        const summaryBoxesHTML = `
+        `;
+
+        // Generate header HTML
+        const generateHeader = () => `
+            <div class="header" style="display: flex; align-items: center; text-align: center;">
+                <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" 
+                    style="height: 120px; margin-right: 72px; margin-top: 10px;">
+                <div style="text-align: center; flex-grow: 1; margin-left: -100px;">
+                    <h1 style="font-family: 'Cooper Black', sans-serif; font-size: 28px; margin: 0;">
+                        VIKING MARINE INC.
+                    </h1>
+                    <div style="margin-top: 3px; line-height: 1.2;">
+                        <p style="margin: 0; font-weight: bold;">SURVEYORS AND CONSULTING ENGINEERS</p>
+                        <p style="margin: 0;"># 143,Dinnur Village, Opp. India SATCOM, Kadugodi Post Bangalore - 560067.</p>
+                        <p style="margin: 0;">Ph.: +919036015240, +919035015240 &amp; +919036015243</p>
+                        <p style="margin: 0;">E-mail : ops@vikingmarine.in, Website : www.vikingmarine.in</p>
+                    </div>
+                </div>
+            </div>
+            <br>
+            <table class="pdf-tableh">
+                <tr>
+                    <td><strong>Report No.:</strong> ${getValue('CertificateNumber')}</td>
+                    <td><strong>Date:</strong> ${new Date(getValue('date')).toLocaleDateString('en-GB') || ''}</td>
+                </tr>
+            </table>
+        `;
+
+        // Shared styles for both pages
+        const allStyles = `
+            <style>
+                .certificate-title {
+                    text-align: center;
+                    background-color: #b91c1c;
+                    color: white;
+                    padding: 10px;
+                    font-size: 16px;
+                    font-weight: bold;
+                    margin-top: 10px;
+                }
+                .pdf-table {
+                    width: 100%; 
+                    border-collapse: collapse; 
+                    margin: 15px 0;
+                }
+                .pdf-table td, .pdf-table th {
+                    border: 1px solid #000;
+                    padding: 8px;
+                    text-align: center;
+                }
+.pdf-tableh {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  text-align: left;
+}
+
+.pdf-tableh th,
+.pdf-tableh td {
+  border: none;
+  padding: 6px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.pdf-tableh td:last-child {
+  text-align: right;
+}
+                @media print {
+                    .header {
+                        position: fixed;
+                        top: 0;
+                        background: white;
+                        padding-bottom: 10px;
+                    }
+                    .pdf-tableh {
+                        margin-top: 150px;
+                    }
+                }
+            </style>
+        `;
+
+        // Page 1 Content (up to summary boxes)
+        pdfContainer1.innerHTML = `
+            ${allStyles}
+            ${generateHeader()}
+            <h2 class="certificate-title">STUFFING SURVEY REPORT </h2>
+            <table class="pdf-table">
+                <tbody>
+                    <tr>
+                        <th>Applicant for Survey</th>
+                        <td colspan="3">${applicantName}</td>
+                    </tr>
+                    <tr>
+                        <th>Container No.</th>
+                        <td>${getValue('containerNumber')}</td>
+                        <th>Stuffing Comm. Date and Time</th>
+                        <td>${getValue('stuffingCommDateTime')}</td>
+                    </tr>
+                    <tr>
+                        <th>Size/Type</th>
+                        <td>${getValue('sizeType')}</td>
+                        <th>Stuffing Completion Date and Time</th>
+                        <td>${getValue('stuffingCompDateTime')}</td>
+                    </tr>
+                    <tr>
+                        <th>Tare Weight (Kgs)</th>
+                        <td>${getValue('tareWeight')} </td>
+                        <th>Seal Number</th>
+                        <td>${getValue('sealNumber')}</td>
+                    </tr>
+                    <tr>
+                        <th>Payload Capacity (Kgs)</th>
+                        <td>${getValue('payloadCapacity')}</td>
+                        <th>Seal Date & Time</th>
+                        <td>${getValue('sealDateTime')}</td>
+                    </tr>
+                    <tr>
+                        <th>Port of Discharge</th>
+                        <td>${ getValue('portOfDischarge')}</td>
+                        <th>Place of Inspection</th>
+                        <td>${getValue('placeOfStuffing')}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Details of Consignment: (As declared)</h3>
+            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+                <thead>
+                    <tr>
+                        <th style="border: 1px solid #000; padding: 8px;">Consignor</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Consignee</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Description</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Marks & Nos.</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Package Count</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Gross Weight (Kgs)</th>
+                        <th style="border: 1px solid #000; padding: 8px;">Volume</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    ${consignmentRows || '<tr><td colspan="7">No consignment data available</td></tr>'}
+                </tbody>
+            </table>
+            ${summaryBoxesHTML}
+        `;
+
+        // Page 2 Content (remarks and surveyor details)
+        pdfContainer2.innerHTML = `
+    <div class="header" style="display: flex; align-items: center; text-align: center; padding-bottom: 10px;">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" 
+            style="height: 120px; margin-right: 50px; margin-top: 10px;">
+        <div style="text-align: center; flex-grow: 1; margin-left: -100px;">
+            <h1 style="font-family: 'Cooper Black', sans-serif; font-size: 28px; margin: 0;">
+                VIKING MARINE INC.
+            </h1>
+            <div style="margin-top: 3px; line-height: 1.2;">
+                <p style="margin: 0; font-weight: bold;">SURVEYORS AND CONSULTING ENGINEERS</p>
+                <p style="margin: 0;"># 143, Dinnur Village, Opp. India SATCOM, Kadugodi Post Bangalore - 560067.</p>
+                <p style="margin: 0;">Ph.: +919036015240, +919035015240 &amp; +919036015243</p>
+                <p style="margin: 0;">E-mail : ops@vikingmarine.in, Website : www.vikingmarine.in</p>
+            </div>
+        </div>
+    </div>
+    <table class="pdf-tableh" style="width: 100%; border-collapse: collapse; margin-bottom: 30px;">
+        <tr>
+            <td><strong>Report No.:</strong> ${getValue('CertificateNumber')}</td>
+            <td><strong>Date:</strong> ${new Date(getValue('date')).toLocaleDateString('en-GB') || ''}</td>
+        </tr>
+    </table>
+    
+    <div style="display: grid; grid-template-columns: repeat(4, 1fr); gap: 5px; margin-bottom: 20px;">
+        ${['volume', 'totalPackages', 'grossWeight','TotalContainerWeight'].map(id => {
+            const value = getValue(id);
+            const labels = {
+                volume: { title: 'Total Volume', unit: 'CBM' },
+                totalPackages: { title: 'Total Packages', unit: 'Pkgs' },
+                grossWeight: { title: 'Total Gross Wt. In Kgs (As Declared)', unit: 'Kgs' },
+                TotalContainerWeight : { title: 'Total Wt. of the container ', unit: 'Kgs' }
+            };
+            return `
+                <div style="border: 1px solid #000; padding: 15px; text-align: center;">
+                    <h3 style="font-weight: bold; margin-bottom: 5px;">${labels[id].title}</h3>
+                    <p style="font-size: 18px; font-weight: bold;">
+                        ${value} ${labels[id].unit}
+                    </p>
+                </div>
+            `;
+        }).join('')}
+    </div>
+    
+    <br>
+
+    ${allStyles}
+    <h3 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Remarks</h3>
+    <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px;">
+        ${Object.entries({
+            'Loading Condition': getValue('loadingCondition'),
+            'Lashing': getValue('lashing'),
+            'Others': getValue('others')
+        }).map(([key, value]) => `
+            <tr>
+                <td style="border: 1px solid #000; padding: 8px; font-weight: bold; width: 30%;">${key}</td>
+                <td style="border: 1px solid #000; padding: 8px; width: 70%;">${value}</td>
+            </tr>
+        `).join('')}
+    </table>
+    <div class="mt-8 w-full">
+        <div style="text-align: left;">
+            
+            <p style="margin-top: 5px;">Surveyor: ${getValue('surveyorName')}</p><br><br>
+            <p class="text-sm text-left font-bold" style="text-transform: uppercase;">
+                "ISSUED WITHOUT PREJUDICE"
+            </p>
+        </div>
+        <br>
+        <div style="text-align: right;">
+            <p class="font-semibold">
+                For Viking Marine Inc.<br><BR><BR>
+                Authorised Signatory
+            </p>
+        </div>
+    </div>
+</div>
+
+        `;
+
+        // Generate PDF
+        const pdfOptions = { 
+            scale: 2,
+            useCORS: true,
+            logging: true
+        };
+
+        html2canvas(pdfContainer1, pdfOptions).then(canvas1 => {
+    html2canvas(pdfContainer2, pdfOptions).then(canvas2 => {
+        const pdf = new jspdf.jsPDF('p', 'mm', 'a4');
+        const pageWidth = pdf.internal.pageSize.getWidth();
+        const pageHeight = pdf.internal.pageSize.getHeight();
+        const borderMargin = 5;  // Border margin from page edges
+
+        // Add first page with border
+        const imgHeight1 = (canvas1.height * pageWidth) / canvas1.width;
+        pdf.addImage(canvas1, 'PNG', 0, 0, pageWidth, imgHeight1);
+        pdf.rect(borderMargin, borderMargin, pageWidth - 2 * borderMargin, pageHeight - 2 * borderMargin);
+
+        // Add second page with border
+        pdf.addPage();
+        const imgHeight2 = (canvas2.height * pageWidth) / canvas2.width;
+        pdf.addImage(canvas2, 'PNG', 0, 0, pageWidth, imgHeight2);
+        pdf.rect(borderMargin, borderMargin, pageWidth - 2 * borderMargin, pageHeight - 2 * borderMargin);
+
+        pdf.save('FCL_Report.pdf');
+        document.body.removeChild(pdfContainer1);
+        document.body.removeChild(pdfContainer2);
+    });
+}).catch(error => {
+    console.error('Error generating PDF:', error);
+    alert('Error generating PDF. Please check the console for details.');
+});
+    } catch (error) {
+        console.error('Error generating PDF:', error);
+        alert('Error generating PDF. Please check the console for details.');
+    }
+}
+    document.addEventListener("DOMContentLoaded", function() {
+        function updateApplicantName() {
+            const title = document.getElementById("applicantTitle").value;
+            const name = document.getElementById("applicantNameInput").value.trim();
+            document.getElementById("applicantName").value = title + " " + name;
+        }
+
+        // Update hidden field when dropdown or input changes
+        document.getElementById("applicantTitle").addEventListener("change", updateApplicantName);
+        document.getElementById("applicantNameInput").addEventListener("input", updateApplicantName);
+    });
+
+
+                //flash message
+                setTimeout(() => {
+            document.getElementById('flash-message').style.display = 'none';
+        }, 10000);
+
+
+
+document.getElementById("submitNew").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        let form = document.querySelector("form");
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "action";
+        input.value = "Submit and New";
+        form.appendChild(input);
+        form.submit();
+        
+        // Redirect after form submission
+        form.addEventListener("submitNew", function() {
+            window.location.href = "{{ url_for('emp') }}";
+        });
+    });
+
+
+
+document.getElementById("add-container-btn").addEventListener("click", function () {
+    fetch('/get_containers')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#add-container-modal tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9">No containers available</td></tr>';
+                return;
+            }
+
+            data.forEach(container => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td><input type="checkbox" class="container-check" data-row="${container.container_no}"></td>
+                    <td>${container.container_no}</td>
+                    <td>${container.applicant_for_survey}</td>
+                    <td>${container.size}</td>
+                    <td>${container.tare_weight}</td>
+                    <td>${container.payload_capacity}</td>
+                    <td>${container.max_gross_weight}</td>
+                    <td>${container.status}</td>  <!-- ✅ Added Status Column -->
+                `;
+                tbody.appendChild(row);
+            });
+        })
+        .catch(error => console.error('Error fetching container details:', error));
+
+    document.getElementById('add-container-modal').style.display = 'flex';
+});
+
+
+document.getElementById("open-modal").addEventListener("click", function () {
+    fetch('/get_consignment_details')
+        .then(response => response.json())
+        .then(data => {
+            const tbody = document.querySelector('#modal tbody');
+            tbody.innerHTML = ''; // Clear existing rows
+
+            if (data.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9">No consignments available</td></tr>';
+                return;
+            }
+
+            data.forEach(consignment => {
+                    const row = document.createElement('tr');
+                    row.innerHTML = `
+                        <td><input type="checkbox" class="row-check" data-row="${consignment.id}"></td>
+                        <td>${consignment.id}</td>  <!-- ✅ ID Correct -->
+                        <td>${consignment.shipper}</td>
+                        <td>${consignment.consignee}</td>
+                        <td>${consignment.commodity}</td>  <!-- ✅ Matches "Description of Cargo" -->
+                        <td>${consignment.sb_number}</td>  <!-- ✅ Matches "Marks & Nos." -->
+                        <td>${consignment.total_pkgs}</td>
+                        <td>${consignment.gross_weight}</td>
+                        <td>${consignment.total_volume}</td>
+                        <td>${consignment.status}</td>  <!-- ✅ Matches "Status" -->
+                    `;
+                    tbody.appendChild(row);
+                });
+
+        })
+        .catch(error => console.error('Error fetching consignment details:', error));
+
+    document.getElementById('modal').style.display = 'flex';
+});
+
+
+// Close modals
+document.getElementById("close-container-modal").addEventListener("click", function() {
+    document.getElementById("add-container-modal").style.display = "none";
+});
+
+document.getElementById("close-modal").addEventListener("click", function() {
+    document.getElementById("modal").style.display = "none";
+});
+
+// Add selected container to main form
+document.getElementById("add-container-to-main").addEventListener("click", function () {
+    const selectedRow = document.querySelector(".container-check:checked");
+
+    if (selectedRow) {
+        const row = selectedRow.closest("tr");
+        const cells = row.querySelectorAll("td");
+
+        document.getElementById("containerNumber").value = cells[1].textContent.trim();
+
+        // Split applicant name into title and name
+        const fullName = cells[2].textContent.trim();
+        if (fullName.startsWith("Mr") || fullName.startsWith("M/s")) {
+            const [title, ...nameParts] = fullName.split(" ");
+            document.getElementById("applicantTitle").value = title;
+            document.getElementById("applicantNameInput").value = nameParts.join(" ").trim();
+        } else {
+            // Default if no title found
+            document.getElementById("applicantTitle").value = "Mr";
+            document.getElementById("applicantNameInput").value = fullName;
+        }
+
+        // Update hidden input with combined title and name
+        document.getElementById("applicantName").value = document.getElementById("applicantTitle").value + " " + document.getElementById("applicantNameInput").value.trim();
+
+        document.getElementById("sizeType").value = cells[3].textContent.trim();
+        document.getElementById("tareWeight").value = cells[4].textContent.trim();
+        document.getElementById("payloadCapacity").value = cells[5].textContent.trim();
+        document.getElementById("declaredTotalWeight").value = cells[6].textContent.trim();
+
+        document.getElementById('add-container-modal').style.display = 'none';
+    } else {
+        alert("Please select a container to add!");
+    }
+});
+
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    // Handle filling the table and update totals
+    document.getElementById('fill-table').addEventListener('click', function () {
+        const selectedRows = document.querySelectorAll('.modal-content .row-check:checked');
+        const mainTableBody = document.querySelector('#main-table tbody');
+
+        let consignmentDetails = [];
+        const existingConsignments = document.getElementById('consignmentDetails').value;
+        if (existingConsignments) {
+            consignmentDetails = JSON.parse(existingConsignments);
+        }
+
+        let totalPackages = parseInt(document.getElementById('totalPackages').value) || 0;
+        let totalVolume = parseFloat(document.getElementById('volume').value) || 0;
+        let totalGrossWeight = parseFloat(document.getElementById('grossWeight').value) || 0;
+
+        if (selectedRows.length === 0) {
+            alert("Please select at least one consignment!");
+            return;
+        }
+
+        selectedRows.forEach((checkbox) => {
+            const row = checkbox.closest('tr');
+            const cells = row.querySelectorAll('td');
+
+            const consignmentId = checkbox.getAttribute('data-row');
+            const packages = parseInt(cells[6].textContent.replace(/[^0-9]/g, ''), 10) || 0;
+            const grossWeight = parseFloat(cells[7].textContent.replace(/[^0-9.]/g, '')) || 0;
+            const volume = parseFloat(cells[8]?.textContent?.replace(/[^0-9.]/g, '') || 0);
+
+            const consignment = {
+                id: consignmentId,
+                consignor: cells[2].textContent.trim(),
+                consignee: cells[3].textContent.trim(),
+                description: cells[4].textContent.trim(),
+                marksNos: cells[5].textContent.trim(),
+                packages: packages,
+                gross_weight: grossWeight.toFixed(2),
+                volume: volume.toFixed(2)
+            };
+
+            consignmentDetails.push(consignment);
+
+            const newRow = document.createElement('tr');
+            newRow.innerHTML = `
+                <td>${consignmentId}</td>
+                <td>${cells[2].textContent.trim()}</td>
+                <td>${cells[3].textContent.trim()}</td>
+                <td>${cells[4].textContent.trim()}</td>
+                <td>${cells[5].textContent.trim()}</td>
+                <td>${packages}</td>
+                <td>${grossWeight.toFixed(2)}</td>
+                <td>${volume.toFixed(2)}</td>
+            `;
+
+            mainTableBody.appendChild(newRow);
+
+            totalPackages += packages;
+            totalGrossWeight += grossWeight;
+            totalVolume += volume;
+        });
+
+        // Update totals
+        document.getElementById('totalPackages').value = totalPackages;
+        document.getElementById('grossWeight').value = totalGrossWeight.toFixed(2);
+        document.getElementById('volume').value = totalVolume.toFixed(2);
+
+        document.getElementById('consignmentDetails').value = JSON.stringify(consignmentDetails);
+        updateTotalContainerWeight();
+        // Ensure Seal Date & Time is populated
+
+        document.getElementById('modal').style.display = 'none';
+    });
+});
+
+// Function to update total container weight
+document.addEventListener('DOMContentLoaded', () => {
+        const grossWeightInput = document.getElementById('grossWeight');
+        const tareWeightInput = document.getElementById('tareWeight');
+
+        // Add event listeners to recalculate total when inputs change
+        grossWeightInput.addEventListener('input', updateTotalContainerWeight);
+        tareWeightInput.addEventListener('input', updateTotalContainerWeight);
+    });
+
+    function updateTotalContainerWeight() {
+        const grossWeight = parseFloat(document.getElementById('grossWeight').value) || 0;
+        const tareWeight = parseFloat(document.getElementById('tareWeight').value) || 0;
+        
+        const totalContainerWeight = grossWeight + tareWeight;
+        document.getElementById('TotalContainerWeight').value = totalContainerWeight.toFixed(2);
+    }
+
+// Add event listeners to both inputs
+document.getElementById('tareWeight').addEventListener('input', updateTotalContainerWeight);
+document.getElementById('grossWeight').addEventListener('input', updateTotalContainerWeight);
+
+// Update total weight initially in case of pre-filled values
+window.addEventListener('DOMContentLoaded', updateTotalContainerWeight);
+
+
+
+
+// Fetch certificate number on page load
+document.addEventListener("DOMContentLoaded", function () {
+    fetch("/get_latest_", { headers: { "X-Requested-With": "XMLHttpRequest" } })  
+        .then(response => response.json())  
+        .then(data => {
+            document.getElementById("CertificateNumber").value = data.CertificateNumber;
+        })
+        .catch(error => console.error("Error fetching certificate number:", error));
+});
+
+// Set today's date as default
+
+
+
+document.addEventListener('DOMContentLoaded', function() {
+    const hamburger = document.querySelector('.hamburger');
+    const sidebar = document.getElementById('sidebar');
+    const backdrop = document.querySelector('.sidebar-backdrop');
+
+    // Toggle sidebar
+    hamburger.addEventListener('click', function(e) {
+        e.stopPropagation();
+        sidebar.classList.toggle('active');
+        backdrop.classList.toggle('active');
+    });
+
+    // Close sidebar when clicking anywhere
+    document.addEventListener('click', function(e) {
+        if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+            sidebar.classList.remove('active');
+            backdrop.classList.remove('active');
+        }
+    });
+
+    // Close sidebar when clicking backdrop
+    backdrop.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        this.classList.remove('active');
+    });
+
+    // Close sidebar when clicking a link
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            sidebar.classList.remove('active');
+            backdrop.classList.remove('active');
+        });
+    });
+});
+
+
+// Table search functionality
+// Container Search Handler
+document.getElementById('containerSearch').addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase();
+    const tbody = document.querySelector('#add-container-modal tbody');
+    const rows = tbody.querySelectorAll('tr');
+    let hasMatches = false;
+
+    // Remove any existing "no data" messages
+    tbody.querySelectorAll('.no-data-row').forEach(row => row.remove());
+
+    rows.forEach(row => {
+        // Skip existing message rows
+        if (row.classList.contains('no-data-row')) return;
+
+        const cells = row.querySelectorAll('td');
+        let match = false;
+        
+        // Check all columns except checkbox
+        for(let i=1; i<cells.length; i++) {
+            if(cells[i].textContent.toLowerCase().includes(term)) {
+                match = true;
+                break;
+            }
+        }
+        
+        if (match) {
+            row.style.display = '';
+            hasMatches = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    if (!hasMatches) {
+        const messageRow = document.createElement('tr');
+        messageRow.className = 'no-data-row';
+        messageRow.innerHTML = `<td colspan="8" style="text-align: center; padding: 20px;">No data found matching "${term}"</td>`;
+        tbody.appendChild(messageRow);
+    }
+});
+
+// Consignment Search Handler
+document.getElementById('consignmentSearch').addEventListener('input', function(e) {
+    const term = e.target.value.toLowerCase();
+    const tbody = document.querySelector('#modal tbody');
+    const rows = tbody.querySelectorAll('tr');
+    let hasMatches = false;
+
+    // Remove any existing "no data" messages
+    tbody.querySelectorAll('.no-data-row').forEach(row => row.remove());
+
+    rows.forEach(row => {
+        // Skip existing message rows
+        if (row.classList.contains('no-data-row')) return;
+
+        const cells = row.querySelectorAll('td');
+        let match = false;
+        
+        // Check all columns except checkbox
+        for(let i=1; i<cells.length; i++) {
+            if(cells[i].textContent.toLowerCase().includes(term)) {
+                match = true;
+                break;
+            }
+        }
+        
+        if (match) {
+            row.style.display = '';
+            hasMatches = true;
+        } else {
+            row.style.display = 'none';
+        }
+    });
+
+    if (!hasMatches) {
+        const messageRow = document.createElement('tr');
+        messageRow.className = 'no-data-row';
+        messageRow.innerHTML = `<td colspan="10" style="text-align: center; padding: 20px;">No data found matching "${term}"</td>`;
+        tbody.appendChild(messageRow);
+    }
+});
+
+
+
+
+</script>    
+    
+</body>
+</html>

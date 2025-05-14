@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PO Management</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.0/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='dasboard.css') }}">
+    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet">
+</head>
+<style>
+@import url('https://fonts.cdnfonts.com/css/cooper-black');
+
+h1 {
+    font-family: 'Cooper Black', sans-serif;
+    font-size: 34px;
+    text-align: center;
+    -webkit-text-fill-color: #da3936;
+    padding-left: 130px; /* Adjust this value as needed */
+}
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            min-height: 100vh;
+            }
+
+            .btn {
+            background-color: #7d2ae8;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 0.9em;
+            margin-left: 30px;
+            height: 40px;
+        }
+
+        .btn:hover {
+            background-color: #5c1bb7;
+            transform: translateY(-1px);
+        }
+
+/*Sort function style */
+        .status-filters {
+    margin: 10px 0;
+    display: flex;
+    gap: 15px;
+}
+
+.status-filters label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.status-filters input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+        .form-container {
+            background: #ffffff;
+            padding: 40px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            max-width: 800px;
+            width: 100%;
+            margin-top: 20px;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h1 {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-header p {
+            font-size: 14px;
+            color: #555;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: 500;
+            color: #555;
+        }
+
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+
+        .form-group input[type="date"],
+        .form-group input[type="email"],
+        .form-group input[type="password"] {
+            font-size: 14px;
+        }
+
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            height: 80px;
+            resize: none;
+            box-sizing: border-box;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .modal-content {
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+        }
+
+        .modal-header {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+        }
+
+        .modal-footer {
+            display: flex;
+            justify-content: flex-end;
+            margin-top: 20px;
+        }
+
+        .modal-footer .btn {
+            width: auto;
+            margin-left: 10px;
+        }
+
+            form {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 400px;
+            margin: auto;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+        }
+        input, select {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            margin-top: 15px;
+            padding: 10px;
+            background: #28a745;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+                /* Overlay Background */
+                .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            justify-content: center;
+            align-items: center;
+            z-index: 2001; /* Higher than overlay */
+        }
+
+
+        /* Popup Form */
+        .popup {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 400px;
+            text-align: left;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup h2 {
+            text-align: center;
+        }
+
+        .popup label {
+            display: block;
+            margin-top: 10px;
+        }
+
+        .popup input, .popup select {
+            width: 100%;
+            padding: 5px;
+            margin-top: 5px;
+        }
+
+        .popup button {
+            margin-top: 15px;
+            padding: 10px;
+            width: 100%;
+            cursor: pointer;
+        }
+
+        
+
+        /* Close Button */
+        .close-btn {
+            background: red;
+            color: white;
+            border: none;
+        }
+
+        .submit-btn {
+            background: green;
+            color: white;
+            border: none;
+}
+
+
+/* Navigation Bar */
+.nav-bar {
+    background-color: #ffffff;
+    padding: 10px 20px;
+    display: flex;
+    position: fixed;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 4px 8px rgb(105, 105, 105);
+    top: 0;
+    width: 100%;
+    z-index: 1000; /* Explicitly define */
+}
+
+.nav-bar h1 {
+    color: rgba(253, 0, 0, 255);
+    margin: 0;
+    font-size: 24px;
+}
+
+.nav-links ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 2rem;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: rgb(1, 1, 1);
+    font-size: 16px;
+    transition: color 0.3s ease;
+}
+
+.nav-links a:hover {
+    color: #007bff;
+}
+
+/* Main container for sidebar and content */
+.main-content {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* Footer */
+.footer {
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: rgb(49, 45, 45);
+    border-top: 1px solid #e7e7e7;
+    margin-top: auto;
+}
+
+/* Hamburger Menu */
+.hamburger {
+    display: none;
+    background: none;
+    border: none;
+    color: black;
+    font-size: 24px;
+    cursor: pointer;
+    margin-left: auto;
+    z-index: 2001 !important; /* Keep button above menu */
+}
+
+/* Mobile Navigation */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    right: -60%;
+    width: 60%;
+    height: 100%;
+    background-color: #282525;
+    transition: right 0.3s ease-in-out;
+    padding: 60px 20px 20px;
+    z-index: 2000 !important; /* Must be higher than nav-bar's z-index */
+    -webkit-transition: right 0.3s ease-in-out; /* Add browser prefix */
+    transition: right 0.3s ease-in-out
+}
+
+.mobile-menu.active {
+    right: 0;
+}
+
+.mobile-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.mobile-menu li {
+    margin: 15px 0;
+}
+
+.mobile-menu a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+    display: block;
+    padding: 10px;
+}
+
+.mobile-menu a:hover {
+    color: #007bff;
+}
+
+/* Sidebar styles */
+        aside.sidebar {
+            width: 200px;
+            background-color: rgb(23, 23, 23);
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(222, 189, 189, 0.1);
+            height: 100%;
+        }
+
+        aside .links li {
+            padding: 10px 20px;
+            cursor: pointer;
+            border-bottom: 1px solid #030303;
+            box-shadow: 0 2px 4px rgba(255, 250, 250, 0.29);
+            margin-bottom: 10px;
+            list-style: none;
+        }
+
+        aside .links a {
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        aside .logout-link a {
+            color: red;
+        }
+
+
+
+            /* Search bar and Pagination controls */
+        .search-container {
+        margin: 20px 0;
+        position: relative;
+    }
+
+    #globalSearch {
+        width: 100%;
+        padding: 12px 20px;
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    #globalSearch:focus {
+        outline: none;
+        border-color: #7d2ae8;
+        box-shadow: 0 0 10px rgba(125, 42, 232, 0.2);
+    }
+
+    .pagination-controls {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        margin-top: 10px;
+        padding: 15px 0;
+        flex-wrap: wrap;
+    }
+
+    .entries-control {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.9em;
+    }
+
+    #entriesPerPage {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+    }
+
+    .page-info {
+        font-size: 0.9em;
+        color: #666;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    .pagination-buttons {
+        display: flex;
+        gap: 12px;
+    }
+
+    .page-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #f4f4f4;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9em;
+        min-width: 80px;
+    }
+
+    .page-btn:hover:not(:disabled) {
+        background: #7d2ae8;
+        color: white;
+        border-color: #7d2ae8;
+        transform: translateY(-1px);
+    }
+
+    .page-btn:disabled {
+        background: #ddd;
+        cursor: not-allowed;
+        opacity: 0.7;
+ }
+
+ /*Table css*/
+ .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .custom-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .custom-table th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .custom-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    /* Remove column layout for nav-bar */
+    .nav-bar {
+        flex-direction: row !important;
+        position: fixed;
+        padding: 10px 60px 10px 80px; /* Add space for logo and hamburger */
+    }
+
+    /* Hide regular nav links */
+    .nav-links {
+        display: none;
+    }
+
+    /* Show hamburger */
+    .hamburger {
+        display: block;
+        margin-right: -320px;
+    }
+
+    .nav-bar img {
+        margin-left: -60px;
+    }
+
+
+    .nav-bar h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%; /* Ensure proper centering */
+        padding-left: 0;
+        font-size: 22px;
+        text-align: center;
+        margin: 0;
+    }
+
+}
+
+@media (max-width: 425px) {
+    .nav-bar {
+        padding: 10px 50px 10px 70px; /* Adjust padding for smaller screens */
+    }
+
+        /* Sidebar hidden on mobile */
+        aside.sidebar {
+        display: none;
+    }
+
+    .container-fluid {
+        margin-left: 0;
+    }
+
+    /* Logo positioning */
+    .nav-bar img {
+        position: absolute;
+        left: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        height: 50px; /* Adjust logo size */
+    }
+
+    /* Center h1 */
+    .nav-bar h1 {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 100%; /* Ensure proper centering */
+        padding-left: 0;
+        font-size: 1.5rem;
+        text-align: center;
+        margin: 0;
+    }
+
+    /* Hamburger positioning */
+    .hamburger {
+        right: 10px;
+        top: 50%;
+        transform: translateY(-50%);
+        margin-right: 500px;
+    }
+}
+
+@media (max-width: 768px) {
+        .filter-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+}
+
+@media (max-width: 480px) {
+        .pagination-controls {
+            justify-content: center;
+        }
+        .page-btn {
+            padding: 6px 12px;
+            min-width: auto;
+        }
+    }
+
+    @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .custom-table {
+                font-size: 0.9em;
+                min-width: 500px;
+            }
+
+            .custom-table th,
+            .custom-table td {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .custom-table {
+                min-width: 400px;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+        }
+
+</style>
+<body>
+        <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <img src="{{ url_for('static', filename='logo.png') }}" alt=" Logo" style=height:100px; display:inline-block; margin-right:55px;>
+            <h1>VIKING MARINE INC</h1>
+    
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                    <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                    <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+             <!-- Hamburger Menu Button -->
+             <button class="hamburger" id="hamburger">
+                <i class="fa fa-bars"></i>
+            </button>
+        </div>
+    
+        <!-- "Back to previous page" link -->
+<h2><a href="{{ url_for('admindash') }}">Back to previous page</a></h2>
+
+<!-- Add backdrop element -->
+<div class="mobile-backdrop" id="mobileBackdrop"></div>
+
+        
+        <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <ul>
+                <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </div>
+<br>
+<br>
+<br>    
+<br>
+        <div class="form-container">
+            <div class="form-header">
+                <h2>PO MANAGEMENT</h2>
+                <p>Fill in the details to create an account</p>
+            </div>
+
+                    <!-- Search bar -->
+        <div class="search-container">
+            <input type="text" id="globalSearch" placeholder="Search ......">
+        </div>
+   
+         <!-- Overlay Form -->
+        <button onclick="openForm()">Add a Company</button>
+    
+        <div class="overlay" id="companyForm">
+            <div class="popup">
+                <h2>Add Company</h2>
+                <form id="poForm" action="/submit_po" method="POST">
+                    <label for="company_name">Company Name:</label>
+                    <input type="text" id="company_name" name="company_name" required>
+        
+                    <label for="address">Address:</label>
+                    <input type="text" id="address" name="address" required>
+        
+                    <label for="phone">Phone Number:</label>
+                    <input type="tel" id="phone" name="phone" required>
+        
+                    <label for="GST">GST Number:</label>
+                    <input type="text" id="GST" name="GST" required>
+        
+                    <label for="report_number">Report Number:</label>
+                    <input type="text" id="report_number" name="report_number" required readonly>
+        
+                    <label for="status">Status:</label>
+                    <select id="status" name="status" required>
+                        <option value="approved">Inprogress</option>
+                        <option value="rejected">Completed</option>
+                    </select>
+        
+                    <button type="submit" class="submit-btn">Submit</button>
+                    <button type="button" class="close-btn" onclick="closeForm()">Close</button>
+                </form>
+            </div>
+        </div>
+
+            <!-- Add no results message here -->
+            <div id="noResults" style="display: none; text-align: center; padding: 20px; color: #666; font-style: italic;">
+                No records found matching the criteria
+            </div>
+    
+    
+            <!--Sort Checkboxes-->
+            <div class="status-filters">
+                <label><input type="checkbox" class="status-checkbox" value="Open" unchecked> Open</label>
+                <label><input type="checkbox" class="status-checkbox" value="In Progress" unchecked> In Progress</label>
+                <label><input type="checkbox" class="status-checkbox" value="Completed" unchecked> Completed</label>
+            </div>
+    
+    
+            <div class="table-wrapper">
+                <table class="custom-table">
+
+                        <thead>
+                            <tr>
+                                <th>Company Name</th>
+                                <th>Address</th>
+                                <th>Phone</th>
+                                <th>GST Number</th>
+                                <th>Report Number</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for po in po_data %}
+                            <tr>
+                                <td>{{ po.company_name }}</td>
+                                <td>{{ po.address}}</td>
+                                <td>{{ po.phone }}</td>
+                                <td>{{ po.gst }}</td>
+                                <td>{{ po.report_number }}</td>
+                                <td>{{ po.status }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    
+            </div>
+    
+            <!-- pagination controls -->
+    <div class="pagination-controls">
+        <div class="entries-control">
+            <span>Show:</span>
+            <select id="entriesPerPage">
+                <option value="5">5</option>
+                <option value="10">10</option>
+                <option value="15">15</option>
+                <option value="20">20</option>
+            </select>
+            <span>entries</span>
+        </div>
+        <div class="page-info" id="pageInfo"></div>
+        <div class="pagination-buttons">
+            <button class="page-btn" id="prevPage">Previous</button>
+            <button class="page-btn" id="nextPage">Next</button>
+        </div>
+    </div>
+        
+        <footer class="footer">
+            &copy; 2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+        </footer>
+
+</body>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script> 
+<script>
+        // Open the form
+        function openForm() {
+            document.getElementById("companyForm").style.display = "flex";
+    
+            // Fetch report number when form opens
+            fetch('/generate_report_number')
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('report_number').value = data.report_number;
+                })
+                .catch(error => console.error("Error fetching report number:", error));
+        }
+    
+
+        // Close the form
+        function closeForm() {
+            document.getElementById("companyForm").style.display = "none";
+        }
+
+             // Hamburger Menu Toggle
+             document.getElementById('hamburger').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('mobileMenu').classList.toggle('active');
+        });
+
+        // Close menu when clicking outside
+        document.addEventListener('click', function(e) {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburger = document.getElementById('hamburger');
+            
+            if (mobileMenu.classList.contains('active') && 
+                !mobileMenu.contains(e.target) && 
+                !hamburger.contains(e.target)) {
+                mobileMenu.classList.remove('active');
+            }
+        });
+
+        // Close menu on window resize (optional)
+        window.addEventListener('resize', function() {
+            if (window.innerWidth > 768) {
+                document.getElementById('mobileMenu').classList.remove('active');
+            }
+        });
+
+
+// Pagination and Search functionality
+let currentPage = 1;
+let entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+let allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+let filteredRows = [...allRows];
+
+// Update entries per page dynamically when dropdown changes
+document.getElementById('entriesPerPage').addEventListener('change', function () {
+    entriesPerPage = parseInt(this.value);
+    currentPage = 1; // Reset to first page
+    updateTable();
+});
+
+// Update the table display based on pagination
+function updateTable() {
+    const start = (currentPage - 1) * entriesPerPage;
+    const end = start + entriesPerPage;
+    
+    allRows.forEach(row => row.style.display = 'none');
+    filteredRows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    // Show "No results found" if filteredRows is empty
+    document.getElementById('noResults').style.display = filteredRows.length === 0 ? 'block' : 'none';
+
+    // Calculate total pages
+    const totalPages = Math.max(1, Math.ceil(filteredRows.length / entriesPerPage));
+
+    // Update page info
+    document.getElementById('pageInfo').textContent = `Page ${currentPage} of ${totalPages}`;
+
+    // Enable/Disable navigation buttons
+    document.getElementById('prevPage').disabled = (currentPage === 1);
+    document.getElementById('nextPage').disabled = (currentPage >= totalPages);
+}
+
+// Next Page Button
+document.getElementById('nextPage').addEventListener('click', function () {
+    const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+    if (currentPage < totalPages) {
+        currentPage++;
+        updateTable();
+    }
+});
+
+// Previous Page Button
+document.getElementById('prevPage').addEventListener('click', function () {
+    if (currentPage > 1) {
+        currentPage--;
+        updateTable();
+    }
+});
+
+// Load initial table
+updateTable();
+
+
+
+      //Sorting status functionality
+    // Initialize variables
+ currentPage = 1;
+entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+filteredRows = [];
+
+// Initial sorting by certificate number
+function initialSort() {
+    allRows.sort((a, b) => {
+        const certA = a.cells[6].textContent;
+        const certB = b.cells[6].textContent;
+        return certA.localeCompare(certB);
+    });
+    filteredRows = [...allRows];
+}
+
+// Status filter functionality
+const statusCheckboxes = document.querySelectorAll('.status-checkbox');
+
+function applyFilters() {
+    const searchTerm = document.getElementById('globalSearch').value.toLowerCase().trim();
+    const selectedStatuses = Array.from(document.querySelectorAll('.status-checkbox:checked'))
+        .map(checkbox => checkbox.value.toLowerCase());
+    
+    // Get date filter values
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    filteredRows = allRows.filter(row => {
+        // Global search across all relevant columns
+        const rowText = Array.from(row.cells)
+            .slice(1, 9) // Include columns: Status(2), CertNum(3), Date(4), Applicant(5), Shipper(6), Consignee(7)
+            .map(cell => cell.textContent.toLowerCase())
+            .join(' ');
+        const matchesSearch = rowText.includes(searchTerm);
+
+        // Status filter
+        const statusElement = row.querySelector('.status-indicator');
+        const status = statusElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim().toLowerCase();
+        const matchesStatus = selectedStatuses.length === 0 ? true : 
+                            selectedStatuses.some(s => status.includes(s));
+
+        // Date filter
+        let dateInRange = true;
+        if (startDate || endDate) {
+            const rowDateStr = row.cells[4].textContent; // Date is in 5th column (index 4)
+            const rowDate = new Date(rowDateStr);
+            
+            const start = startDate ? new Date(startDate) : new Date(-8640000000000000);
+            const end = endDate ? new Date(endDate) : new Date(8640000000000000);
+            
+            // Set time components for accurate comparison
+            start.setHours(0, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            
+            dateInRange = rowDate >= start && rowDate <= end;
+        }
+
+        return matchesSearch && matchesStatus && dateInRange;
+    });
+
+    document.getElementById('noResults').style.display = 
+        filteredRows.length === 0 ? 'block' : 'none';
+    
+    currentPage = 1;
+    updateTable();
+}
+
+
+// Table update function
+function updateTable() {
+    const start = (currentPage - 1) * entriesPerPage;
+    const end = start + entriesPerPage;
+
+    allRows.forEach(row => row.style.display = 'none');
+    filteredRows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+    document.getElementById('pageInfo').textContent = 
+        `Page ${currentPage} of ${totalPages}`;
+    
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages;
+}
+
+// Event listeners
+document.getElementById('globalSearch').addEventListener('input', applyFilters);
+document.getElementById('entriesPerPage').addEventListener('change', function(e) {
+    entriesPerPage = parseInt(e.target.value);
+    currentPage = 1;
+    updateTable();
+});
+
+
+statusCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
+});
+
+// Initial setup
+initialSort();
+applyFilters();  // Initial filter call shows all records
+updateTable();
+</script>
+</html>

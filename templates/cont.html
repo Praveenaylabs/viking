@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <title>Checklist for Reefer Container</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet">
+    <style>
+        h1{
+    -webkit-text-fill-color: #da3936;
+}
+
+                .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            border-top: 1px solid #e7e7e7;
+            margin-top: auto;
+        }
+    </style>
+</head>
+<body class="bg-white p-4">
+    <div class="max-w-4xl mx-auto border border-gray-300 p-4">
+        <!-- Header Section -->
+        <div class="flex justify-between items-center mb-4">
+            <div>
+                <img alt="Viking Marine Inc. logo" class="mx-auto mb-2" height="120" src="{{ url_for('static', filename='logo.jpg') }}" width="120"/>
+            </div>
+            <div class="text-right">
+                <p class="text-sm">Ph.: +91-80-65615240</p>
+                <p class="text-sm">Mobile: +91-9035015240</p>
+                <p class="text-sm">+91-9035015249</p>
+                <p class="text-sm">+91-9243185125</p>
+            </div>
+        </div>
+
+        <!-- Title -->
+        <div class="text-center mb-4">
+            <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:#da3936;">VIKING MARINE INC.</h1>            <p class="text-sm font-semibold">SURVEYORS AND CONSULTING ENGINEERS</p>
+            <p class="text-sm">C/O. CONTAINER CORPORATION OF INDIA</p>
+            <p class="text-sm">#143, Dinnur Village, Kadugodi Colony, Opp. India Satcom, Whitefield, Bangalore-560 067.</p>
+            <br>
+            <span class="bg-red-700 text-white px-4 py-1 rounded">CHECK LIST FOR REEFER CONTAINER</span>
+        </div>
+
+        <!-- Date -->
+        <div class="flex justify-end mb-4">
+            <p class="text-sm">
+                Date:
+                <input class="border-b border-black w-24" type="text" id="date"/>
+            </p>
+        </div>
+
+        <!-- Form -->
+        <form id="checklistForm" class="text-sm">
+            <div class="grid grid-cols-2 gap-4">
+                <!-- Left Column -->
+                <div>
+                    <div>
+                        <label>1. Name of the Party:</label>
+                        <div class="flex gap-2">
+                            <select class="border border-gray-300 rounded p-1 mt-1" id="title">
+                                <option value="Mr">Mr</option>
+                                <option value="Mrs">Mrs</option>
+                            </select>
+                            <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="party"/>
+                        </div>
+                    </div>
+                    <label>2. At the Factory of:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="factory"/>
+
+                    <label>3. Container No./Size:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="container"/>
+
+                    <label>4. Set Temperature:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="setTemp"/>
+
+                    <label>5. Ambient Temperature:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="ambientTemp"/>
+
+                    <label>6. No. of Packages:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="packages"/>
+
+                    <label>7. Liner OTL No.:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="linerOtl"/>
+
+                    <label>8. Dummy OTL No.:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="dummyOtl"/>
+
+                    <label>9. Distance between Ceiling and Cargo:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="ceilingDistance"/>
+
+                    <label>10. Distance between Door and Cargo:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="doorDistance"/>
+                </div>
+
+                <!-- Right Column -->
+                <div>
+                    <label>11. Vehicle No.:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="vehicle"/>
+
+                    <label>12. Stuffing Starting Date/Time:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="startTime"/>
+
+                    <label>13. Stuffing Completed Date/Time:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="endTime"/>
+
+                    <label>14. P.T.I Details/Date:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="pti"/>
+
+                    <label>15. Container Details:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="containerDetails"/>
+
+                    <label>16. Gross Weight:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="grossWeight"/>
+
+                    <label>17. Tare Weight:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="tareWeight"/>
+
+                    <label>18. Nett Weight:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="nettWeight"/>
+
+                    <label>19. Remarks:</label>
+                    <input class="border border-gray-300 rounded w-full p-1 mt-1" type="text" id="remarks"/>
+                </div>
+            </div>
+
+            <!-- Buttons -->
+            <div class="flex justify-between mt-4">
+                <button type="button" class="bg-blue-500 text-white px-4 py-2 rounded" onclick="previewData()">Preview</button>
+                <button type="submit" class="bg-green-500 text-white px-4 py-2 rounded">Submit</button>
+            </div>
+        </form>
+
+        <!-- Preview Section -->
+        <div id="previewSection" class="mt-6 hidden border border-gray-400 p-4 rounded">
+            <h2 class="text-lg font-bold text-gray-700 mb-2">Preview Data</h2>
+            <p><strong>Date:</strong> <span id="previewDate"></span></p>
+            <p><strong>Name of the Party:</strong> <span id="previewParty"></span></p>
+            <p><strong>Container No./Size:</strong> <span id="previewContainer"></span></p>
+            <p><strong>Set Temperature:</strong> <span id="previewSetTemp"></span></p>
+            <p><strong>Ambient Temperature:</strong> <span id="previewAmbientTemp"></span></p>
+        </div>
+        <footer class="footer">
+            &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+        </footer>
+    </div>
+
+    <script>
+        function previewData() {
+    document.getElementById("previewDate").textContent = document.getElementById("date").value;
+    document.getElementById("previewParty").textContent = document.getElementById("title").value + " " + document.getElementById("party").value;
+    document.getElementById("previewContainer").textContent = document.getElementById("container").value;
+    document.getElementById("previewSetTemp").textContent = document.getElementById("setTemp").value;
+    document.getElementById("previewAmbientTemp").textContent = document.getElementById("ambientTemp").value;
+    document.getElementById("previewSection").classList.remove("hidden");
+}
+    </script>
+</body>
+</html>

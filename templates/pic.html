@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Multiple STL Files Viewer</title>
+  <style>
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #f0f0f0;
+    }
+    #viewer-container {
+      width: 60vw; /* Smaller canvas */
+      height: 60vh;
+      border: 2px solid #ccc;
+      box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.2);
+    }
+  </style>
+</head>
+<body>
+  <div id="viewer-container"></div>
+
+  <!-- Include Three.js -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <!-- Include STLLoader -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/loaders/STLLoader.js"></script>
+  <!-- Include OrbitControls -->
+  <script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"></script>
+
+  <script>
+    // Scene, Camera, Renderer
+    const scene = new THREE.Scene();
+    scene.background = new THREE.Color(0xf0f0f0);
+
+    const camera = new THREE.PerspectiveCamera(50, 1, 0.1, 1000);
+    camera.position.set(0, 5, 30); // Move camera closer
+
+    const renderer = new THREE.WebGLRenderer({ antialias: true });
+    const container = document.getElementById("viewer-container");
+    renderer.setSize(container.clientWidth, container.clientHeight);
+    container.appendChild(renderer.domElement);
+
+    // Lighting
+    const ambientLight = new THREE.AmbientLight(0xffffff, 0.6);
+    scene.add(ambientLight);
+
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 1);
+    directionalLight.position.set(0, 50, 100);
+    scene.add(directionalLight);
+
+    // Orbit Controls
+    const controls = new THREE.OrbitControls(camera, renderer.domElement);
+    controls.enableDamping = true;
+
+    // Load STL File with smaller scale
+    function loadSTL(url, color, position) {
+      const loader = new THREE.STLLoader();
+      loader.load(
+        url,
+        function (geometry) {
+          const material = new THREE.MeshPhongMaterial({ color: color });
+          const mesh = new THREE.Mesh(geometry, material);
+
+          mesh.position.set(position.x, position.y, position.z);
+          mesh.scale.set(0.08, 0.08, 0.08); // Further reduce model size
+
+          scene.add(mesh);
+        },
+        undefined,
+        function (error) {
+          console.error("Error loading STL file:", error);
+        }
+      );
+    }
+
+    // Load STL Models with smaller size and closer positioning
+    loadSTL("static/model1.stl", 0xff0000, { x: -5, y: 0, z: 0 }); // Red
+    loadSTL("static/model2.stl", 0x00ff00, { x: 0, y: 0, z: 0 }); // Green
+    loadSTL("static/model3.stl", 0x0000ff, { x: 5, y: 0, z: 0 }); // Blue
+
+    // Animation Loop
+    function animate() {
+      requestAnimationFrame(animate);
+      controls.update();
+      renderer.render(scene, camera);
+    }
+    animate();
+
+    // Resize Handler
+    window.addEventListener("resize", function () {
+      const newWidth = container.clientWidth;
+      const newHeight = container.clientHeight;
+      camera.aspect = newWidth / newHeight;
+      camera.updateProjectionMatrix();
+      renderer.setSize(newWidth, newHeight);
+    });
+  </script>
+</body>
+</html>

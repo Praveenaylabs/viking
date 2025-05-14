@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login</title>
+<style>
+ html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* Prevents scrollbars due to animations */
+  }
+
+  /* Background container for the slideshow */
+  .slideshow {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* Pushes the background behind everything */
+  }
+
+  .slideshow img {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0;
+    transition: opacity 2s ease-in-out;
+  }
+
+  /* Show first image initially */
+  .slideshow img:first-child {
+    opacity: 1;
+  }
+
+  /* Main container should take up all available space */
+  /* Main content styles */
+  .main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    z-index: 1; /* Ensures content is on top of the slideshow */
+  }
+
+  .container {
+    display: flex;
+    max-width: 400px;
+    width: 100%;
+    background-color: rgba(255, 255, 255, 0.9); /* Slight transparency */
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  }
+
+  h2 {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  form {
+    width: 100%;
+  }
+
+  input[type="text"],
+  input[type="password"] {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+  }
+
+  label {
+    font-weight: bold;
+  }
+
+  .forgot-password {
+    text-align: right;
+    margin-bottom: 15px;
+  }
+
+  button {
+    width: 100%;
+    padding: 10px;
+    background-color: #007bff;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+  }
+
+  button:hover {
+    background-color: #0056b3;
+  }
+
+  /* Footer stays at the bottom */
+  .footer {
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: rgb(49, 45, 45);
+    border-top: 1px solid #e7e7e7;
+  }
+  #flash-message {
+    width: 80%; 
+    max-width: 400px;
+    padding: 20px;
+    font-size: 1.5rem;
+    text-align: center;
+    background-color: #10f85d; /* Your preferred color */
+    color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    position: fixed; /* Ensure it stays in place */
+    top: 20%; /* Position vertically at the center */
+    left: 50%; /* Position horizontally at the center */
+    transform: translate(-50%, -50%); /* Offset it by 50% of its own size */
+    z-index: 9999; /* Ensure it stays on top of other elements */
+}
+.flash-messagebr {
+    position: fixed;
+    bottom: 50px; /* Lower position */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #ffd700, #ffb700, #ff9800); /* Golden gradient */
+    color: rgb(33, 26, 26);
+    padding: 8px 20px; /* Smaller padding */
+    font-size: 14px; /* Smaller text */
+    font-weight: bold;
+    border-radius: 8px; /* Softer rounded corners */
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    animation: fadeIn 1s ease-in-out, bounce 1s infinite alternate;
+}
+
+.heart {
+    animation: pulse 1.5s infinite;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes bounce {
+    from { transform: translateX(-50%) translateY(0); }
+    to { transform: translateX(-50%) translateY(-5px); }
+}
+ /* Smaller devices */
+@media (max-width: 768px) {
+    .flash-messagebr {
+        bottom: 70px; /* Avoid covering footer */
+        padding: 6px 15px;
+        font-size: 12px;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 480px) {
+    .flash-messagebr {
+        bottom: 80px; /* Extra space for very small screens */
+        padding: 5px 10px;
+        font-size: 10px;
+    }
+}
+
+</style>
+</head>
+<body>
+  <header style="display: flex; align-items: center; padding: 10px;">
+    <img src="{{ url_for('static', filename='logo.png') }}" 
+         alt="Logo" 
+         style="height: 100px; margin-right: 20px;">
+         <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:#da3936 ;">VIKING MARINE INC.</h1>           
+
+</header>
+
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+      <div id="flash-message" class="fixed top-5 left-1/2 transform -translate-x-1/2 max-w-4xl w-full text-white text-center p-8 rounded-lg shadow-lg">
+          {% for category, message in messages %}
+              <div class="bg-{{ 'green-500' if category == 'success' else 'red-500' }} p-6 rounded-lg text-2xl font-semibold">
+                  {{ message }}
+              </div>
+          {% endfor %}
+      </div>
+  {% endif %}
+  {% endwith %}
+
+  <!-- Main Content Area -->
+  <div class="main-content">
+    <div class="container">
+      <div class="right-panel">
+        <h2>Login</h2>
+        <form action="#" method="post">
+          <label for="username">Username:</label>
+          <input type="text" id="username" name="username" required>
+
+          <label for="password">Password:</label>
+          <input type="password" id="password" name="password" required>
+
+          <div class="forgot-password">
+            <a href="#">Forgot password?</a>
+          </div>
+
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+    <div class="flash-messagebr">
+         <p>🚀 Designed & Developed with <span class="heart">🖤</span> by <strong>AYlabs</strong> 🔥</p>  </div>
+  </div>
+
+  <!-- Footer -->
+  <footer class="footer">
+    &copy; 2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+  </footer>
+  <script>
+    setTimeout(() => {
+    document.getElementById('flash-message').style.display = 'none';
+}, 2000); 
+
+</script>
+</body>
+</html>

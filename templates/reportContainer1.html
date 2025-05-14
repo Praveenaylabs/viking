@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>Empty Container Condition Survey Report - Details</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet"/>
+  <style>
+
+h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 48px; 
+            text-align: center; 
+            -webkit-text-fill-color: #da3936;
+        }
+        
+    .footer {
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: rgb(49, 45, 45);
+    border-top: 1px solid #e7e7e7;
+    margin-top: auto;
+}
+/* Navigation Bar */
+.nav-bar {
+            background-color: #282525;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+
+        /* Hamburger Menu Styles */
+.hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .sidebar {
+        position: fixed;
+        right: -50%;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background-color: #282525;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        padding-top: 20px;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #444;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .sidebar-backdrop {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(0,0,0,0.5);
+        z-index: 999;
+        display: none;
+    }
+
+    .sidebar-backdrop.active {
+        display: block;
+    }
+
+    @media (max-width: 1200px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hamburger {
+            display: block;
+        }
+    }
+
+    /* Mobile-responsive table */
+    .table-container {
+        overflow-x: auto;
+        -webkit-overflow-scrolling: touch;
+        margin-bottom: 1rem;
+    }
+
+    @media (max-width: 768px) {
+        .table-container {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.375rem;
+        }
+        
+        table {
+            min-width: 600px; /* Minimum width to maintain table structure */
+        }
+    }
+    .status-indicator {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      border-radius: 50px;  /* ✅ Rounded */
+      font-weight: bold;
+      text-align: center;
+      min-width: 150px;
+  }
+  
+  /* ✅ Status Colors */
+  .status-open { background-color: rgb(0, 203, 0); color: white; }
+  .status-in-progress { background-color: yellow; color: black; }
+  .status-completed { background-color: red; color: white; }
+  .status-unknown { background-color: gray; color: white; }
+  
+  /* ✅ Small Status Circle */
+  .status-circle {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      display: inline-block;
+      background-color: currentColor;
+  }
+
+
+  @media print {
+    .nav-bar, .sidebar, .hamburger, .status-indicator, button {
+        display: none !important;
+    }
+    
+    .max-w-4xl {
+        width: 210mm !important;
+        margin: 0 auto !important;
+        box-shadow: none !important;
+    }
+    
+    body {
+        background-color: white !important;
+        margin: 0 !important;
+        padding: 0 !important;
+    }
+}
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+</head>
+<body class="bg-gray-100 p-4">
+  <div class="max-w-4xl mx-auto bg-white p-6 border border-gray-300">
+    <div class="text-center mb-4">
+      <!-- Navigation Bar -->
+      <div class="nav-bar">
+        <a href="{{ url_for('reportContainer') }}" 
+        style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: 0.3s;"
+        onmouseover="this.style.backgroundColor='#0056b3'"
+        onmouseout="this.style.backgroundColor='#007bff'">
+        Back
+     </a>
+
+     <!-- Hamburger Button -->
+     <button class="hamburger">
+      <i class="fa fa-bars"></i>
+  </button>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
+     <!-- Sidebar -->
+     <div class="sidebar" id="sidebar">
+      <ul>
+          <li><a href="{{ url_for('admindash') }}">Home</a></li>
+          <li><a href="{{ url_for('forms') }}">Forms</a></li>
+          <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+  </div>
+  <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 42px; color:#da3936 ;">VIKING MARINE INC.</h1>           
+
+      <p class="text-sm font-semibold">SURVEYORS AND CONSULTING ENGINEERS</p>
+      <p class="text-sm">C/o. Inland Container Depot, Whitefield, Bangalore - 560 066.</p>
+      <p class="text-sm">Phone : +91 9035015240, +919036015243, +919036015255 &amp; +919036015249.</p>
+    </div>
+
+    {% if container %}
+    <p><strong>Certificate Number:</strong> {{ container.CertificateNumber }}</p>
+    <p><strong>Status:</strong> 
+        <span class="status-indicator 
+            {% if container.status == 'Open' %} status-open
+            {% elif container.status == 'In Progress' %} status-in-progress
+            {% elif container.status == 'Completed' %} status-completed
+            {% else %} status-unknown
+            {% endif %}">
+            <span class="status-circle"></span> <!-- Small round indicator -->
+            {{ container.status }}
+        </span>
+    </p>
+{% else %}
+    <p>No container data available.</p>
+{% endif %}
+
+    <div class="border-t border-b border-gray-300 py-2 mb-4">
+      <h2 class="text-lg font-semibold text-center">EMPTY CONTAINER CONDITION SURVEY REPORT</h2>
+    </div>
+
+
+    <div class="table-container">
+    <!-- Survey Report Data Table -->
+    <table class="w-full border border-gray-300 mb-4">
+      <thead>
+        <tr>
+          <th class="border border-gray-300 p-2 text-left">Field</th>
+          <th class="border border-gray-300 p-2 text-left">Details</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Report No.</td>
+          <td class="border border-gray-300 p-2">{{ container.CertificateNumber }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Date</td>
+          <td class="border border-gray-300 p-2">{{ container.date }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Applicant for Survey</td>
+          <td class="border border-gray-300 p-2">{{ container.applicant_for_survey }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Date of Inspection</td>
+          <td class="border border-gray-300 p-2">{{ container.date_of_inspection }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Container No.</td>
+          <td class="border border-gray-300 p-2">{{ container.container_no }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Place of Inspection</td>
+          <td class="border border-gray-300 p-2">{{ container.place_of_inspection }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Type</td>
+          <td class="border border-gray-300 p-2">{{ container.type }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Size</td>
+          <td class="border border-gray-300 p-2">{{ container.size }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Tare Weight</td>
+          <td class="border border-gray-300 p-2">{{ container.tare_weight }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">CSC No.</td>
+          <td class="border border-gray-300 p-2">{{ container.csc_no }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Payload Capacity</td>
+          <td class="border border-gray-300 p-2">{{ container.payload_capacity }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Year of Manufacture</td>
+          <td class="border border-gray-300 p-2">{{ container.year_of_manufacture }}</td>
+        </tr>
+        <tr>
+          <td class="border border-gray-300 p-2 font-semibold">Max. Gross Weight</td>
+          <td class="border border-gray-300 p-2">{{ container.max_gross_weight }}</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h3 class="text-lg font-semibold mb-2">Photos</h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-2">
+      {% for i in range(1, 8) %}
+        {% set photo_path = container['photo_' + i|string] %}
+        {% if photo_path %}
+          <div class="border border-gray-300 p-2">
+            <img src="{{ url_for('static', filename=photo_path) }}" alt="Photo {{ i }}" class="w-full h-auto" style="max-width: 100%; max-height: 297mm; object-fit: contain;">
+          </div>
+        {% else %}
+          <div class="border border-gray-300 p-2 text-center text-gray-500" style="height: 80mm; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+            No Photo {{ i }}
+          </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+    
+    
+    <!-- Inspection Details Table -->
+
+
+    <div class="mb-4">
+      <label class="block text-sm font-semibold">Remarks:</label>
+      <p class="border border-gray-300 p-2">{{ container.remarks }}</p>
+    </div>
+
+    <div class="flex justify-between items-center">
+      <div class="flex justify-between items-center">
+        <div>
+          <p  class="text-sm font-bold">For Viking Marine Inc.</p>
+          <p  class="text-sm italic text-left font-bold">"Issued Without Prejudice"</p>
+        </div>
+    </div>
+        <div class="mt-8">
+          <label class="block text-sm font-semibold">Surveyor:</label>
+          <p class="border border-gray-300 p-1 w-full">{{ container.surveyor }}</p>
+        </div>
+      </div>
+      <footer class="footer">
+        &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+    </footer>
+    </div>
+  </div>
+
+
+  <button onclick="generatePDF()" class="fixed bottom-8 right-8 bg-red-600 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-700 z-50">
+    <i class="fas fa-print mr-2"></i>Print
+</button>
+
+
+
+  </div>
+
+
+<script>
+   // Hamburger Menu Toggle
+   document.querySelector('.hamburger').addEventListener('click', function(e) {
+        e.stopPropagation();
+        document.getElementById('sidebar').classList.toggle('active');
+    });
+
+    // Close sidebar when clicking anywhere on the window
+    document.addEventListener('click', function(e) {
+        const sidebar = document.getElementById('sidebar');
+        const hamburger = document.querySelector('.hamburger');
+        
+        // Check if click is outside the sidebar and hamburger
+        if (!sidebar.contains(e.target) && !hamburger.contains(e.target)) {
+            sidebar.classList.remove('active');
+        }
+    });
+
+    // Close sidebar when clicking a link
+    document.querySelectorAll('.sidebar a').forEach(link => {
+        link.addEventListener('click', () => {
+            document.getElementById('sidebar').classList.remove('active');
+        });
+    });
+
+
+    async function generatePDF() {
+    // Hide elements that shouldn't be in the PDF
+    const elementsToHide = document.querySelectorAll('.nav-bar, .sidebar, .hamburger, .status-indicator, button, .footer');
+    const originalStyles = [];
+    elementsToHide.forEach(el => {
+        originalStyles.push(el.style.display);
+        el.style.display = 'none';
+    });
+
+    // Capture the main content
+    const element = document.querySelector('.max-w-4xl');
+    const canvas = await html2canvas(element, {
+        scale: 3, // Increased from 2 to 3 for better resolution
+        useCORS: true,
+        logging: true,
+        backgroundColor: '#ffffff'
+    });
+
+    // Create PDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF('p', 'mm', 'a4');
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+    const margin = 10;
+    const imgWidth = pageWidth - 2 * margin;
+    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+    const pageContentHeight = pageHeight - 2 * margin; // Content height after margins
+
+    // Slice the canvas and handle multi-page content
+    let yPosition = 0;
+    while (yPosition < canvas.height) {
+        // Create a slice of the canvas
+        const pageCanvas = document.createElement('canvas');
+        pageCanvas.width = canvas.width;
+        pageCanvas.height = Math.min(pageContentHeight * (canvas.width / imgWidth), canvas.height - yPosition);
+
+        const pageCtx = pageCanvas.getContext('2d');
+        pageCtx.drawImage(canvas, 0, yPosition, canvas.width, pageCanvas.height, 0, 0, canvas.width, pageCanvas.height);
+
+        // Convert the sliced canvas to image
+        const imgData = pageCanvas.toDataURL('image/png');
+        doc.addImage(imgData, 'PNG', margin, margin, imgWidth, (pageCanvas.height * imgWidth) / canvas.width);
+
+        yPosition += pageCanvas.height;
+
+        // Add a new page if there's more content to print
+        if (yPosition < canvas.height) doc.addPage();
+    }
+
+    // Restore hidden elements
+    elementsToHide.forEach((el, index) => {
+        el.style.display = originalStyles[index];
+    });
+
+    // Save PDF
+    const certNo = "{{ container.CertificateNumber }}";
+    doc.save(`Container_Report_${certNo}.pdf`);
+}
+
+
+
+</script>
+</body>
+</html>

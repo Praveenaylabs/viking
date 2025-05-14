@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Resume Builder </title>
+    <style>
+         :root {
+            --primary-color: #2c3e50;
+            --secondary-color: #ecf0f1;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: #f5f6fa;
+        }
+        
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .editor-section {
+            background: white;
+            border-radius: 10px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        .preview-section {
+            background: white;
+            border-radius: 10px;
+            padding: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        
+        details {
+            margin-bottom: 15px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        
+        summary {
+            cursor: pointer;
+            padding: 10px;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        
+        .form-group {
+            margin-bottom: 15px;
+        }
+        
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+        }
+        
+        input,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        
+        button {
+            background: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+        }
+        
+        button:hover {
+            opacity: 0.9;
+        }
+        
+        .preview-content {
+            color: #333;
+        }
+        
+        .preview-section h2 {
+            color: var(--primary-color);
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 5px;
+        }
+        
+        .skills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+        }
+        
+        .skill-badge {
+            background: var(--secondary-color);
+            padding: 5px 10px;
+            border-radius: 15px;
+            font-size: 0.9em;
+        }
+        
+        .entry {
+            position: relative;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 15px;
+            border-radius: 5px;
+        }
+        
+        .delete-btn {
+            position: absolute;
+            top: 5px;
+            right: 5px;
+            background: #e74c3c;
+            padding: 2px 8px;
+            font-size: 12px;
+        }
+        
+        .add-btn {
+            background: #27ae60;
+            margin-top: 10px;
+        }
+        
+        .preview-section {
+            width: 210mm;
+            min-height: 297mm;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+        }
+        
+        .preview-section {
+            display: none;
+            /* Hide preview section initially */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <!-- Editor Section -->
+        <div class="editor-section">
+            <h1>Resume Builder</h1>
+
+            <!-- Contact Information -->
+            <details open>
+                <summary>Contact Information</summary>
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="fullName">
+                </div>
+                <div class="form-group">
+                    <label>Email</label>
+                    <input type="email" id="email">
+                </div>
+                <div class="form-group">
+                    <label>Phone</label>
+                    <input type="tel" id="phone">
+                </div>
+                <div class="form-group">
+                    <label>LinkedIn</label>
+                    <input type="url" id="linkedin">
+                </div>
+                <div class="form-group">
+                    <label>Portfolio</label>
+                    <input type="url" id="portfolio">
+                </div>
+            </details>
+
+            <!-- Professional Summary -->
+            <details>
+                <summary>Professional Summary</summary>
+                <div class="form-group">
+                    <textarea id="summary" rows="4"></textarea>
+                </div>
+            </details>
+
+            <!-- Work Experience -->
+            <details>
+                <summary>Work Experience</summary>
+                <div id="work-experience-container">
+                    <div class="entry">
+                        <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-group">
+                            <label>Job Title</label>
+                            <input type="text" class="job-title">
+                        </div>
+                        <div class="form-group">
+                            <label>Company</label>
+                            <input type="text" class="company">
+                        </div>
+                        <div class="form-group">
+                            <label>Dates (e.g., Jan 2020 - Present)</label>
+                            <input type="text" class="work-dates">
+                        </div>
+                        <div class="form-group">
+                            <label>Achievements (one per line)</label>
+                            <textarea class="achievements" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addWorkExperience()">+ Add Experience</button>
+            </details>
+
+            <!-- Education Section -->
+            <details>
+                <summary>Education</summary>
+                <div id="education-container">
+                    <div class="entry">
+                        <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-group">
+                            <label>Degree</label>
+                            <input type="text" class="degree">
+                        </div>
+                        <div class="form-group">
+                            <label>University</label>
+                            <input type="text" class="university">
+                        </div>
+                        <div class="form-group">
+                            <label>Graduation Year</label>
+                            <input type="text" class="grad-year">
+                        </div>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addEducation()">+ Add Education</button>
+            </details>
+
+            <!-- Skills Section -->
+            <details>
+                <summary>Skills</summary>
+                <div id="skills-container">
+                    <div class="entry">
+                        <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-group">
+                            <label>Skill</label>
+                            <input type="text" class="skill-input">
+                        </div>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addSkill()">+ Add Skill</button>
+            </details>
+
+            <!-- Certifications Section -->
+            <details>
+                <summary>Certifications</summary>
+                <div id="certifications-container">
+                    <div class="entry">
+                        <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                        <div class="form-group">
+                            <label>Certification Name</label>
+                            <input type="text" class="cert-name">
+                        </div>
+                        <div class="form-group">
+                            <label>Issuing Organization</label>
+                            <input type="text" class="cert-org">
+                        </div>
+                        <div class="form-group">
+                            <label>Year Earned</label>
+                            <input type="text" class="cert-year">
+                        </div>
+                    </div>
+                </div>
+                <button class="add-btn" onclick="addCertification()">+ Add Certification</button>
+            </details>
+
+            <button onclick="downloadPDF()">Download PDF</button>
+            <!-- <button onclick="downloadDOCX()">Download DOCX</button> -->
+        </div>
+
+        <!-- Preview Section -->
+        <div class="preview-section">
+            <div class="preview-content">
+                <h1 id="previewName"></h1>
+                <div id="previewContact" class="contact-info">
+
+                </div>
+
+                <h2 id="previewSummaryHeading">Professional Summary</h2>
+                <div id="previewSummary" class="summary">
+
+                </div>
+
+                <h2 id="previewWorkHeading">Work Experience</h2>
+                <div id="previewWorkExperience"></div>
+
+                <h2 id="previewEducationHeading">Education</h2>
+                <div id="previewEducation"></div>
+
+                <h2 id="previewSkillsHeading">Skills</h2>
+                <div class="skills" id="previewSkills"></div>
+
+                <h2 id="previewCertsHeading">Certifications</h2>
+                <div id="previewCertifications"></div>
+            </div>
+        </div>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+
+        <script>
+            // Real-time Preview Update
+            const inputs = document.querySelectorAll('input, textarea');
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+
+            function updatePreview() {
+                const previewSection = document.querySelector('.preview-section');
+                const hasContent = document.getElementById('fullName').value ||
+                    document.getElementById('email').value ||
+                    document.getElementById('phone').value ||
+                    document.getElementById('linkedin').value ||
+                    document.getElementById('portfolio').value ||
+                    document.getElementById('summary').value ||
+                    Array.from(document.querySelectorAll('#work-experience-container .entry')).some(entry =>
+                        entry.querySelector('.job-title').value ||
+                        entry.querySelector('.company').value ||
+                        entry.querySelector('.work-dates').value ||
+                        entry.querySelector('.achievements').value
+                    ) ||
+                    Array.from(document.querySelectorAll('#education-container .entry')).some(entry =>
+                        entry.querySelector('.degree').value ||
+                        entry.querySelector('.university').value ||
+                        entry.querySelector('.grad-year').value
+                    ) ||
+                    Array.from(document.querySelectorAll('#skills-container .skill-input')).some(input => input.value.trim()) ||
+                    Array.from(document.querySelectorAll('#certifications-container .entry')).some(entry =>
+                        entry.querySelector('.cert-name').value ||
+                        entry.querySelector('.cert-org').value ||
+                        entry.querySelector('.cert-year').value
+                    );
+
+                // Show preview section if there is any content
+                previewSection.style.display = hasContent ? 'block' : 'none';
+
+                // Update preview content
+                if (hasContent) {
+                    // Contact Information
+                    document.getElementById('previewName').textContent = document.getElementById('fullName').value || '[Your Name]';
+                    document.getElementById('previewContact').textContent = [
+                        document.getElementById('email').value,
+                        document.getElementById('phone').value,
+                        document.getElementById('linkedin').value,
+                        document.getElementById('portfolio').value
+                    ].filter(Boolean).join(' | ') || '[Your Email] | [Your Phone] | [LinkedIn Profile] | [Portfolio/Website]';
+
+                    // Professional Summary
+                    const summaryContent = document.getElementById('summary').value;
+                    document.getElementById('previewSummary').textContent = summaryContent;
+                    document.getElementById('previewSummaryHeading').style.display = summaryContent ? 'block' : 'none';
+
+                    // Work Experience
+                    const workEntries = Array.from(document.querySelectorAll('#work-experience-container .entry'));
+                    let hasWorkExperience = false;
+                    const workExperienceHTML = workEntries.map(entry => {
+                                const title = entry.querySelector('.job-title').value;
+                                const company = entry.querySelector('.company').value;
+                                const dates = entry.querySelector('.work-dates').value;
+                                const achievements = entry.querySelector('.achievements').value.split('\n').filter(a => a.trim());
+
+                                if (title || company || dates || achievements.length > 0) {
+                                    hasWorkExperience = true;
+                                    return `
+                    <div class="experience">
+                        ${title ? `<h3>${title}</h3>` : ''}
+                        ${company || dates ? `<div>${[company, dates].filter(Boolean).join(' | ')}</div>` : ''}
+                        ${achievements.length > 0 ? `<ul>${achievements.map(a => `<li>${a}</li>`).join('')}</ul>` : ''}
+                    </div>
+                `;
+            }
+            return '';
+        }).join('');
+        document.getElementById('previewWorkExperience').innerHTML = workExperienceHTML;
+        document.getElementById('previewWorkHeading').style.display = hasWorkExperience ? 'block' : 'none';
+
+        // Education
+        const educationEntries = Array.from(document.querySelectorAll('#education-container .entry'));
+        let hasEducation = false;
+        const educationHTML = educationEntries.map(entry => {
+            const degree = entry.querySelector('.degree').value;
+            const university = entry.querySelector('.university').value;
+            const gradYear = entry.querySelector('.grad-year').value;
+
+            if (degree || university || gradYear) {
+                hasEducation = true;
+                return `
+                    <p><strong>${degree}</strong></p>
+                    <p>${[university, gradYear].filter(Boolean).join(' | ')}</p>
+                `;
+            }
+            return '';
+        }).join('');
+        document.getElementById('previewEducation').innerHTML = educationHTML;
+        document.getElementById('previewEducationHeading').style.display = hasEducation ? 'block' : 'none';
+
+        // Skills
+        const skillEntries = Array.from(document.querySelectorAll('#skills-container .skill-input'));
+        const skills = skillEntries.map(input => input.value.trim()).filter(Boolean);
+        document.getElementById('previewSkills').innerHTML = skills.map(skill => 
+            `<span class="skill-badge">${skill}</span>`
+        ).join('');
+        document.getElementById('previewSkillsHeading').style.display = skills.length > 0 ? 'block' : 'none';
+
+        // Certifications
+        const certEntries = Array.from(document.querySelectorAll('#certifications-container .entry'));
+        let hasCertifications = false;
+        const certHTML = certEntries.map(entry => {
+            const name = entry.querySelector('.cert-name').value;
+            const org = entry.querySelector('.cert-org').value;
+            const year = entry.querySelector('.cert-year').value;
+
+            if (name || org || year) {
+                hasCertifications = true;
+                return `
+                    <p>
+                        ${name ? `<strong>${name}</strong>` : ''}
+                        ${org || year ? ` - ${[org, year].filter(Boolean).join(' | ')}` : ''}
+                    </p>
+                `;
+            }
+            return '';
+        }).join('');
+        document.getElementById('previewCertifications').innerHTML = certHTML;
+        document.getElementById('previewCertsHeading').style.display = hasCertifications ? 'block' : 'none';
+    }
+}
+        // Add Entry Functions
+        function addWorkExperience() {
+            const container = document.getElementById('work-experience-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'entry';
+            newEntry.innerHTML = `
+                <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                <div class="form-group">
+                    <label>Job Title</label>
+                    <input type="text" class="job-title">
+                </div>
+                <div class="form-group">
+                    <label>Company</label>
+                    <input type="text" class="company">
+                </div>
+                <div class="form-group">
+                    <label>Dates</label>
+                    <input type="text" class="work-dates">
+                </div>
+                <div class="form-group">
+                    <label>Achievements</label>
+                    <textarea class="achievements" rows="3"></textarea>
+                </div>
+            `;
+            container.appendChild(newEntry);
+            addInputListeners(newEntry);
+        }
+    
+        function addEducation() {
+            const container = document.getElementById('education-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'entry';
+            newEntry.innerHTML = `
+                <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                <div class="form-group">
+                    <label>Degree</label>
+                    <input type="text" class="degree">
+                </div>
+                <div class="form-group">
+                    <label>University</label>
+                    <input type="text" class="university">
+                </div>
+                <div class="form-group">
+                    <label>Graduation Year</label>
+                    <input type="text" class="grad-year">
+                </div>
+            `;
+            container.appendChild(newEntry);
+            addInputListeners(newEntry);
+        }
+    
+        function addSkill() {
+            const container = document.getElementById('skills-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'entry';
+            newEntry.innerHTML = `
+                <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                <div class="form-group">
+                    <label>Skill</label>
+                    <input type="text" class="skill-input">
+                </div>
+            `;
+            container.appendChild(newEntry);
+            addInputListeners(newEntry);
+        }
+    
+        function addCertification() {
+            const container = document.getElementById('certifications-container');
+            const newEntry = document.createElement('div');
+            newEntry.className = 'entry';
+            newEntry.innerHTML = `
+                <button class="delete-btn" onclick="removeEntry(this)">×</button>
+                <div class="form-group">
+                    <label>Certification Name</label>
+                    <input type="text" class="cert-name">
+                </div>
+                <div class="form-group">
+                    <label>Issuing Organization</label>
+                    <input type="text" class="cert-org">
+                </div>
+                <div class="form-group">
+                    <label>Year Earned</label>
+                    <input type="text" class="cert-year">
+                </div>
+            `;
+            container.appendChild(newEntry);
+            addInputListeners(newEntry);
+        }
+    
+        // Helper function to add event listeners to new inputs
+        function addInputListeners(entry) {
+            entry.querySelectorAll('input, textarea').forEach(input => {
+                input.addEventListener('input', updatePreview);
+            });
+        }
+    
+        // Remove Entry Function
+        function removeEntry(button) {
+            button.closest('.entry').remove();
+            updatePreview();
+        }
+    
+        // PDF Generation with proper formatting
+        async function downloadPDF() {
+    const { jsPDF } = window.jspdf;
+    const previewSection = document.querySelector('.preview-section');
+    
+    // Capture the preview section as image
+    const canvas = await html2canvas(previewSection, {
+        scale: 2,
+        useCORS: true,
+        logging: true,
+        windowWidth: 794, // A4 width in pixels (210mm)
+        windowHeight: 1123 // A4 height in pixels (297mm)
+    });
+
+    const imgData = canvas.toDataURL('image/png');
+    const doc = new jsPDF('p', 'mm', 'a4');
+    
+    // Add image to PDF (full page)
+    doc.addImage(imgData, 'PNG', 0, 0, 210, 297);
+    doc.save('resume.pdf');
+}
+        </script>
+
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/docx/7.7.3/docx.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.min.js"></script>
+        <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script> -->
+
+</body>
+
+</html>
+</body>
+
+</html>
+
+</html>

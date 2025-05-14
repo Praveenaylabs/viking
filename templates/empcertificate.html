@@ -1,0 +1,899 @@
+<html>
+<head>
+    <title>Certificate of Measurement Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    <style>
+        /* @import url('https://fonts.cdnfonts.com/css/cooper-black'); 
+h1 {
+        font-family: 'Cooper Black', sans-serif;
+            font-size: 48px; 
+            text-align: center; 
+        } */
+
+        h1 {
+            -webkit-text-fill-color: #da3936;
+        }
+
+    @font-face {
+    font-family: 'Cooper Black Regular';
+    font-style: normal;
+    font-weight: normal;
+    src: local('Cooper Black Regular'), url('COOPBL.woff') format('woff');
+    }
+        .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            border-top: 1px solid #e7e7e7;
+            margin-top: auto;
+        }
+        .scrollable-table {
+            max-height: 300px;
+            overflow-y: auto;
+            display: block;
+        }
+        .highlight {
+            background-color: #ffeb3b;
+            transition: background-color 0.3s ease;
+        }
+        .delete-checkbox {
+            display: none;
+        }
+        .delete-mode .delete-checkbox {
+            display: table-cell;
+        }
+
+        .cancel-btn {
+            background-color: #6b7280 !important; /* Gray color */
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+        .cancel-btn.active {
+            background-color: #ef4444 !important; /* Red color */
+            cursor: pointer;
+            opacity: 1;
+        }
+        /* Navigation Bar */
+                .nav-bar {
+            background-color: #282525;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        
+
+        .nav-bar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        /* Main container for sidebar and content */
+        .main-content {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+        .btn {
+        display: inline-block;
+        background-color: #7d2ae8;
+        color: #fff;
+        text-decoration: none;
+        text-align: center;
+        padding: 10px 20px;
+        border-radius: 5px;
+        border: none;
+        font-size: 16px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+    .btn:hover {
+        background-color: #5c1bb7;
+    }
+    .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 50px;  /* ✅ Rounded */
+    font-weight: bold;
+    text-align: center;
+    min-width: 150px;
+}
+
+/* ✅ Status Colors */
+.status-open { background-color: rgb(0, 203, 0); color: white; }
+.status-in-progress { background-color: yellow; color: black; }
+.status-completed { background-color: red; color: white; }
+.status-unknown { background-color: gray; color: white; }
+
+/* ✅ Small Status Circle */
+.status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: currentColor;
+}
+
+#flash-message {
+            width: 80%; 
+            max-width: 600px;
+            padding: 20px;
+            font-size: 1.5rem;
+            text-align: center;
+            background-color: #10f85d; /* Your preferred color */
+            color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            position: fixed; /* Ensure it stays in place */
+            top: 50%; /* Position vertically at the center */
+            left: 50%; /* Position horizontally at the center */
+            transform: translate(-50%, -50%); /* Offset it by 50% of its own size */
+            z-index: 9999; /* Ensure it stays on top of other elements */
+    }
+    input[type="text"],
+    input[type="date"],
+    input[type="number"],
+    input[type="datetime-local"],
+    select,
+    textarea {
+        background-color: gold;
+        color: black;
+        border: 1px solid black;
+        padding: 5px;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Adjust the search inputs and small inputs if necessary */
+    .search-input,
+    .small-box {
+        background-color: gold;
+        color: black;
+        border: 1px solid black;
+        padding: 5px;
+       
+    }
+
+    /* Style buttons for consistency */
+    .btn {
+        background-color: black;
+        color: gold;
+        padding: 10px 15px;
+        border: none;
+        cursor: pointer;
+        margin: 5px;
+    }
+
+    .btn:hover {
+        background-color: gold;
+        color: black;
+        border: 1px solid black;
+    }
+    </style>
+</head>
+<body class="bg-gray-100 p-4">
+    <div class="max-w-4xl mx-auto bg-white p-6 shadow-md">
+        <div class="text-center">
+                    <!-- Navigation Bar -->
+        <div class="nav-bar">
+            <a href="{{ url_for('empforms') }}" 
+            style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: 0.3s;"
+            onmouseover="this.style.backgroundColor='#0056b3'"
+            onmouseout="this.style.backgroundColor='#007bff'">
+            Back
+         </a>
+            <nav class="nav-links">
+                <ul>
+                    <li><a href="{{ url_for('empdash') }}">Home</a></li>
+                    <li><a href="{{ url_for('empforms') }}">Forms</a></li>
+                    <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                </ul>
+            </nav>
+        </div>
+        <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:rgba(253,0,0,255) ;">VIKING MARINE INC.</h1>            <p class="text-sm font-semibold">SURVEYORS AND CONSULTING ENGINEERS</p>
+            <p class="text-sm">C/O. CONTAINER CORPORATION OF INDIA</p>
+            <p class="text-sm">Whitefield, Bangalore - 560 066.</p>
+            <p class="text-sm">Ph.: 9243185125, 9035015240 &amp; 9036015247</p>
+            <p class="text-sm">E-mail : ops@vikingmarine.in, Website : www.vikingmarine.in</p>
+        </div>
+        {% if certificate %}
+        <p><strong class="abc">Certificate Number:</strong> {{ certificate.CertificateNumber }}</p>
+        <p><strong class="abc">Status:</strong> 
+            <span class="status-indicator 
+                {% if certificate.status == 'Open' %} status-open
+                {% elif certificate.status == 'In Progress' %} status-in-progress
+                {% elif certificate.status == 'Completed' %} status-completed
+                {% else %} status-unknown
+                {% endif %}">
+                <span class="status-circle"></span> <!-- Small round indicator -->
+                {{ certificate.status }}
+            </span>
+        </p>
+    {% else %}
+        <p>No certificate data available.</p>
+    {% endif %}
+    
+        </p>
+        <div class="text-center my-4">
+            <span class="bg-red-700 text-white px-4 py-1 rounded">CERTIFICATE OF MEASUREMENT</span>
+        </div>
+        
+        <form method="POST" action="{{ url_for('submit_cerem') }}">
+         <div class="flex justify-between mb-4">
+                <div>
+                    <label class="text-sm">Report No.</label>
+                    <input type="text" id="CertificateNumber" name="CertificateNumber" class="border border-gray-300 rounded p-1 ml-2" readonly style="background-color: gold; color: black;" />
+                </div>
+                <div>
+                    <label class="text-sm">Date</label>
+                    <input type="date" class="border border-gray-300 rounded p-1 ml-2" id="dateInput" name="date" style="background-color: gold; color: black;" />
+                </div>
+            </div>
+        
+            <div>
+                <label class="text-sm">Name of the applicant</label>
+                <div class="flex gap-2">
+                    <!-- Dropdown for title -->
+                    <select name="applicantTitle" class="border border-gray-300 rounded p-1 w-24" style="background-color: gold; color: black;">
+                        <option value="M/s">M/s</option>
+                        <option value="Mr">Mr</option>
+     
+                    </select>
+                    <!-- Input field for applicant's name -->
+                    <input type="text" name="applicantName" class="border border-gray-300 rounded p-1 flex-grow" placeholder="Enter applicant's name" style="background-color: gold; color: black;" />
+                </div>
+        
+                <label class="text-sm">Shipper</label>
+                <input type="text" name="shipper" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">Consignee</label>
+                <input type="text" name="consignee" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">Commodity</label>
+                <input type="text" name="commodity" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">Port of Discharge</label>
+                <input type="text" name="portOfDischarge" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+            </div>
+            <div>
+                <label class="text-sm">S.B. No./ Inovice No.</label>
+                <input type="text" name="sb_number" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">Quantity</label>
+                <input type="text" name="quantity" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">Gross. Wt.</label>
+                <input type="text" name="gross_weight" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">C &amp; F Agent</label>
+                <input type="text" name="cf_agent" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;" />
+                <label class="text-sm">Type Of Packing</label>
+                <select name="type_of_packing" class="border border-gray-300 rounded w-full p-1 mt-1" style="background-color: gold; color: black;">
+                    <option value="Pkgs">Pkgs</option>
+                    <option value="Bale">Bale</option>
+                    <option value="Carton">Carton</option>
+                    <option value="Pallet">Pallet</option>
+                    <option value="Box">Box</option>
+                    <option value="Case">Case</option>
+                    <option value="Roll">Roll</option>
+                    <option value="Drum">Drum</option>
+                    <option value="Bag">Bag</option>
+                    <option value="Bundle">Bundle</option>
+                    <option value="Crate">Crate</option>
+                    <option value="Loose">Loose</option>
+                </select>
+            </div>
+        
+            <div class="mb-4">
+                <h2 class="text-center font-bold">Survey Measure</h2>
+                <div class="flex justify-between items-center my-2">
+                    <div class="flex gap-2">
+                        <input type="text" id="searchInput" placeholder="Enter Marks Nos." 
+                               class="border border-gray-300 rounded p-1 w-48 text-sm">
+                        <button type="button" onclick="searchMarks()" 
+                                class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                            Search
+                        </button>
+                    </div>
+                    <div class="flex gap-2">
+                        <button type="button" onclick="addNewRow()" 
+                                class="bg-blue-500 text-white px-3 py-1 rounded text-sm hover:bg-blue-600">
+                            Add Row
+                        </button>
+                        <button type="button" onclick="toggleDeleteMode()" id="deleteBtn"
+                        class="bg-red-700 text-white px-3 py-1 rounded text-sm hover:bg-red-800">
+                        Delete Rows
+                        </button>
+                        <button type="button" onclick="cancelDelete()" id="cancelBtn"
+            class="cancel-btn text-white px-3 py-1 rounded text-sm" disabled>
+        Cancel
+    </button>
+                    </div>
+                </div>
+                <div class="scrollable-table">
+                    <table class="w-full border-collapse border border-black text-sm">
+                        <thead>
+                            <tr>
+                                <th class="border border-black p-1 delete-checkbox">Select</th>
+                                <th class="border border-black p-1">Marks Nos</th>
+                                <th class="border border-black p-1">No. of Pkgs</th>
+                                <th class="border border-black p-1">Length</th>
+                                <th class="border border-black p-1">Breadth</th>
+                                <th class="border border-black p-1">Height</th>
+                                <th class="border border-black p-1">Volume of 1 Unit</th>
+                                <th class="border border-black p-1">Total Volume(Cu.M)</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <!-- Initial 4 rows -->
+                            <tr>
+                                <td class="border border-black p-1 delete-checkbox">
+                                    <input type="checkbox" class="row-checkbox">
+                                </td>
+                                <td class="border border-black p-1 h-8"><input type="text" name="marksNos[]" class="w-full border-none" style="background-color: gold; color: black;" /></td>
+                                <td class="border border-black p-1"><input type="text" name="noOfPkgs[]" class="w-full border-none" style="background-color: gold; color: black;" /></td>
+                                <td class="border border-black p-1"><input type="text" name="length[]" class="w-full border-none" style="background-color: gold; color: black;" /></td>
+                                <td class="border border-black p-1"><input type="text" name="breadth[]" class="w-full border-none" style="background-color: gold; color: black;" /></td>
+                                <td class="border border-black p-1"><input type="text" name="height[]" class="w-full border-none" style="background-color: gold; color: black;" /></td>
+                                <td class="border border-black p-1"><input type="text" name="volumePerUnit[]" class="w-full border-none" readonly style="background-color: gold; color: black;" /></td>
+                                <td class="border border-black p-1"><input type="text" name="volumeUnit[]" class="w-full border-none" readonly style="background-color: gold; color: black;" /></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        
+            <div class="flex justify-between mb-4">
+                <div>
+                    <label class="text-sm">Total No. of Pkgs</label>
+                    <input type="text" class="border border-gray-300 rounded p-1 ml-2" name="totalPkgs" readonly style="background-color: gold; color: black;" />
+                </div>
+                <div>
+                    <label class="text-sm">Total No. of Cu. M</label>
+                    <input type="text" class="border border-gray-300 rounded p-1 ml-2" name="totalVolume" readonly style="background-color: gold; color: black;" />
+                </div>
+            </div>
+        
+            <div class="flex justify-between items-center">
+                <div>
+                  <p  class="text-sm font-bold">For Viking Marine Inc.</p>
+                  <p class="text-sm text-left font-bold" style="text-transform: uppercase;">
+                    "ISSUED WITHOUT PREJUDICE"
+                </p>
+                </div>
+            </div>
+        
+            <div class="text-center mt-4">
+                <button type="submit" name="action" value="Save as Draft" class="btn btn-secondary">Save as Draft</button>
+                <button type="submit" class="btn btn-secondary">Submit</button>
+                <button type="submit" id="submitNew" class="btn btn-secondary">Submit and New</button>
+                <button type="button" onclick="submitAndPrint()" class="btn btn-secondary">Print</button>
+
+            </div>
+        
+            <footer class="footer">
+                &copy; 2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+            </footer>
+        </form>
+        
+    </div>
+
+    <script>
+document.querySelector("button[onclick='submitAndPrint()']").addEventListener("click", function (event) {
+    event.preventDefault(); // Prevent immediate form submission
+
+    // First, generate and print the certificate
+    printCertificate().then(() => {
+        // After printing, submit the form
+        document.querySelector("form").submit();
+    }).catch(error => {
+        console.error("Print failed:", error);
+        alert("Error while printing. Please try again.");
+    });
+});
+
+
+
+async function printCertificate() {
+    try {
+        const { jsPDF } = window.jspdf;
+        const form = document.querySelector('form');
+
+        if (!form) throw new Error('Form not found');
+        if (!window.jspdf) throw new Error('jsPDF library not loaded');
+
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        const marginLeft = 15;
+
+                                                           
+let cursorY = 5; // or 10 if you need more space at the top
+
+// Load the full header image
+const headerUrl = '/static/logo2.png';  // your custom header image
+const headerImage = await loadImageProps(headerUrl);
+
+if (headerImage) {
+    const headerX = 15;      // Left margin
+    const headerY = cursorY; // Top position
+    const headerWidth = 180; // Almost full width of A4 (210mm - margins)
+    const headerHeight = 45; // Adjust based on your image
+
+    // Add image
+    pdf.addImage(headerImage, 'PNG', headerX, headerY, headerWidth, headerHeight);
+
+    // Move cursorY below the image
+    cursorY += headerHeight + 5;
+} else {
+    alert('Header image could not be loaded.');
+}
+
+
+        cursorY += 5;
+
+        pdf.setFontSize(12);
+        pdf.setTextColor(0, 0, 0);
+        pdf.text(`Certificate No.: ${form.CertificateNumber.value || ''}`, marginLeft, cursorY);
+        pdf.text(`Date: ${new Date(form.date.value).toLocaleDateString('en-GB')}`, 210 - marginLeft, cursorY, { align: 'right' });
+        const boxTop = cursorY - 5;      // a little above the text
+        const boxBottom = cursorY + 3;   // a little below the text
+        const boxLeft = marginLeft - 1;  // slightly before text starts
+        const boxRight = 210 - marginLeft + 1; // slightly after text ends
+
+        pdf.setDrawColor(0); // black
+        pdf.setLineWidth(0.2);
+
+        // Top border
+        pdf.line(boxLeft, boxTop, boxRight, boxTop);
+
+        // Bottom border
+        pdf.line(boxLeft, boxBottom, boxRight, boxBottom);
+        cursorY += 5;
+
+        pdf.setFillColor(185, 28, 28);
+        pdf.rect(marginLeft, cursorY, 180, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(11);
+        pdf.text('CERTIFICATE OF MEASUREMENT', 105, cursorY + 7, { align: 'center' });
+
+        cursorY += 15;
+
+        pdf.setFontSize(10);
+        pdf.setTextColor(0, 0, 0);
+
+        // Draw table structure for applicant and shipment details
+        pdf.autoTable({
+    startY: cursorY,
+    body: [
+        ['Name of Applicant', `${form.applicantTitle.value || ''} ${form.applicantName.value || ''}`],
+        ['Shipper', form.shipper.value || ''],
+        ['Consignee', form.consignee.value || ''],
+        ['Commodity', form.commodity.value || ''],
+        ['Port of Discharge', form.portOfDischarge.value || ''],
+        ['S.B. No./ Invoice No.', form.sb_number.value || ''],
+        ['C & F Agent', form.cf_agent.value || ''],
+        ['Type Of Packing', form.type_of_packing.value || '']
+    ],
+    theme: 'grid',
+    margin: { left: marginLeft },
+    styles: {
+        fontSize: 10,
+        cellPadding: 2,
+        valign: 'middle',
+        lineWidth: 0.2,
+        lineColor: [0, 0, 0],  // 🔥 Black border
+    },
+    headStyles: {
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+        fontStyle: 'bold',
+        lineColor: [0, 0, 0],  // 🔥 Black border
+        lineWidth: 0.2
+    },
+    columnStyles: {
+        0: { cellWidth: 'wrap' },
+        1: { cellWidth: 'auto' }
+    }
+});
+
+
+
+        cursorY = pdf.lastAutoTable.finalY + 8;
+
+       // Modified bold version
+    pdf.setFontSize(12);  // Optional: increase size for emphasis
+    pdf.setFont("helvetica", "bold");  // Set bold style
+    pdf.text('SURVEY MEASURES', marginLeft, cursorY);
+    pdf.setFont("helvetica", "normal");  // Reset to normal font
+
+        cursorY += 4;
+
+const surveyTableData = getSurveyTableData();
+if (surveyTableData.length > 0) {
+    pdf.autoTable({
+    startY: cursorY,
+    head: [[
+        'Mark & No.s', 'No. of Pkgs', 'Length', 'Breadth', 'Height', 'Volume of 1 Unit', 'Total Volume (Cu.M)'
+    ]],
+    body: surveyTableData,
+    theme: 'grid',
+    margin: { left: marginLeft },
+    styles: {
+        fontSize: 10,
+        cellPadding: 1,
+        halign: 'center',
+        valign: 'middle',
+        lineColor: [0, 0, 0],  // 🔥 Black border
+        lineWidth: 0.2
+    },
+    headStyles: {
+        fillColor: [255, 255, 255],
+        textColor: [0, 0, 0],
+        fontStyle: 'bold',
+        lineColor: [0, 0, 0],  // 🔥 Black border
+        lineWidth: 0.2
+    }
+});
+
+    cursorY = pdf.lastAutoTable.finalY + 5;
+} else {
+    pdf.text('No Survey Measures Data Available.', marginLeft, cursorY);
+    cursorY += 10;
+}
+
+        pdf.setFont(undefined, 'bold');
+        drawSummaryBox(pdf, 'Total No. of Pkgs:', form.totalPkgs.value || 'N/A', marginLeft, cursorY);
+        drawSummaryBox(pdf, 'Gross Wt (Kgs) Declared:', form.gross_weight.value || 'N/A', marginLeft + 65, cursorY);
+        drawSummaryBox(pdf, 'Total Volume (Cu. M):', form.totalVolume.value || 'N/A', marginLeft + 130, cursorY);
+        pdf.setFont(undefined, 'normal');
+        
+
+        cursorY += 30;
+
+        pdf.setFontSize(12);
+        pdf.setFont(undefined, 'bold');
+        pdf.text('"ISSUED WITHOUT PREJUDICE"', marginLeft, cursorY);
+
+        pdf.setFont(undefined, 'normal');
+        pdf.text('For Viking Marine Inc.', 195 - marginLeft, cursorY, { align: 'right' });
+        pdf.text('Authorised Signatory', 195 - marginLeft, cursorY + 15, { align: 'right' });
+
+        pdf.save(`Certificate_${form.CertificateNumber.value || 'Report'}.pdf`);
+
+    } catch (error) {
+        console.error('PDF generation failed:', error);
+        alert('Error generating PDF: ' + error.message);
+    }
+}
+
+
+function drawKeyValue(pdf, key, value, x, y) {
+    pdf.setFontSize(10);
+    pdf.text(`${key}:`, x, y);
+    pdf.text(value, x, y + 5);
+}
+
+function drawSummaryBox(pdf, label, value, x, y) {
+    const boxWidth = 60;
+    const boxHeight = 20;
+
+    // Draw the box
+    pdf.setDrawColor(0);
+    pdf.setFillColor(255, 255, 255);
+    pdf.rect(x, y, boxWidth, boxHeight);
+
+    // Set font
+    pdf.setFontSize(10);
+    pdf.setFont(undefined, 'bold');
+
+    const centerX = x + boxWidth / 2;
+
+    // Draw centered text (label and value)
+    pdf.text(label, centerX, y + 7, { align: 'center' });   // label near top
+    pdf.text(value, centerX, y + 15, { align: 'center' });  // value near bottom
+}
+
+
+function getSurveyTableData() {
+    const rows = Array.from(document.querySelectorAll('tbody tr'));
+    return rows.map(row => {
+        const inputs = row.querySelectorAll('input');
+        if (inputs.length >= 7) {
+            return Array.from(inputs).slice(1, 8).map(input => input.value || '');
+        }
+        return null;
+    }).filter(row => row !== null);
+}
+
+function loadImageProps(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => {
+            resolve(img);
+        };
+        img.onerror = () => {
+            console.warn('Logo image could not be loaded.');
+            resolve(null);
+        };
+        img.src = url;
+    });
+}
+
+
+
+
+
+        //flash message
+        setTimeout(() => {
+            document.getElementById('flash-message').style.display = 'none';
+        }, 2000);
+
+
+        //submit and new 
+        document.getElementById("submitNew").addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent default form submission
+        let form = document.querySelector("form");
+        let input = document.createElement("input");
+        input.type = "hidden";
+        input.name = "action";
+        input.value = "Submit and New";
+        form.appendChild(input);
+        form.submit();
+        
+        // Redirect after form submission
+        form.addEventListener("submitNew", function() {
+            window.location.href = "{{ url_for('certificate') }}";
+        });
+    });
+
+
+        // Generate certificate number on page load
+
+
+document.addEventListener("DOMContentLoaded", function () {
+
+        // Set current date in the date input field
+        const today = new Date();
+        const year = today.getFullYear();
+        const month = ('0' + (today.getMonth() + 1)).slice(-2);
+        const day = ('0' + today.getDate()).slice(-2);
+        const formattedDate = `${day}-${month}-${year}`;
+        document.getElementById('dateInput').value = formattedDate;
+});
+        // Delete functionality
+    let deleteMode = false;
+    const cancelBtn = document.getElementById('cancelBtn');
+    const deleteBtn = document.getElementById('deleteBtn');
+
+    function toggleDeleteMode() {
+        const table = document.querySelector('table');
+        const deleteBtn = document.querySelector('#deleteBtn');
+        
+        deleteMode = !deleteMode;
+        table.classList.toggle('delete-mode', deleteMode);
+        
+        if (deleteMode) {
+            deleteBtn.textContent = 'Confirm Delete';
+            // Remove color change classes
+            deleteBtn.classList.remove('bg-red-500', 'bg-red-700', 'bg-red-800');
+            deleteBtn.classList.add('bg-red-700');
+        } else {
+            deleteBtn.textContent = 'Delete Rows';
+            // Maintain same color
+            deleteBtn.classList.remove('bg-red-500', 'bg-red-800');
+            deleteBtn.classList.add('bg-red-700');
+            deleteSelectedRows();
+        }
+    }
+    function cancelDelete() {
+        if (!deleteMode) return;
+        
+        // Uncheck all checkboxes
+        document.querySelectorAll('.row-checkbox').forEach(checkbox => {
+            checkbox.checked = false;
+        });
+        
+        // Exit delete mode
+        deleteMode = false;
+        document.querySelector('table').classList.remove('delete-mode');
+        deleteBtn.textContent = 'Delete Rows';
+        deleteBtn.classList.remove('bg-red-700');
+        deleteBtn.classList.add('bg-red-500');
+        
+        // Deactivate cancel button
+        cancelBtn.classList.remove('active');
+        cancelBtn.disabled = true;
+    }
+
+    function deleteSelectedRows() {
+        if (!deleteMode) return;
+
+        const checkboxes = document.querySelectorAll('.row-checkbox:checked');
+        if (checkboxes.length === 0) {
+            alert('Please select at least one row to delete!');
+            return;
+        }
+
+        const confirmDelete = confirm(`Are you sure you want to delete ${checkboxes.length} row(s)?`);
+        if (!confirmDelete) return;
+
+        checkboxes.forEach(checkbox => {
+            const row = checkbox.closest('tr');
+            row.remove();
+        });
+
+        // Exit delete mode after deletion
+        cancelDelete();
+        calculateVolume();
+    }
+
+    // Update the toggleDeleteMode function
+    function toggleDeleteMode() {
+        if (!deleteMode) {
+            // Enter delete mode
+            deleteMode = true;
+            document.querySelector('table').classList.add('delete-mode');
+            deleteBtn.textContent = 'Confirm Delete';
+            deleteBtn.classList.replace('bg-red-500', 'bg-red-700');
+            
+            // Activate cancel button
+            cancelBtn.classList.add('active');
+            cancelBtn.disabled = false;
+        } else {
+            // Handle delete confirmation
+            deleteSelectedRows();
+        }
+    }
+
+    function addNewRow() {
+    const tbody = document.querySelector('table tbody');
+    let newRow;
+
+    // Check if there are any existing rows to clone
+    if (tbody.children.length === 0) {
+        // Create a new row from scratch
+        newRow = document.createElement('tr');
+        newRow.innerHTML = `
+            <td class="border border-black p-1 delete-checkbox">
+                <input type="checkbox" class="row-checkbox">
+            </td>
+            <td class="border border-black p-1 h-8"><input type="text" name="marksNos[]" class="w-full border-none" /></td>
+            <td class="border border-black p-1"><input type="text" name="noOfPkgs[]" class="w-full border-none" /></td>
+            <td class="border border-black p-1"><input type="text" name="length[]" class="w-full border-none" /></td>
+            <td class="border border-black p-1"><input type="text" name="breadth[]" class="w-full border-none" /></td>
+            <td class="border border-black p-1"><input type="text" name="height[]" class="w-full border-none" /></td>
+            <td class="border border-black p-1"><input type="text" name="volumePerUnit[]" class="w-full border-none" readonly /></td>
+            <td class="border border-black p-1"><input type="text" name="volumeUnit[]" class="w-full border-none" readonly /></td>
+        `;
+    } else {
+        // Clone the first existing row
+        newRow = tbody.firstElementChild.cloneNode(true);
+    }
+
+    // Clear input values in the new row
+    newRow.querySelectorAll('input').forEach(input => {
+        if (input.type !== 'checkbox') {
+            input.value = '';
+        } else {
+            input.checked = false;
+        }
+    });
+
+    // Add event listeners to the new inputs for volume calculation
+    newRow.querySelectorAll('input').forEach(input => {
+        if (!input.readOnly && input.type !== 'checkbox') {
+            input.addEventListener('input', calculateVolume);
+        }
+    });
+
+    // Append the new row to the table body
+    tbody.appendChild(newRow);
+
+    // Recalculate volumes after adding the new row
+    calculateVolume();
+}
+
+    
+
+        // Search functionality
+        function searchMarks() {
+            const searchTerm = document.getElementById('searchInput').value.trim().toLowerCase();
+            const rows = document.querySelectorAll('table tbody tr');
+            let found = false;
+
+            rows.forEach(row => {
+                row.classList.remove('highlight');
+                const marksNo = row.querySelector('td:nth-child(2) input').value.trim().toLowerCase();
+                if (marksNo === searchTerm) {
+                    row.classList.add('highlight');
+                    row.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    found = true;
+                }
+            });
+
+            if (!found && searchTerm) alert('No matching entries found');
+        }
+
+        // Volume calculation
+        function calculateVolume() {
+            const rows = document.querySelectorAll('table tbody tr');
+            let totalVolume = 0;
+            let totalPackages = 0;
+
+            rows.forEach(row => {
+                const length = parseFloat(row.querySelector('td:nth-child(4) input').value) || 0;
+                const breadth = parseFloat(row.querySelector('td:nth-child(5) input').value) || 0;
+                const height = parseFloat(row.querySelector('td:nth-child(6) input').value) || 0;
+                const noOfPkgs = parseInt(row.querySelector('td:nth-child(3) input').value) || 0;
+
+                const volumePerUnit = length * breadth * height;
+                const totalRowVolume = volumePerUnit * noOfPkgs;
+
+                row.querySelector('td:nth-child(7) input').value = volumePerUnit > 0 ? volumePerUnit.toFixed(3) : '';
+                row.querySelector('td:nth-child(8) input').value = totalRowVolume > 0 ? totalRowVolume.toFixed(3) : '';
+
+                totalVolume += totalRowVolume;
+                totalPackages += noOfPkgs;
+            });
+            
+            document.querySelector('input[name="totalVolume"]').value = totalVolume > 0 ? totalVolume.toFixed(3) : '';
+            document.querySelector('input[name="totalPkgs"]').value = totalPackages > 0 ? totalPackages : '';
+        }
+
+        // Initial setup
+        document.addEventListener('DOMContentLoaded', () => {
+            // Certificate number generation
+            const today = new Date();
+            const year = today.getFullYear().toString();
+            const month = ('0' + (today.getMonth() + 1)).slice(-2);
+            document.getElementById('CertificateNumber').value = year + month + '000001';
+            
+            // Date initialization
+            document.getElementById('dateInput').value = new Date().toISOString().split('T')[0];
+            
+            // Event listeners
+            document.querySelectorAll('table input').forEach(input => {
+                input.addEventListener('input', calculateVolume);
+            });
+            calculateVolume();
+        });
+
+    // Fetch and set certificate number
+    document.addEventListener("DOMContentLoaded", function () {
+    fetch("/get_latest_certificate", { headers: { "X-Requested-With": "XMLHttpRequest" } })  
+        .then(response => response.json())  
+        .then(data => {
+            document.getElementById("CertificateNumber").value = data.CertificateNumber;
+        })
+        .catch(error => console.error("Error fetching certificate number:", error));
+});
+    </script>
+</body>
+</html>

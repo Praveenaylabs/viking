@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FCL Stuffing Survey Report Form</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.cdnfonts.com/css/cooper-black" rel="stylesheet">
+    <style>
+        /* @import url('https://fonts.cdnfonts.com/css/cooper-black'); 
+h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 48px; 
+            text-align: center; 
+        } */
+                h1 {
+            -webkit-text-fill-color: #da3936;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            background: #fff;
+            padding: 30px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            width: 90%;
+            max-width: 900px;
+            margin: 20px auto;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-header h1 {
+            margin: 0;
+            font-size: clamp(1.5rem, 2.5vw, 1.8em);
+            color: #333;
+        }
+
+        .form-header p {
+            margin: 5px 0;
+            font-size: clamp(0.8rem, 1.2vw, 0.9em);
+            color: #777;
+        }
+
+        .table-wrapper {
+            overflow-x: auto;
+            margin: 20px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+        }
+
+        .custom-table {
+            width: 100%;
+            min-width: 600px;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        .custom-table th,
+        .custom-table td {
+            border: 1px solid #ddd;
+            padding: 12px;
+            text-align: left;
+            white-space: nowrap;
+        }
+
+        .custom-table th {
+            background-color: #f4f4f4;
+            color: #333;
+            font-weight: 600;
+        }
+
+        .custom-table tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .btn {
+            background-color: #7d2ae8;
+            color: #fff;
+            padding: 8px 16px;
+            border-radius: 5px;
+            text-decoration: none;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: inline-block;
+            font-size: 0.9em;
+        }
+
+        .btn:hover {
+            background-color: #5c1bb7;
+            transform: translateY(-1px);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 15px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            margin-top: 20px;
+            border-radius: 5px;
+            font-size: 0.9em;
+        }
+
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #282525;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: clamp(0.8rem, 1.2vw, 1rem);
+            transition: color 0.3s ease;
+            padding: 5px 10px;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+        @media (max-width: 768px) {
+            .form-container {
+                padding: 15px;
+                width: 95%;
+            }
+
+            .nav-bar {
+                flex-direction: column;
+                padding: 10px;
+            }
+
+            .nav-links ul {
+                gap: 1rem;
+                justify-content: center;
+            }
+
+            .custom-table {
+                font-size: 0.9em;
+                min-width: 500px;
+            }
+
+            .custom-table th,
+            .custom-table td {
+                padding: 10px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .custom-table {
+                min-width: 400px;
+            }
+
+            .btn {
+                padding: 6px 12px;
+                font-size: 0.8em;
+            }
+        }
+
+
+        .hamburger {
+            display: none;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px 10px;
+            position: absolute;
+            right: 20px;
+            top: 10px;
+        }
+
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -50%;
+            width: 50%;
+            height: 100%;
+            background-color: #282525;
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 20px 0;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.2);
+        }
+
+        .dropdown-menu.active {
+            right: 0;
+        }
+
+        .dropdown-menu ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .dropdown-menu a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px 20px;
+            transition: background-color 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .nav-links ul {
+                display: none;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .nav-bar {
+                position: relative;
+                padding-right: 60px;
+            }
+        }
+
+        .nav-bar > a.btn {
+                position: static; /* Reset any positioning */
+                margin-right: auto; /* Push to left side */
+            }
+
+            /* Search bar and Pagination controls */
+            .search-container {
+        margin: 20px 0;
+        position: relative;
+    }
+
+    #globalSearch {
+        width: 100%;
+        padding: 12px 20px;
+        border: 2px solid #ddd;
+        border-radius: 30px;
+        font-size: 16px;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    #globalSearch:focus {
+        outline: none;
+        border-color: #7d2ae8;
+        box-shadow: 0 0 10px rgba(125, 42, 232, 0.2);
+    }
+
+    .pagination-controls {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        gap: 20px;
+        margin-top: 25px;
+        padding: 15px 0;
+        flex-wrap: wrap;
+    }
+
+    .entries-control {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 0.9em;
+    }
+
+    #entriesPerPage {
+        padding: 6px 12px;
+        border-radius: 6px;
+        border: 1px solid #ddd;
+        background: white;
+        cursor: pointer;
+    }
+
+    .page-info {
+        font-size: 0.9em;
+        color: #666;
+        min-width: 100px;
+        text-align: center;
+    }
+
+    .pagination-buttons {
+        display: flex;
+        gap: 12px;
+    }
+
+    .page-btn {
+        padding: 8px 16px;
+        border: 1px solid #ddd;
+        border-radius: 6px;
+        background: #f4f4f4;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        font-size: 0.9em;
+        min-width: 80px;
+    }
+
+    .page-btn:hover:not(:disabled) {
+        background: #7d2ae8;
+        color: white;
+        border-color: #7d2ae8;
+        transform: translateY(-1px);
+    }
+
+    .page-btn:disabled {
+        background: #ddd;
+        cursor: not-allowed;
+        opacity: 0.7;
+    }
+
+    @media (max-width: 480px) {
+        .pagination-controls {
+            justify-content: center;
+        }
+        .page-btn {
+            padding: 6px 12px;
+            min-width: auto;
+        }
+    }
+    .status-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 15px;
+    border-radius: 50px;
+    font-weight: bold;
+    text-align: center;
+    min-width: 150px;
+}
+
+/* ✅ Status Colors */
+.status-draft { background-color: orange; color: white; }
+.status-open { background-color: rgb(0, 203, 0); color: white; }
+.status-in-progress { background-color: yellow; color: black; }
+.status-completed { background-color: red; color: white; }
+.status-unknown { background-color: gray; color: white; }
+
+/* ✅ Small Status Circle */
+.status-circle {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    display: inline-block;
+    background-color: currentColor;
+}
+        /*Sort function style */
+.status-filters {
+    margin: 10px 0;
+    display: flex;
+    gap: 15px;
+}
+
+.status-filters label {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+}
+
+.status-filters input[type="checkbox"] {
+    margin: 0;
+    cursor: pointer;
+}
+
+
+   /*Date filter*/
+   .filter-controls {
+        display: flex;
+        gap: 15px;
+        margin: 15px 0;
+        align-items: center;
+    }
+
+    .date-filter {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+    }
+
+    .date-filter input[type="date"] {
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-family: 'Poppins', sans-serif;
+    }
+
+    @media (max-width: 768px) {
+        .filter-controls {
+            flex-direction: column;
+            align-items: stretch;
+        }
+        
+        .date-filter {
+            flex-direction: column;
+            align-items: stretch;
+        }
+}
+
+h1{
+    -webkit-text-fill-color: #da3936;
+}
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="form-header">
+            <!-- Navigation Bar -->
+            <div class="nav-bar">
+                <!-- Hamburger Button -->
+                <button class="hamburger">☰</button>
+                
+                <!-- Existing Back link -->
+                <a href="{{ url_for('formson') }}" class="btn">
+                    Back
+                </a>
+                
+                <!-- Dropdown Menu -->
+                <div class="dropdown-menu">
+                    <ul>
+                        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </div>
+
+                <!-- Original Navigation Links -->
+                <nav class="nav-links">
+                    <ul>
+                        <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                        <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                        <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                        <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                    </ul>
+                </nav>
+            </div>
+            
+            <div>
+                <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 34px; color:rgba(253,0,0,255) ;">VIKING MARINE INC.</h1>           
+
+                <p>#143, Dinnur Village, Kadugodi Colony, Opp. India Satcom, Whitefield, Bangalore-560 067</p>
+                <p>Ph: +91-80-6561240 | Email: info@vikingmarine.com</p>
+            </div>
+            <h1>FCL STUFFING SURVEY FORM</h1>
+        </div>
+
+        <!-- Search bar -->
+        <div class="search-container">
+            <input type="text" id="globalSearch" placeholder="Search ......">
+        </div>
+   
+
+        
+        <!--Date Filter-->
+<div class="filter-controls">
+    <div class="date-filter">
+        <label>Filter by Date:</label>
+        <input type="date" id="startDate">
+        <span>to</span>
+        <input type="date" id="endDate">
+    </div>
+</div>
+
+        <!-- Add no results message here -->
+        <div id="noResults" style="display: none; text-align: center; padding: 20px; color: #666; font-style: italic;">
+            No records found matching the criteria
+        </div>
+
+
+        <!--Sort Checkboxes-->
+        <div class="status-filters">
+            <label><input type="checkbox" class="status-checkbox" value="Draft" unchecked> Draft</label>
+            <label><input type="checkbox" class="status-checkbox" value="Open" unchecked> Open</label>
+            <label><input type="checkbox" class="status-checkbox" value="In Progress" unchecked> In Progress</label>
+            <label><input type="checkbox" class="status-checkbox" value="Completed" unchecked> Completed</label>
+        </div>
+
+
+        <div class="table-wrapper">
+            <table class="custom-table">
+                <thead>
+                    <tr>
+                        <th>Edit details</th>
+                        <th>Status</th> 
+                        <th>Report Number</th>
+                        <th>Applicant Name</th>
+                        <th>Date</th>
+                        <th>Container Number</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for record in form %}
+                    <tr>
+
+                        <td>
+                            <a href="{{ url_for('empedit1', CertificateNumber=record.CertificateNumber) }}" class="btn">Edit</a>
+                        </td>
+                        <td><span class="status-indicator 
+                            {% if record.status == 'Draft' %} status-draft
+                            {% elif record.status == 'Open' %} status-open
+                            {% elif record.status == 'In Progress' %} status-in-progress
+                            {% elif record.status == 'Completed' %} status-completed
+                            {% else %} status-unknown
+                            {% endif %}">
+                            <span class="status-badge">{{ record['status'] }}</span>
+                        </td>
+                        <td>{{ record['CertificateNumber'] }}</td>
+                        <td>{{ record['applicant_name'] }}</td>
+                        <td>{{ record['date'] }}</td> 
+                        <td>{{ record['container_number'] }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+
+        <!-- pagination controls -->
+<div class="pagination-controls">
+    <div class="entries-control">
+        <span>Show:</span>
+        <select id="entriesPerPage">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+        </select>
+        <span>entries</span>
+    </div>
+    <div class="page-info" id="pageInfo"></div>
+    <div class="pagination-buttons">
+        <button class="page-btn" id="prevPage">Previous</button>
+        <button class="page-btn" id="nextPage">Next</button>
+    </div>
+</div>
+
+
+        <footer class="footer">
+            &copy; 2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+        </footer>
+    </div>
+    <script>
+        // Hamburger 
+        document.addEventListener('DOMContentLoaded', function() {
+            const hamburger = document.querySelector('.hamburger');
+            const dropdown = document.querySelector('.dropdown-menu');
+
+            // Toggle dropdown menu
+            hamburger.addEventListener('click', function(e) {
+                e.stopPropagation();
+                dropdown.classList.toggle('active');
+            });
+
+            // Close dropdown when clicking outside
+            document.addEventListener('click', function(e) {
+                if (!dropdown.contains(e.target) && !hamburger.contains(e.target)) {
+                    dropdown.classList.remove('active');
+                }
+            });
+
+            // Close dropdown when clicking a link
+            dropdown.addEventListener('click', function(e) {
+                if (e.target.tagName === 'A') {
+                    dropdown.classList.remove('active');
+                }
+            });
+        });
+
+
+        // Pagination and Search functionality
+    let currentPage = 1;
+    let entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+    let allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+    let filteredRows = [...allRows];
+
+    function updateTable() {
+        const start = (currentPage - 1) * entriesPerPage;
+        const end = start + entriesPerPage;
+        
+        allRows.forEach(row => row.style.display = 'none');
+        filteredRows.forEach((row, index) => {
+            row.style.display = (index >= start && index < end) ? '' : 'none';
+        });
+
+        document.getElementById('noResults').style.display = 
+            filteredRows.length === 0 ? 'block' : 'none';
+
+        const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+        document.getElementById('pageInfo').textContent = 
+            `Page ${currentPage} of ${totalPages}`;
+
+        document.getElementById('prevPage').disabled = currentPage === 1;
+        document.getElementById('nextPage').disabled = currentPage === totalPages;
+    }
+
+
+ // Search functionality
+ document.getElementById('globalSearch').addEventListener('input', function(e) {
+            applyFilters(); // This will handle the search through the applyFilters function
+            });
+
+
+
+    document.getElementById('entriesPerPage').addEventListener('change', function(e) {
+        entriesPerPage = parseInt(e.target.value);
+        currentPage = 1;
+        updateTable();
+    });
+
+    document.getElementById('prevPage').addEventListener('click', () => {
+        if(currentPage > 1) currentPage--, updateTable();
+    });
+
+    document.getElementById('nextPage').addEventListener('click', () => {
+        const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+        if(currentPage < totalPages) currentPage++, updateTable();
+    });
+
+    // Initial setup
+    updateTable();
+
+
+      //Sorting status functionality
+    // Initialize variables
+ currentPage = 1;
+entriesPerPage = parseInt(document.getElementById('entriesPerPage').value);
+allRows = Array.from(document.querySelectorAll('.custom-table tbody tr'));
+filteredRows = [];
+
+// Initial sorting by certificate number
+function initialSort() {
+    allRows.sort((a, b) => {
+        const certA = a.cells[2].textContent;
+        const certB = b.cells[2].textContent;
+        return certA.localeCompare(certB);
+    });
+    filteredRows = [...allRows];
+}
+
+// Status filter functionality
+const statusCheckboxes = document.querySelectorAll('.status-checkbox');
+
+function applyFilters() {
+    const searchTerm = document.getElementById('globalSearch').value.toLowerCase().trim();
+    const selectedStatuses = Array.from(document.querySelectorAll('.status-checkbox:checked'))
+        .map(checkbox => checkbox.value.toLowerCase());
+    
+    // Get date filter values
+    const startDate = document.getElementById('startDate').value;
+    const endDate = document.getElementById('endDate').value;
+
+    filteredRows = allRows.filter(row => {
+        // Global search across all relevant columns
+        const rowText = Array.from(row.cells)
+            .slice(2, 9) // Include columns: Status(2), CertNum(3), Date(4), Applicant(5), Shipper(6), Consignee(7)
+            .map(cell => cell.textContent.toLowerCase())
+            .join(' ');
+        const matchesSearch = rowText.includes(searchTerm);
+
+        // Status filter
+        const statusElement = row.querySelector('.status-indicator');
+        const status = statusElement.textContent.replace(/[\n\r]+|[\s]{2,}/g, ' ').trim().toLowerCase();
+        const matchesStatus = selectedStatuses.length === 0 ? true : 
+                            selectedStatuses.some(s => status.includes(s));
+
+        // Date filter
+        let dateInRange = true;
+        if (startDate || endDate) {
+            const rowDateStr = row.cells[4].textContent; // Date is in 5th column (index 4)
+            const rowDate = new Date(rowDateStr);
+            
+            const start = startDate ? new Date(startDate) : new Date(-8640000000000000);
+            const end = endDate ? new Date(endDate) : new Date(8640000000000000);
+            
+            // Set time components for accurate comparison
+            start.setHours(0, 0, 0, 0);
+            end.setHours(23, 59, 59, 999);
+            
+            dateInRange = rowDate >= start && rowDate <= end;
+        }
+
+        return matchesSearch && matchesStatus && dateInRange;
+    });
+
+    document.getElementById('noResults').style.display = 
+        filteredRows.length === 0 ? 'block' : 'none';
+    
+    currentPage = 1;
+    updateTable();
+}
+
+// Add event listeners for date inputs
+document.getElementById('startDate').addEventListener('change', applyFilters);
+document.getElementById('endDate').addEventListener('change', applyFilters);
+
+// Table update function
+function updateTable() {
+    const start = (currentPage - 1) * entriesPerPage;
+    const end = start + entriesPerPage;
+
+    allRows.forEach(row => row.style.display = 'none');
+    filteredRows.forEach((row, index) => {
+        row.style.display = (index >= start && index < end) ? '' : 'none';
+    });
+
+    const totalPages = Math.ceil(filteredRows.length / entriesPerPage);
+    document.getElementById('pageInfo').textContent = 
+        `Page ${currentPage} of ${totalPages}`;
+    
+    document.getElementById('prevPage').disabled = currentPage === 1;
+    document.getElementById('nextPage').disabled = currentPage === totalPages;
+}
+
+// Event listeners
+document.getElementById('globalSearch').addEventListener('input', applyFilters);
+document.getElementById('entriesPerPage').addEventListener('change', function(e) {
+    entriesPerPage = parseInt(e.target.value);
+    currentPage = 1;
+    updateTable();
+});
+
+
+statusCheckboxes.forEach(checkbox => {
+    checkbox.addEventListener('change', applyFilters);
+});
+
+// Initial setup
+initialSort();
+applyFilters();  // Initial filter call shows all records
+updateTable();
+    </script>
+</body>
+</html>

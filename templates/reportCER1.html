@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Certificate of Measurement Report</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  
+<style>
+
+
+h1 {
+            font-family: 'Copper Black', serif;
+            font-size: 48px; 
+            text-align: center; 
+            -webkit-text-fill-color: #da3936;
+        }
+
+        
+            .footer {
+            text-align: center;
+            padding: 10px;
+            color: white;
+            background-color: rgb(49, 45, 45);
+            border-top: 1px solid #e7e7e7;
+            margin-top: auto;
+        }
+        /* Navigation Bar */
+        .nav-bar {
+            background-color: #282525;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-bar h1 {
+            color: white;
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .nav-links ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: white;
+            font-size: 16px;
+            transition: color 0.3s ease;
+        }
+
+        .nav-links a:hover {
+            color: #007bff;
+        }
+
+
+           /* Table Scorallable */
+           .tableh-wrapper {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+        
+        .tableh-wrapper table {
+            min-width: 100%;
+            width: auto;
+        }
+
+        .tableh-wrapper th,
+        .table-wrapper td {
+            white-space: nowrap;
+        }
+
+
+        /* Hamburger Menu Styles */
+.hamburger {
+        display: none;
+        background: none;
+        border: none;
+        color: white;
+        font-size: 24px;
+        cursor: pointer;
+        padding: 10px;
+    }
+
+    .sidebar {
+        position: fixed;
+        right: -50%;
+        top: 0;
+        height: 100%;
+        width: 50%;
+        background-color: #282525;
+        transition: left 0.3s ease;
+        z-index: 1000;
+        padding-top: 20px;
+    }
+
+    .sidebar.active {
+        right: 0;
+    }
+
+    .sidebar ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+    .sidebar li {
+        padding: 15px 20px;
+        border-bottom: 1px solid #444;
+    }
+
+    .sidebar a {
+        color: white;
+        text-decoration: none;
+        font-size: 18px;
+    }
+
+    .sidebar-backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    z-index: 999;
+    display: none;
+}
+
+.sidebar-backdrop.active {
+    display: block;
+}
+
+    @media (max-width: 1200px) {
+        .nav-links {
+            display: none;
+        }
+        
+        .hamburger {
+            display: block;
+        }
+    }
+
+
+
+       
+        .certificate-title {
+            text-align: center;
+            background-color: #b91c1c;
+            color: white;
+            padding: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .pdf-tableh {
+            width: 100%;
+            border-collapse: collapse;
+            border-top: 2px solid black;
+            border-bottom: 2px solid black;
+            text-align: left;
+        }
+        .pdf-tableh th,
+        .pdf-tableh td {
+            border: none;
+            padding: 6px;
+            box-sizing: border-box;
+            white-space: nowrap;
+            
+        }
+        .pdf-tableh td:last-child {
+            text-align: right;
+        }
+
+              
+.certificate-title {
+    text-align: center;
+    background-color: #b91c1c;
+    color: white;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    margin-top: 10px;
+}
+.pdf-tableh {
+  width: 100%;
+  border-collapse: collapse;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+  text-align: left;
+}
+
+.pdf-tableh th,
+.pdf-tableh td {
+  border: none;
+  padding: 6px;
+  box-sizing: border-box;
+  white-space: nowrap;
+}
+
+.pdf-tableh td:last-child {
+  text-align: right;
+}
+.invoice-container {
+            max-width: 800px;
+            margin: auto;
+            border: 1px solid #ccc;
+            padding: 20px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+.pdf-table { 
+             width: 100%; 
+                    border-collapse: collapse; 
+                    margin: 15px 0;
+                }
+                .pdf-table td, .pdf-table th {
+                    border: 1px solid #000;
+                    padding: 8px;
+                    text-align: left;
+                }
+@media print {
+    table {
+        border-collapse: collapse !important;
+    }
+    td, th {
+        border: 1.5pt solid #000 !important;
+    }
+    .certificate-title {
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+    }
+}
+
+                
+</style>
+
+
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <div class="nav-bar">
+        <a href="{{ url_for('reportCER') }}" 
+        style="display: inline-block; padding: 10px 20px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold; text-align: center; transition: 0.3s;"
+        onmouseover="this.style.backgroundColor='#0056b3'"
+        onmouseout="this.style.backgroundColor='#007bff'">
+        Back
+     </a>
+
+     <!-- Hamburger Button -->
+     <button class="hamburger">
+      <i class="fa fa-bars"></i>
+  </button>
+        <nav class="nav-links">
+            <ul>
+                <li><a href="{{ url_for('admindash') }}">Home</a></li>
+                <li><a href="{{ url_for('forms') }}">Forms</a></li>
+                <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+                <li><a href="{{ url_for('logout') }}">Logout</a></li>
+            </ul>
+        </nav>
+    </div>
+
+     <!-- Sidebar -->
+     <div class="sidebar" id="sidebar">
+      <ul>
+          <li><a href="{{ url_for('admindash') }}">Home</a></li>
+          <li><a href="{{ url_for('forms') }}">Forms</a></li>
+          <li><a href="{{ url_for('certificatert') }}">Reports</a></li>
+          <li><a href="{{ url_for('logout') }}">Logout</a></li>
+      </ul>
+  </div>
+  <div class="sidebar-backdrop"></div>
+    <div id="invoice" class="invoice-container">
+        <div  style="display: flex; align-items: center; text-align: center;" class="logo-container">
+        <img src="{{ url_for('static', filename='logo.png') }}" alt="Logo" style="height: 120px; margin-right: 15px; margin-top: 10px;" class="logo">
+        <div style="text-align: center; flex-grow: 1; margin-left: -100px;">
+            <h1 style="font-family: 'Cooper Black', sans-serif; font-weight: normal; font-size: 28px; margin: 0; display: inline-block; vertical-align: middle;">
+                VIKING MARINE INC.
+              </h1>
+                          <div style="margin-top: 3px; line-height: 1.2;">
+                <p style="margin: 0;">SURVEYORS AND CONSULTING ENGINEERS</p>
+                <p style="margin: 0;"># 143,Dinnur Village, Opp. India SATCOM, Kadugodi Post Bangalore - 560067.</p>
+                <p style="margin: 0;">Ph.: +919036015240, +919035015240 &amp; +919036015243</p>
+            </div>
+        </div>
+     </div>
+
+     <br>
+     <table class="pdf-tableh">
+        <tr>
+            <td><strong>Certificate No.:</strong> {{ cer.CertificateNumber }}</td>
+            <td><strong>Date:</strong> {{ cer.date }}</td>
+        </tr>
+     </table>
+
+     <div class="certificate-title">CERTIFICATE OF MEASUREMENT</div>
+     <h2 class="text-lg font-bold mb-2">Applicant Information</h2>
+
+     <table class="pdf-table">
+        <tbody>
+            <tr>
+            <th>Name of Applicant</th>
+            <td colspan="3">{{ cer.applicant_name }}</td>
+            </tr>
+            <tr>
+            <th>Shipper</th>
+            <td>{{ cer.shipper }}</td>
+            <th>Consignee</th>
+            <td>{{ cer.consignee }}</td>
+            </tr>
+            <tr>
+            <th>Commodity</th>
+            <td>{{ cer.commodity }}</td>
+            <th>Port of Discharge</th>
+            <td>{{ cer.port_of_discharge }}</td>
+            </tr>
+            <tr>
+            <th>S.B. No./ Invoice No.</th>
+            <td>{{ cer.sb_number }}</td>
+            <th>C & F Agent</th>
+            <td>{{ cer.cf_agent }}</td>
+            </tr>
+            <tr>
+                <th>Type Of Packing</th>
+                <td>{{ cer.type_of_packing }}</td>
+            </tr>
+        </tbody>
+        </table>
+
+     <h2 style="font-size: 18px; font-weight: bold; margin-bottom: 10px;">Survey Measures</h2>
+     {% if survey_data %}
+     <table class="pdf-table">
+        <thead>
+            <tr>
+            <th class="border border-black p-2">Mark & Nos</th>
+            <th class="border border-black p-2">No. of Pkgs</th>
+            <th class="border border-black p-2">Length</th>
+            <th class="border border-black p-2">Breadth</th>
+            <th class="border border-black p-2">Height</th>
+            <th class="border border-black p-2">Volume of 1 Unit</th>
+            <th class="border border-black p-2">Total Volume(Cu.M)</th>
+            </tr>
+        </thead>
+        <tbody>
+                    {% for survey in survey_data %}
+                    <tr>
+                        <td class="border border-black p-2">{{ survey.marks_no}}</td>
+                        <td class="border border-black p-2">{{ survey.no_of_pkgs }}</td>
+                        <td class="border border-black p-2">{{ survey.length }}</td>
+                        <td class="border border-black p-2">{{ survey.breadth }}</td>
+                        <td class="border border-black p-2">{{ survey.height }}</td>
+                        <td class="border border-black p-2">{{ survey.volumePerUnit }}</td>
+                        <td class="border border-black p-2">{{ survey.volume_unit }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            {% endif %}
+
+        <div style="margin-top: 20px; display: flex; justify-content: space-between;">
+            <div style="border: 1px solid #000; padding: 10px; flex: 1; margin-right: 10px; text-align: center;">
+                <p><strong>Total No. of Pkgs:</strong></p>
+                <p>{{ cer.total_pkgs }}</p>
+            </div>
+            <div style="border: 1px solid #000; padding: 10px; flex: 1; margin-right: 10px; text-align: center;">
+                <p><strong>Gross Wt In Kgs.(As Declared):</strong></p>
+                <p>{{ cer.gross_weight }}</p>
+            </div>
+            <div style="border: 1px solid #000; padding: 10px; flex: 1; text-align: center;">
+                <p><strong>Total Volume (Cu. M):</strong></p>
+                <p>{{ cer.total_volume }}</p>
+            </div>
+        </div>
+    
+        <div class="mt-8 w-full">
+            <div class="text-left">
+                <p style="text-transform: uppercase; font-weight: bold;">"ISSUED WITHOUT PREJUDICE"</p>
+                <br><br><br>
+                <p style="font-weight: bold; text-align: left;">For Viking Marine Inc.<br><br><br><br><br><br>Authorised Signatory</p>
+            </div>
+        </div>
+  
+        <button onclick="generatePDF()" class="fixed bottom-8 right-8 bg-red-700 text-white px-4 py-2 rounded-lg shadow-lg hover:bg-red-800 z-50">
+            <i class="fas fa-print mr-2"></i>Print PDF
+        </button>
+    </div>
+</div>
+
+        <!-- Footer -->
+
+    <footer class="footer">
+        &copy;  2025 <strong>Bitsmart</strong>. Crafted with care, protected with pride.
+    </footer>
+    </div>
+    </div>
+</div>
+
+<!-- jsPDF Core -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+<!-- AutoTable Plugin -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.25/jspdf.plugin.autotable.min.js"></script>
+
+<script>
+    const surveyData = {{ survey_data | tojson }};
+</script>
+    
+<script>
+
+async function generatePDF() {
+    try {
+        const { jsPDF } = window.jspdf; // Pull from window
+        const pdf = new jsPDF({
+            orientation: 'portrait',
+            unit: 'mm',
+            format: 'a4'
+        });
+
+        const marginLeft = 15;
+        let cursorY = 2;
+
+
+// Load the full header image
+const headerUrl = '/static/logo2.png';  // your custom header image
+const headerImage = await loadImageProps(headerUrl);
+
+if (headerImage) {
+    const headerX = 10;      // Left margin
+    const headerY = cursorY; // Top position
+    const headerWidth = 180; // Almost full width of A4 (210mm - margins)
+    const headerHeight = 45; // Adjust based on your image
+
+    // Add image
+    pdf.addImage(headerImage, 'PNG', headerX, headerY, headerWidth, headerHeight);
+
+    // Move cursorY below the image
+    cursorY += headerHeight + 5;
+} else {
+    alert('Header image could not be loaded.');
+}
+
+
+        // Certificate number and date
+    const certNo = "{{ cer.CertificateNumber }}";
+    const certDate = "{{ cer.date }}";
+     // Define box dimensions
+const lineSpacing = 4;
+const boxTop = cursorY - lineSpacing;
+const boxBottom = cursorY + lineSpacing;
+const boxLeft = marginLeft - 1;
+const boxRight = 215 - marginLeft + 1;
+
+// Draw top and bottom borders (box lines)
+pdf.setDrawColor(0); // black
+pdf.setLineWidth(0.2);
+pdf.line(boxLeft, boxTop, boxRight, boxTop);     // Top border
+pdf.line(boxLeft, boxBottom, boxRight, boxBottom); // Bottom border
+
+// Calculate vertical center for text
+const textY = (boxTop + boxBottom) / 2 + 1.5; // Adjusted slightly for visual centering
+
+// Set font size for certificate number and date
+pdf.setFontSize(11); // Adjust this value to your desired font size
+
+// Text placement
+const centerX = 105; // center of A4 (210mm / 2)
+const leftTextX = marginLeft;
+const rightTextX = 210 - marginLeft;
+
+// Draw text
+pdf.text(`Certificate No.: ${certNo}`, leftTextX, textY);
+pdf.text(`Date: ${certDate}`, rightTextX, textY, { align: 'right' });
+
+// Move cursor below box for next section
+cursorY = boxBottom + 4;
+
+        // Certificate title
+        pdf.setFillColor(185, 28, 28);
+        pdf.rect(marginLeft, cursorY, 180, 10, 'F');
+        pdf.setTextColor(255, 255, 255);
+        pdf.setFontSize(11);
+        pdf.text('CERTIFICATE OF MEASUREMENT', 105, cursorY + 7, { align: 'center' });
+        cursorY += 15;
+
+        // Applicant info table
+        pdf.setTextColor(0, 0, 0);
+        pdf.autoTable({
+            startY: cursorY,
+            body: [
+                ['Name of Applicant', "{{ cer.applicant_name }}"],
+                ['Shipper', "{{ cer.shipper }}"],
+                ['Consignee', "{{ cer.consignee }}"],
+                ['Commodity', "{{ cer.commodity }}"],
+                ['Port of Discharge', "{{ cer.port_of_discharge }}"],
+                ['S.B. No./ Invoice No.', "{{ cer.sb_number }}"],
+                ['C & F Agent', "{{ cer.cf_agent }}"],
+                ['Type Of Packing', "{{ cer.type_of_packing }}"]
+            ],
+            theme: 'grid',
+            margin: { left: marginLeft },
+            styles: { fontSize: 10, cellPadding: 2, valign: 'middle', lineWidth: 0.1, lineColor: [0, 0, 0]},
+            headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0] },
+            columnStyles: { 0: { fontStyle: 'bold', cellWidth: 50 }, 1: { cellWidth: 'auto' } }
+        });
+        cursorY = pdf.lastAutoTable.finalY + 8;
+
+// Survey Measures Table
+pdf.setFont("helvetica", "bold");
+pdf.text('SURVEY MEASURES', marginLeft, cursorY);
+cursorY += 5; // Add some space below the title
+
+// Use the surveyData variable
+const surveyTableData = surveyData.map(survey => [
+    survey.marks_no,
+    survey.no_of_pkgs,
+    survey.length,
+    survey.breadth,
+    survey.height,
+    survey.volumePerUnit,
+    survey.volume_unit
+]);
+
+// Generate the table
+pdf.autoTable({
+    startY: cursorY,
+    head: [['Mark & Nos', 'No. of Pkgs', 'Length', 'Breadth', 'Height', 'Volume of 1 Unit', 'Total Volume(Cu.M)']],
+    body: surveyTableData,
+    theme: 'grid',
+    margin: { left: marginLeft },
+    styles: { fontSize: 9, halign: 'center', cellPadding: 1, valign: 'middle', lineWidth: 0.1, lineColor: [0, 0, 0] },
+    headStyles: { fillColor: [255, 255, 255], textColor: [0, 0, 0], fontStyle: 'bold' }
+});
+
+// Get the height of the table and adjust cursorY for the next content
+cursorY = pdf.lastAutoTable.finalY + 5; // Add some space after the table
+
+                // Total boxes
+        const totalPkgs = "{{ cer.total_pkgs }}";
+        const grossWeight = "{{ cer.gross_weight }}";
+        const totalVolume = "{{ cer.total_volume }}";
+
+const boxHeight = 20;
+const boxWidth = 60;
+const boxSpacing = 4; // Reduced spacing
+
+pdf.setDrawColor(0);
+pdf.setLineWidth(0.2);
+
+// Box positions with reduced spacing
+const box1X = marginLeft - 1;
+const box2X = marginLeft + boxWidth + boxSpacing;
+const box3X = marginLeft + 2 * (boxWidth + boxSpacing);
+
+// Draw rectangles
+pdf.rect(box1X, cursorY, boxWidth, boxHeight);
+pdf.rect(box2X, cursorY, boxWidth, boxHeight);
+pdf.rect(box3X, cursorY, boxWidth, boxHeight);
+
+// Centered text helper
+function centerTextInBox(text, x, y, width, height) {
+    const textWidth = pdf.getTextWidth(text);
+    const textX = x + (width - textWidth) / 2;
+    const textY = y + height / 2 ; // Adjust as needed
+    pdf.text(text, textX, textY);
+}
+
+// Set font
+pdf.setFontSize(9);
+
+// Add text to boxes (label and value centered in two halves)
+centerTextInBox('Total No. of Pkgs:', box1X, cursorY, boxWidth, boxHeight / 2);
+centerTextInBox(totalPkgs, box1X, cursorY + boxHeight / 2, boxWidth, boxHeight / 2);
+
+centerTextInBox('Gross Wt In Kgs. (As Declared):', box2X, cursorY, boxWidth, boxHeight / 2);
+centerTextInBox(grossWeight, box2X, cursorY + boxHeight / 2, boxWidth, boxHeight / 2);
+
+centerTextInBox('Total Volume (Cu. M):', box3X, cursorY, boxWidth, boxHeight / 2);
+centerTextInBox(totalVolume, box3X, cursorY + boxHeight / 2, boxWidth, boxHeight / 2);
+
+
+        cursorY += boxHeight + 10;
+
+        // Issued without prejudice text
+        pdf.setFontSize(10);
+        pdf.setFont(undefined, 'bold');
+        pdf.text('"ISSUED WITHOUT PREJUDICE"', marginLeft, cursorY);
+
+        pdf.setFont(undefined, 'bold');
+        pdf.text('For Viking Marine Inc.', 195 - marginLeft, cursorY, { align: 'right' });
+        pdf.text('Authorised Signatory', 195 - marginLeft, cursorY + 15, { align: 'right' });
+
+
+        pdf.save(`Certificate_${certNo}.pdf`);
+
+    } catch (error) {
+        console.error('PDF generation failed:', error);
+        alert('Error generating PDF: ' + error.message);
+    }
+}
+
+async function loadImageProps(url) {
+    return new Promise((resolve) => {
+        const img = new Image();
+        img.crossOrigin = 'Anonymous';
+        img.onload = () => resolve(img);
+        img.onerror = () => resolve(null);
+        img.src = url;
+    });
+}
+
+
+
+// Toggle sidebar
+const hamburger = document.querySelector('.hamburger');
+const sidebar = document.getElementById('sidebar');
+const backdrop = document.querySelector('.sidebar-backdrop');
+
+if (hamburger && sidebar && backdrop) {
+    hamburger.addEventListener('click', function() {
+        sidebar.classList.toggle('active');
+        backdrop.classList.toggle('active');
+    });
+
+    // Close when clicking backdrop
+    backdrop.addEventListener('click', function() {
+        sidebar.classList.remove('active');
+        this.classList.remove('active');
+    });
+
+    // Close when clicking outside
+    document.addEventListener('click', function(event) {
+        if (!sidebar.contains(event.target) && 
+            !hamburger.contains(event.target) &&
+            sidebar.classList.contains('active')) {
+            sidebar.classList.remove('active');
+            backdrop.classList.remove('active');
+        }
+    });
+}
+
+// Close when clicking links
+document.querySelectorAll('.sidebar a').forEach(link => {
+    link.addEventListener('click', () => {
+        sidebar.classList.remove('active');
+        backdrop.classList.remove('active');
+    });
+});
+
+
+    </script>
+    
+</body>
+</html>

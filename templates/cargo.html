@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cargo Management - Login</title>
+<style>
+    /* Global Styles */
+:root {
+    --primary: #1a365d;
+    --primary-foreground: #ffffff;
+    --background: #f5f7fa;
+    --foreground: #1a202c;
+    --muted: #e2e8f0;
+    --muted-foreground: #64748b;
+    --border: #e2e8f0;
+    --input: #ffffff;
+    --ring: #3182ce;
+    --radius: 0.5rem;
+    --destructive: #e53e3e;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+    line-height: 1.6;
+    color: var(--foreground);
+    background-color: var(--background);
+    margin: 0;
+    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.grid {
+    display: grid;
+}
+
+.grid-cols-1 {
+    grid-template-columns: 1fr;
+}
+
+.grid-cols-2 {
+    grid-template-columns: repeat(2, 1fr);
+}
+
+.min-h-screen {
+    min-height: 100vh;
+}
+
+.flex {
+    display: flex;
+}
+
+.items-center {
+    align-items: center;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.p-8 {
+    padding: 2rem;
+}
+
+.space-y-4 > * + * {
+    margin-top: 1rem;
+}
+
+/* Form Elements */
+.input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background-color: var(--input);
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.input:focus {
+    outline: none;
+    border-color: var(--ring);
+    box-shadow: 0 0 0 2px rgba(49, 130, 206, 0.1);
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--foreground);
+}
+
+/* Buttons */
+.btn-primary {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: var(--primary-foreground);
+    border: none;
+    border-radius: var(--radius);
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover {
+    background-color: #2c5282;
+}
+
+.btn-nav {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0.5rem 1rem;
+    color: var(--foreground);
+    text-decoration: none;
+    border-radius: var(--radius);
+    transition: background-color 0.2s;
+}
+
+.btn-nav:hover,
+.btn-nav.active {
+    background-color: rgba(0, 0, 0, 0.05);
+}
+
+/* Dashboard Layout */
+.dashboard {
+    display: grid;
+    grid-template-columns: 240px 1fr;
+    min-height: 100vh;
+}
+
+.sidebar {
+    background-color: white;
+    border-right: 1px solid var(--border);
+    padding: 1rem;
+}
+
+/* Table Styles */
+.table-container {
+    overflow-x: auto;
+    background: white;
+    border-radius: var(--radius);
+    border: 1px solid var(--border);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 0.75rem;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+}
+
+th {
+    background: var(--background);
+    font-weight: 600;
+}
+
+/* Auth Tabs */
+.tabs {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.tab-btn {
+    padding: 0.5rem;
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    font-size: 1rem;
+    color: var(--muted-foreground);
+}
+
+.tab-btn.active {
+    color: var(--primary);
+    border-bottom-color: var(--primary);
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Form Grid */
+.form-grid {
+    display: grid;
+    gap: 1rem;
+}
+
+@media (min-width: 768px) {
+    .md\:grid-cols-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .md\:flex {
+        display: flex;
+    }
+
+    .hidden {
+        display: none;
+    }
+
+    .md\:block {
+        display: block;
+    }
+}
+
+/* Icons */
+.h-4 {
+    height: 1rem;
+}
+
+.w-4 {
+    width: 1rem;
+}
+
+.mr-2 {
+    margin-right: 0.5rem;
+}
+
+/* Text Styles */
+.text-2xl {
+    font-size: 1.5rem;
+}
+
+.text-3xl {
+    font-size: 1.875rem;
+}
+
+.text-4xl {
+    font-size: 2.25rem;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.mb-6 {
+    margin-bottom: 1.5rem;
+}
+
+.mb-8 {
+    margin-bottom: 2rem;
+}
+
+.text-destructive {
+    color: var(--destructive);
+}
+
+/* Retained Styles (Not directly replaced) */
+.login-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    max-width: 1200px;
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.form-container {
+    padding: 2rem;
+}
+
+.info-container {
+    background: #1a365d;
+    color: white;
+    padding: 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+h1 {
+    font-size: 1.875rem;
+    margin-bottom: 1.5rem;
+    color: #1a365d;
+}
+
+
+.cargo-form {
+    max-width: 800px;
+    background: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        grid-template-columns: 1fr;
+    }
+    .info-container {
+        display: none;
+    }
+}
+.footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    color: white;
+    background-color: rgb(49, 45, 45);
+    border-top: 1px solid #e7e7e7;
+}
+html, body {
+    height: 100vh;
+    overflow-y: auto; /* Allow vertical scrolling */
+}
+
+.min-h-screen {
+    height: 100vh;
+    display: flex;
+}
+.flash-messagebr {
+    position: fixed;
+    bottom: 50px; /* Move it up */
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(45deg, #ffd700, #ffb700, #ff9800); /* Golden gradient */
+    color: rgb(33, 26, 26);
+    padding: 15px 30px; /* Bigger padding */
+    font-size: 20px; /* Bigger text */
+    font-weight: bold;
+    border-radius: 10px; /* Rounded corners */
+    box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.3);
+    animation: fadeIn 1s ease-in-out, bounce 1s infinite alternate;
+}
+
+
+.heart {
+    animation: pulse 1.5s infinite;
+    display: inline-block;
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+    100% { transform: scale(1); }
+}
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateX(-50%) translateY(10px); }
+    to { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+@keyframes bounce {
+    from { transform: translateX(-50%) translateY(0); }
+    to { transform: translateX(-50%) translateY(-5px); }
+}
+
+</style>
+</head>
+<body>
+    <div class="min-h-screen grid grid-cols-1 md:grid-cols-2">
+        <div class="flex items-center justify-center p-8">
+            <div class="w-full max-w-md bg-white rounded-lg shadow-md p-6">
+                <h1 class="text-2xl font-bold text-gray-900 mb-6">Cargo Management System</h1>
+
+
+                <form id="loginForm" class="tab-content active space-y-4">
+                    <div class="form-group">
+                        <label for="loginUsername">Username</label>
+                        <input type="text" id="loginUsername" class="input" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="loginPassword">Password</label>
+                        <input type="password" id="loginPassword" class="input" required>
+                    </div>
+                    <button type="submit" class="btn-primary w-full">Login</button>
+                </form>
+
+   
+            </div>
+        </div>
+        <div class="flex bg-blue-500 items-center justify-center p-8 rounded-lg shadow-md border border-black-300">
+            <div class="text-white max-w-md space-y-4">
+                <h1 class="text-4xl font-bold">Welcome to Cargo Management</h1>
+                <p class="text-lg p-4 bg-white text-blue-500 rounded-md shadow-md">
+                    Streamline your cargo shipping operations with our comprehensive management system.
+                    Track shipments, manage documentation, and stay organized.
+                </p>
+            </div>
+        </div>
+        
+ 
+        
+    </div>
+    <div class="flash-messagebr">
+        <p>🚀 Designed & Developed with <span class="heart">🖤</span> by <strong>AYlabs</strong> 🔥</p>
+    </div>
+    <footer class="footer">
+        &copy;  2025 <strong>AYlabs</strong>. Crafted with care, protected with pride.
+    </footer>
+
+    <script>
+        // Show/hide tabs
+        function showTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(content => {
+                content.classList.remove('active');
+            });
+            document.querySelectorAll('.tab-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(tabName + 'Form').classList.add('active');
+            document.querySelector(`[onclick="showTab('${tabName}')"]`).classList.add('active');
+        }
+        
+        // Handle login form submission
+        document.getElementById('loginForm').addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const username = document.getElementById('loginUsername').value;
+            const password = document.getElementById('loginPassword').value;
+            
+            if (username === 'admin' && password === 'admin') {
+                window.location.href = "/dashboard";
+            } else {
+                alert('Invalid credentials');
+            }
+        });
+        </script>
+</body>
+</html>        
